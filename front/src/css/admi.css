@@ -1,0 +1,86 @@
+aside {
+    height: 92vh;
+    width: 250px;
+    background-color: var(--aside);
+    backdrop-filter: blur(4px);
+    padding: 0px 5px 50px 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedorAsideMain {
+    display: flex;
+    align-items: center;
+}
+
+.btn-salida {
+    font-size: 30px;
+    font-family: sans-serif;
+    position: absolute;
+    right: 20px;
+    top: 10%;
+    transform: translate(-50%);
+}
+
+.tipoUsuario {
+    color: var(--text);
+    position: absolute;
+    font-size: 20px;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: 700;
+    right: 20px;
+    top: 25%;
+    transform: translate(-50%);
+    cursor: pointer;
+}
+
+.btn-izq {
+    border-radius: 5%;
+    background-color: transparent;
+    backdrop-filter: blur(5px);
+    font-size: 20px;
+}
+
+#user {
+    font-family: cursive;
+    font-size: 20px;
+    color: var(--text);
+}
+
+#user:hover {
+    font-size: 22px;
+    transition: 0.5s;
+}
+
+.nombreUsuario {
+    padding-top: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.main {
+    width: 1050px;
+    height: 550px;
+    background: var(--aside);
+    border: 2px solid var(--container);
+    border-radius: 20px;
+    margin: 0 auto;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.agregarUsuarios{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: var(--text);
+}
+
+.botonGuardarUsuario{
+    display: flex;
+    justify-content: flex-end;
+}
