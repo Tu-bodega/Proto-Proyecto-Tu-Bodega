@@ -64,7 +64,7 @@ function Admi() {
                         </button>
                     </section>
                 </aside>
-                {/* contenedor Aside lado izquierdo */}
+                {/* contenedor Formularios de los botones lado derecho */}
                 <section className="containerForms" >
                     {/*a qui cada uno importara la interfaz que le corresponde */}
                     <div id="camiloUser" className="boxForm"></div>
