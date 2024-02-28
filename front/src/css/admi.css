@@ -1,6 +1,10 @@
+.containerDad{
+    height: 100vh;
+    width: 100vw;
+}
 aside {
-    height: 92vh;
-    width: 250px;
+    height: 100%;
+    width: 20%;
     background-color: var(--aside);
     backdrop-filter: blur(4px);
     padding: 0px 5px 50px 5px;
@@ -80,7 +84,24 @@ aside {
     color: var(--text);
 }
 
-.botonGuardarUsuario{
+.containerInterfazeAdmi{
     display: flex;
     justify-content: flex-end;
+    height: 92vh;
+    width: 100%;
+}
+
+.containerForms{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxForm{
+    border-radius: 25px;
+    display: none;
+    height: 90%;
+    width: 95%;
+    background-color: var(--aside);
 }
