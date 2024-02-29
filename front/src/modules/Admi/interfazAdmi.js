@@ -30,7 +30,6 @@ function Admi() {
         const selectedFormId = formDisplayMappings[numBtn];
         if (selectedFormId) {
             document.getElementById(selectedFormId).style.display = "flex";
-            document.getElementById('user').innerHTML = `Admi ${iconClose}`;
         }
     };
 
