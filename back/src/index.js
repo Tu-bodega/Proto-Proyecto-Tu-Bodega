@@ -7,6 +7,7 @@ import configPuerto from "./configuraciones/configPuerto.js";
 import configDb from "./configuraciones/configDataBase.js";
 import rutaProductos from "./routes/rutaProductos.js";
 import rutaEmpleado from "./routes/rutaEmpleados.js";
+import rutaProveedores from "./routes/rutaProveedores.js";
 
 const app = express();
 
@@ -27,3 +28,4 @@ app.get("/",(req,res)=>{
 
 app.use("/login", rutaEmpleado);
 app.use("/productos", rutaProductos);
+app.use("/proveedores", rutaProveedores);

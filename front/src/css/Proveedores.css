@@ -1,0 +1,45 @@
+.boxProveedores{
+    height: 98%;
+    width: 98%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.navProveedores{
+    height: 8%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: var(--container);
+    display: flex;
+}
+
+.moduleProveedores{
+    height: 86%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: var(--container);
+}
+
+.ProveedoresCreate{
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    display: none;
+    border-radius: 10px;
+}
+
+.ProveedoresRead{
+    height: 100%;
+    width: 100%;
+    background-color: blue;
+    display: none;
+    border-radius: 10px;
+}
+
+.containerProveedores{
+    height: 100%;
+    width: 100%;
+}

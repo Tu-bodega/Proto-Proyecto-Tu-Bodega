@@ -25,11 +25,11 @@ function Productos() {
                 <button onClick={() => { open(2) }} >Lista de Productos</button>
             </nav>
             <section className='moduleProduct'>
-                <div id='createProduct'
-                    className='productCreate'><CrearProductos />
+                <div id='createProduct'className='productCreate'>
+                    <CrearProductos />
                 </div>
-                <div id='readProduct'
-                    className='productRead'>
+                <div id='readProduct' className='productRead'>
+                    
                 </div>
             </section>
         </div>
