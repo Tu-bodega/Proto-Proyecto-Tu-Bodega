@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Axios from 'axios';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "../../css/Productos.css"
 
 function Productos() {
     /*****************************funciones crear datos*****************************/
@@ -41,7 +41,7 @@ function Productos() {
     };
 
     return (
-        <div className="App">
+        <div className="containerProductos">
 
             <form onSubmit={agregarProductos}>
 

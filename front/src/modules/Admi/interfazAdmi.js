@@ -1,6 +1,7 @@
 import HeaderA from "./HeaderA.js";
 import "../../css/Plantilla.css";
 import "../../css/admi.css"
+import Productos from "../DavidProductos/productos.js";
 
 function Admi() {
     const iconBox = `<i class='bx bx-package'></i> `;
@@ -70,7 +71,9 @@ function Admi() {
                     <div id="camiloUser" className="boxForm"></div>
                     <div id="andresClients" className="boxForm"></div>
                     <div id="jaimeProveedores" className="boxForm"></div>
-                    <div id="davidProductos" className="boxForm"></div>
+                    <div id="davidProductos" className="boxForm">
+                        < Productos />
+                    </div>
                 </section>
             </article>
         </div>
