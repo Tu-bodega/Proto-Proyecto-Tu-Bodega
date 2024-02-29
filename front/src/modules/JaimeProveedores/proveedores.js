@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../css/Proveedores.css";
-import crearProveedores from './crearProveedores.js';
+import CrearProveedor from './crearProveedores.js';
 
 function Proveedores() {
     const open = (num) => {
@@ -25,7 +25,7 @@ function Proveedores() {
             </nav>
             <section className='moduleProveedores'>
                 <div id='createProveedores'className='ProveedoresCreate'>
-                    <crearProveedores/>
+                    <CrearProveedor/>
                 </div>
                 <div id='readProveedores'className='ProveedoresRead'>
 

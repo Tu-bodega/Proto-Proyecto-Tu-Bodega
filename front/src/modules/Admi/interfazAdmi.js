@@ -6,7 +6,7 @@ import Proveedores from "../JaimeProveedores/proveedores.js";
 
 function Admi() {
     const iconBox = `<i class='bx bx-package'></i> `;
-    const iconClose = `<i class='bx bx-window-close'></i> `;
+    const iconClose = `<i class='bx bxl-dropbox'></i> `;
     const openForm = (numBtn) => {
         // Mapeo de los números de botón a los IDs de los elementos
         const formDisplayMappings = {
@@ -31,6 +31,7 @@ function Admi() {
         const selectedFormId = formDisplayMappings[numBtn];
         if (selectedFormId) {
             document.getElementById(selectedFormId).style.display = "flex";
+            document.getElementById('user').innerHTML = `Admi ${iconClose}`;
         }
     };
 

@@ -101,3 +101,7 @@ button {
     transform: translate(-50%);
     cursor: pointer;
 }
+
+.caja{
+    font-size: 2.1rem;
+}

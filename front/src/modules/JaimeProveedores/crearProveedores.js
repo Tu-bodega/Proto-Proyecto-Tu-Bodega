@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import Axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../../css/Proveedores.css"
 
 
-function crearProveedores() {
+function CrearProveedor() {
 
     const [nit, setNit] = useState("");
     const [nombre, setNombre] = useState("");
@@ -72,4 +71,4 @@ function crearProveedores() {
     );
 }
 
-export default crearProveedores;
+export default CrearProveedor;
