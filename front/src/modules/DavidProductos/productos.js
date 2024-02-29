@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../css/Productos.css"
 import CrearProductos from './crearProductos.js';
+import ListaProductos from './listaProductos.js';
+
 
 
 function Productos() {
@@ -29,7 +31,7 @@ function Productos() {
                     className='productCreate'><CrearProductos />
                 </div>
                 <div id='readProduct'
-                    className='productRead'>
+                    className='productRead'><ListaProductos />
                 </div>
             </section>
         </div>

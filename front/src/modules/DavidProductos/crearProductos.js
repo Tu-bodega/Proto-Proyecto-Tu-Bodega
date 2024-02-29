@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../css/Productos.css"
+import Swal from 'sweetalert2';
 
 function CrearProductos() {
     /*****************************funciones crear datos*****************************/
@@ -26,13 +27,19 @@ function CrearProductos() {
             medida: medida,
             proveedor: proveedor,
         }).then(() => {
-            alert('Producto Agregado')
+            const msg = "Producto Agregado"
+            Swal.fire({
+                title: 'EXITO',
+                text: msg,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
         });
     };
     return (
         <div className="containerProductos">
 
-            <form onSubmit={agregarProductos}>
+            <form className="productosAgregar"onSubmit={agregarProductos}>
 
                 <label>
                     Nombre:
@@ -90,7 +97,7 @@ function CrearProductos() {
                     }} type='number' ></input>
                 </label>
 
-                <button className='btn btn-success' type='submit'>Registrar Producto</button>
+                <button className='btnRegistrar' type='submit'>Registrar Producto</button>
             </form>
 
         </div>
