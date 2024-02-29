@@ -2,6 +2,7 @@ import HeaderA from "./HeaderA.js";
 import "../../css/Plantilla.css";
 import "../../css/admi.css"
 import Productos from "../DavidProductos/productos.js";
+import Proveedores from "../JaimeProveedores/proveedores.js";
 
 function Admi() {
     const iconBox = `<i class='bx bx-package'></i> `;
@@ -69,7 +70,9 @@ function Admi() {
                     {/*a qui cada uno importara la interfaz que le corresponde */}
                     <div id="camiloUser" className="boxForm"></div>
                     <div id="andresClients" className="boxForm"></div>
-                    <div id="jaimeProveedores" className="boxForm"></div>
+                    <div id="jaimeProveedores" className="boxForm">
+                        <Proveedores/>
+                    </div>
                     <div id="davidProductos" className="boxForm">
                         < Productos />
                     </div>
