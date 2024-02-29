@@ -101,6 +101,8 @@ aside {
 .boxForm{
     border-radius: 25px;
     display: none;
+    justify-content: center;
+    align-items: center;
     height: 90%;
     width: 95%;
     background-color: var(--aside);
