@@ -27,5 +27,6 @@ app.get("/",(req,res)=>{
 
 
 app.use("/login", rutaEmpleado);
+app.use("/empleados", rutaEmpleado);
 app.use("/productos", rutaProductos);
 app.use("/proveedores", rutaProveedores);
