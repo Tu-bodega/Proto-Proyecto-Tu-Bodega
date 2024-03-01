@@ -1,4 +1,4 @@
-.boxProduct{
+.boxProduct {
     height: 98%;
     width: 98%;
     border-radius: 10px;
@@ -7,23 +7,23 @@
     flex-direction: column;
     justify-content: space-around;
 }
-
-.navProduct{
+/* barra de navegacion*/
+.navProduct {
     height: 8%;
     width: 100%;
     border-radius: 10px;
-    background-color: var(--container);
     display: flex;
+    background-color: #3e884f;
 }
 
-.moduleProduct{
+.moduleProduct {
     height: 86%;
     width: 100%;
     border-radius: 10px;
     background-color: var(--container);
 }
 
-.productCreate{
+.productCreate {
     height: 100%;
     width: 100%;
     background-color: white;
@@ -31,10 +31,94 @@
     border-radius: 10px;
 }
 
-.productRead{
+.productRead {
     height: 100%;
     width: 100%;
-    background-color: blue;
+    background-color: rgb(250, 250, 250);
     display: none;
     border-radius: 10px;
 }
+
+/* Productos.css */
+
+.containerProductos {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 70vh;
+    border-radius: 10px;
+  }
+  
+  .productosAgregar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px; 
+    width: 60%; 
+    padding: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 5px solid #ccc;
+  }
+  
+  label {
+    margin-bottom: 5px;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    height: 60%;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 8px;
+    box-sizing: border-box; 
+  }
+  
+  .btnRegistrar {
+    grid-column: span 3; 
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  /* Productos.css */
+
+.listaProductos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btnLeer {
+    margin-bottom: 10px;
+    align-items: end;
+    width: 50%;
+    background-color: #28a745;
+  }
+  
+  .cajaFormu {
+    overflow-x: auto;
+    width: 90%;
+    max-height: 400px; /* Adjust the max-height as needed */
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed; /* Fixed layout for proportional columns */
+  }
+ 
+  
+  /* Add scrollbar only when needed */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  

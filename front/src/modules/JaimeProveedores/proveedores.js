@@ -25,7 +25,7 @@ function Proveedores() {
             </nav>
             <section className='moduleProveedores'>
                 <div id='createProveedores'className='ProveedoresCreate'>
-                    <   CrearProveedores/>
+                    <CrearProveedores/>
                 </div>
                 <div id='readProveedores'className='ProveedoresRead'>
 

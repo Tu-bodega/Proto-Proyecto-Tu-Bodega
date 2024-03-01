@@ -22,13 +22,14 @@ function FormLogin() {
             contra: contra
         }).then(response => {
             // Login exitoso
-            login(response.data.usuario); // Cambia el estado a autenticado
+            login(response.data.saludos); // Cambia el estado a autenticado
             navigate('/Admi'); // Redirecciona al usuario a la ruta de administrador
         }).catch(error => {
             // Manejo de errores
             let mensajeError = "Error al realizar la solicitud.";
             if (error.response) {
                 mensajeError = error.response.data.error;
+                console.log('Usuario, correo o contraseña incorrectos.');
             } else if (error.request) {
                 mensajeError = "No se recibió respuesta del servidor.";
             }
@@ -59,19 +60,19 @@ function FormLogin() {
                     <label>
                         <input onChange={(event) => { setCorreo(event.target.value) }}
                             className="input" type="email" placeholder="correo" value={correo} required></input>
-                    </label>
                     <i className="bx bxs-user" />
+                    </label>
                 </section>
                 {/* bloque contraseña usuario */}
                 <section className="block">
                     <label>
                         <input onChange={(event) => { setContra(event.target.value) }}
                             className="input" type="password" placeholder="contraseña" value={contra} required></input>
-                    </label>
                     <i className="bx bxs-lock-alt" />
+                    </label>
                 </section>
                 {/* boton ingresar o */}
-                <button type="submit">Login</button>
+                <button className="btnLogear" type="submit">Login</button>
             </form>
         </main>
     );

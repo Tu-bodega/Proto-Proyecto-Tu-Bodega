@@ -3,10 +3,11 @@ import "../../css/Plantilla.css";
 import "../../css/admi.css"
 import Productos from "../DavidProductos/productos.js";
 import Proveedores from "../JaimeProveedores/proveedores.js";
+import Usuarios from "../CamiloUsers/usuarios.js";
 
 function Admi() {
     const iconBox = `<i class='bx bx-package'></i> `;
-    const iconClose = `<i class='bx bx-window-close'></i> `;
+    const iconClose = `<i class='bx bxl-dropbox'></i> `;
     const openForm = (numBtn) => {
         // Mapeo de los números de botón a los IDs de los elementos
         const formDisplayMappings = {
@@ -69,8 +70,12 @@ function Admi() {
                 {/* contenedor Formularios de los botones lado derecho */}
                 <section className="containerForms" >
                     {/*a qui cada uno importara la interfaz que le corresponde */}
-                    <div id="camiloUser" className="boxForm"></div>
-                    <div id="andresClients" className="boxForm"></div>
+                    <div id="camiloUser" className="boxForm">
+                        <Usuarios/>
+                    </div>
+                    <div id="andresClients" className="boxForm">
+                        {/* formulario de andres */}
+                    </div>
                     <div id="jaimeProveedores" className="boxForm">
                         <Proveedores/>
                     </div>

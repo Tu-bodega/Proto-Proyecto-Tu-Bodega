@@ -1,10 +1,11 @@
 import HeaderL from "./HeaderL.js";
 import FormLogin from "../Login/FormLogin.js";
+import "../../css/Login.css"
 
 
 function Login() {
     return (
-        <div>
+        <div className="contenedorLogin">
             <HeaderL/>
             <FormLogin/>
         </div>

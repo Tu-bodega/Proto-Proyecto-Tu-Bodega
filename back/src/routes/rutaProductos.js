@@ -16,7 +16,21 @@ rutaProductos.get("/leer", (req, res) => {
         });
     });
 });
-
+/* 
+rutaProductos.get("/leer", (req, res) => {
+    req.getConnection((error, conexion) => {
+        if (error) {
+            return res.status(500).json({ error: 'fallo conexion con el servidor' });
+        }
+        conexion.query("SELECT * FROM unidades_medida", (err, lineas) => {
+            if (err) {
+                return res.status(400).json({ err: 'Tabla no encontrada' });
+            }
+            res.send(lineas);
+            console.log('consulta exitosa status 200');
+        });
+    });
+}); */
 
 
 rutaProductos.post("/crear", (req, res) => {

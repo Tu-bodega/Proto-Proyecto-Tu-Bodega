@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../../css/Proveedores.css"
 
 
 function CrearProveedores() {

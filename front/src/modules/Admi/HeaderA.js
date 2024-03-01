@@ -17,11 +17,11 @@ function HeaderA() {
                 <img src={logoImage} alt="Logo-software-tu-bodega" height="40PX" />
             </div>
             <h1 className="tipoUsuario">{`Hola ${usuario}`} 🧑🏼‍💻</h1>
-            <a href="#">
+            <div>
                 <h1 className="btn-salida" onClick={salir}>
                     <i className="bx bx-exit" />
                 </h1>
-            </a>
+            </div>
         </header>
     )
 }
