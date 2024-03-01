@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../css/Proveedores.css"
 
 
-function crearProveedores() {
+function CrearProveedores() {
 
     const [nit, setNit] = useState("");
     const [nombre, setNombre] = useState("");
@@ -26,7 +26,7 @@ function crearProveedores() {
     };
     return (
         <div className="containerProveedores">
-
+            <div className='formulario'></div>
             <form onSubmit={agregarProveedor}>
 
                 <label>
@@ -65,11 +65,11 @@ function crearProveedores() {
                 </label>
 
                 
-                <button className='btn btn-success' type='submit'>Registrar Producto</button>
+                <button className='btn btn-success' type='submit'>Registrar Proveedor</button>
             </form>
 
         </div>
     );
 }
 
-export default crearProveedores;
+export default CrearProveedores;
