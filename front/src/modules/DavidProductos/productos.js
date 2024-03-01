@@ -30,13 +30,8 @@ function Productos() {
                 <div id='createProduct'className='productCreate'>
                     <CrearProductos />
                 </div>
-<<<<<<< HEAD
-                <div id='readProduct' className='productRead'>
-                    
-=======
                 <div id='readProduct'
                     className='productRead'><ListaProductos />
->>>>>>> 32ff506ed288ab20a4ea665769f4c16b4dde165b
                 </div>
             </section>
         </div>
