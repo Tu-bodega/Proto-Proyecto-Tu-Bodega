@@ -50,3 +50,21 @@
     display: flex;
     justify-content: space-around;
 }
+
+.input-group{
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+}
+.btn{
+    margin-top: 30px;
+}
+.mensajeContra{
+    font-size: 12px;
+    padding-left: 10px;
+    display: none;
+}

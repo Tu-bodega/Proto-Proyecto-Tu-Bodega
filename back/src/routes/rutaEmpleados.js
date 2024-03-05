@@ -41,26 +41,56 @@ rutaEmpleado.post("/validar", (req, res) => {
 
 
 rutaEmpleado.post("/crear", async (req, res) => {
+    const { nombre, apellido, contra, correo } = req.body;
+    const rol = parseInt(req.body.rol);
+    const encriptacion = await bcrypt.hash(contra, 8);
+
+    // Primero, verificamos si ya existe un usuario con el mismo correo
+    const consultaExistencia = `SELECT * FROM empleados WHERE correo_empleado = ?`;
+    req.getConnection((error, conexion) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error en conexión con base de datos' });
+        }
+        conexion.query(consultaExistencia, [correo], async (err, resultados) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error al verificar existencia del usuario' });
+            }
+            if (resultados.length > 0) {
+                // Si encontramos al menos un resultado, significa que el correo ya está registrado
+                return res.status(409).json({ mensaje: 'El correo ya está registrado. Por favor, use otro correo.' });
+            } else {
+                // Si no encontramos un usuario existente, procedemos a insertar el nuevo usuario
+                const consult = `INSERT INTO empleados (nombre_empleado, apellido_empleado, password_empleado, correo_empleado, rol_empleados_id) VALUES (?, ?, ?, ?, ?)`;
+                conexion.query(consult, [nombre, apellido, encriptacion, correo, rol], (err, resultado) => {
+                    if (err) {
+                        return res.status(400).json({ error: 'Error en inserción de datos' });
+                    }
+                    return res.status(201).send({ mensaje: "Usuario agregado con éxito", resultado });
+                });
+            }
+        });
+    });
+});
+
+
+rutaEmpleado.get("leer",(req,res)=>{
+    req.getConnection((error,conexion)=>{
+        error? res.status(500).json({error:'Error en conexion con la base de datos'})
+        :conexion.query("SELECT * FROM empleados",(err,resultado)=>{
+            err? res.status(400).json({err:'tabla no encontrada'})
+            :res.send(resultado)
+        });
+    });
+});
+
+rutaEmpleado.put("actualizar",async(req,res)=>{
     const nombre = String(req.body.nombre);
     const apellido = String(req.body.apellido);
     const contra = String(req.body.contra);
     const correo = String(req.body.correo);
     const rol = parseInt(req.body.rol);
     const encriptacion = await bcrypt.hash(contra, 8);
-
-    const consult = `INSERT INTO empleados (nombre_empleado, apellido_empleado, password_empleado, correo_empleado, rol_empleados_id) VALUES (?, ?, ?, ?, ?)`
-    req.getConnection((error, conexion) => {
-        if (error) {
-            res.status(500).json({ error: 'erro en conecion con base de datos' });
-        }
-        conexion.query(consult, [nombre, apellido, encriptacion, correo, rol], (err, resultado) => {
-            if (err) {
-                res.status(400).json({ err: 'error en insercion de datos' })
-            }
-            res.send(resultado);
-        });
-    });
+    
 });
-
 
 export default rutaEmpleado;
