@@ -1,32 +1,38 @@
-<h1>🟢Tu Bodega💻</h1>
 
-- Bienvenido al repositorio oficial del prototipo de "Tu Bodega", un proyecto enfocado en desarrollar una solución eficiente y confiable para la Administracion y gestión de supermercados.
-<hr>
-<h2>Sobre el Proyecto</h2>
+------------
 
-Este repositorio es exclusivamente para el desarrollo y refinamiento del prototipo del proyecto "**Tu Bodega**". Nuestro objetivo es crear un software que facilite la gestión Administrativa y logistica, brindando una solución intuitiva y completa para empresas y negocios.
 
+<h1> 🟢Tu Bodega  📦</h1>
+
+<p>
+		<img  src="https://i.imgur.com/KePtaHj.jpeg"   />
+</p>
+<p>
+	Este proyecto de software está diseñado para gestionar eficientemente inventarios y operaciones contables. Su principal objetivo es facilitar el registro y seguimiento de inventarios, permitir la generación de balances contables y servir como una herramienta útil en procesos de auditoría. Es ideal para pequeñas y medianas empresas que buscan optimizar sus operaciones financieras y de inventario.
+</p>
+<p>
+		<img  src="https://i.imgur.com/N6uZLTp.png"   />
+</p>
+<h2>Características</h2>
+
+- Registro de Inventarios: Permite a los usuarios mantener un registro detallado de los productos en inventario, incluyendo cantidades, ubicaciones y estado.
+
+
+
+------------
+
+
+- Interfaz Amigable: Interfaz intuitiva y fácil de usar que reduce la curva de aprendizaje y mejora la eficiencia.
+
+
+------------
+
+
+- Seguridad de Datos: Asegura la integridad y confidencialidad de la información financiera y de inventarios.
+
+------------
 <h2></h2>
-
-**Haciendo un Fork**
-
-- Visita el repositorio de "Tu Bodega".
-- En la esquina superior derecha, haz clic en el botón Fork.
-- Esto creará una copia del repositorio en tu cuenta de GitHub.
-
-**Trabajando en tu Fork**
-
--  Clona tu fork en tu máquina local.
--  Crea una nueva rama para tus cambios.
--  Realiza tus modificaciones o añade nuevas características.
--  Haz commit de tus cambios con mensajes claros y descriptivos.
-
-**Realizando un Pull Request**
-
--  En tu fork en GitHub, haz clic en New pull request.
-- Asegúrate de seleccionar el repositorio original .
-- Proporciona una descripción detallada de tus cambios y por qué consideras que deberían ser integrados.
-- Envía el pull request para que sea revisado.
+<h3>Tambien visita</h3>
 
 
 <h2></h2>
