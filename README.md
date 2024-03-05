@@ -37,6 +37,6 @@
 
 <h2></h2>
 <p><h2>Contacto</h2>Si tienes preguntas o necesitas más información, no dudes en contactarnos:</p>
-<a href="https://github.com/Camil-Coder">Camil-Coder: Perfil de GitHub</a><br>
-<a href="https://github.com/Andy2691">Andy, Co-desarrollador del Proyecto</a>
+<a href="https://github.com/Camil-Coder">Camil-Coder: Lider de proyecto😎</a><br>
+<a href="https://github.com/Andy2691">Andy, desarrollador</a>
 <h2></h2>
