@@ -180,7 +180,7 @@ rutaProveedores.post("/crear", (req, res) => {
     const correo = String(req.body.correo);
     const direccion = String(req.body.direccion);
     const telefono = String(req.body.telefono);
-    
+
     // Aquí podrías añadir validaciones para los datos recibidos
 
     req.getConnection((error, conexion) => {
@@ -193,8 +193,8 @@ rutaProveedores.post("/crear", (req, res) => {
                 if (err) {
                     return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
                 }
-                res.status(200).json({ mensaje: 'Proveedor agregado exitosamente'});
-                
+                res.status(200).json({ mensaje: 'Proveedor agregado exitosamente' });
+
             });
     });
 });
@@ -288,16 +288,16 @@ rutaProveedores.post("/crear", (req, res) => {
  *                   example: Fallo conexión con el servidor
  */
 
-  rutaProveedores.put("/actualizar", (req, res) => {
-  const consultaActualizar = 'nit_proveedor = ?, nombre_proveedor = ?, correo_proveedor = ?, direccion_proveedor = ?, telefono_proveedor = ?';
-  const id = req.body.id; // El ID del proveedor que quieres actualizar
+rutaProveedores.put("/actualizar", (req, res) => {
+    const consultaActualizar = 'nit_proveedor = ?, nombre_proveedor = ?, correo_proveedor = ?, direccion_proveedor = ?, telefono_proveedor = ?';
+    const id = req.body.id; // El ID del proveedor que quieres actualizar
 
     const nit = String(req.body.nit);
     const nombre = String(req.body.nombre);
     const correo = String(req.body.correo);
     const direccion = String(req.body.direccion);
     const telefono = String(req.body.telefono);
-    
+
     // Aquí podrías añadir validaciones para los datos recibidos
 
     req.getConnection((error, conexion) => {
@@ -310,10 +310,10 @@ rutaProveedores.post("/crear", (req, res) => {
                 if (err) {
                     return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
                 }
-                if(resultado.affectedRows === 0) {
-                    return res.status(404).json({ mensaje: 'Proveedor no encontrado'});
+                if (resultado.affectedRows === 0) {
+                    return res.status(404).json({ mensaje: 'Proveedor no encontrado' });
                 }
-                res.status(200).json({ mensaje: 'Proveedor actualizado exitosamente'});
+                res.status(200).json({ mensaje: 'Proveedor actualizado exitosamente' });
             });
     });
 });
@@ -384,7 +384,7 @@ rutaProveedores.post("/crear", (req, res) => {
  */
 rutaProveedores.delete("/eliminar", (req, res) => {
     const id = req.body.id; // El ID del proveedor que quieres eliminar
-    
+
     req.getConnection((error, conexion) => {
         if (error) {
             return res.status(500).json({ error: 'Fallo conexión con el servidor' });
@@ -393,10 +393,10 @@ rutaProveedores.delete("/eliminar", (req, res) => {
             if (err) {
                 return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
             }
-            if(resultado.affectedRows === 0) {
-                return res.status(404).json({ mensaje: 'Proveedor no encontrado'});
+            if (resultado.affectedRows === 0) {
+                return res.status(404).json({ mensaje: 'Proveedor no encontrado' });
             }
-            res.status(200).json({ mensaje: 'Proveedor eliminado exitosamente'});
+            res.status(200).json({ mensaje: 'Proveedor eliminado exitosamente' });
         });
     });
 });
