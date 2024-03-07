@@ -21,9 +21,20 @@ function FormLogin() {
             correo: correo,
             contra: contra
         }).then(response => {
-            // Login exitoso
-            login(response.data.saludos); // Cambia el estado a autenticado
-            navigate('/Admi'); // Redirecciona al usuario a la ruta de administrador
+            // Asegúrate de que la respuesta del servidor incluya tanto el nombre del usuario como el correo
+            if (response.data.saludos && response.data.correo) {
+                // Llama a login con ambos, el nombre del usuario y el correo electrónico
+                login(response.data.saludos, response.data.correo);
+                navigate('/Admi'); // Redirecciona al usuario a la ruta de administrador
+            } else {
+                // Si no, muestra un mensaje de error indicando que faltan datos
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Faltan datos en la respuesta del servidor.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
         }).catch(error => {
             // Manejo de errores
             let mensajeError = "Error al realizar la solicitud.";
@@ -41,6 +52,7 @@ function FormLogin() {
             });
         });
     };
+    
     return (
         <main>
             <form onSubmit={logear} className="containerForm">

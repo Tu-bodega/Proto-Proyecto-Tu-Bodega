@@ -34,9 +34,9 @@
 .userRead{
     height: 100%;
     width: 100%;
-    background-color: blue;
     display: none;
     border-radius: 10px;
+    padding-top: 10px;
 }
 
 .containerUsers{
@@ -49,4 +49,72 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
+}
+
+.input-group{
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.btn{
+    margin-top: 30px;
+}
+.mensajeContra{
+    font-size: 12px;
+    padding-left: 10px;
+    display: none;
+}
+
+.botones{
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+}
+
+.table{
+    margin-bottom: 0px;
+}
+.columnaUno, .columnaFinal{
+    width: 8%;
+}
+
+.btonLista{
+    margin-top: 5px;
+    border-radius: 5px;
+}
+.filaFinal{
+    display: flex;
+    justify-content: space-around;
+}
+.btnDele{
+    background-color: #dc3545;
+}
+.btnEdit{
+    background-color: #ffc107;
+}
+.btnEdit:hover{
+    background-color: #f9c425;
+}
+.btnDele:hover{
+    background-color: #bb2d3b;
+}
+
+.btnActu{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.btnActu button{
+    width: 40%;
+}
+
+.mensajeactu{
+    text-align: start;
+    font-size: 12px;
+    color:#bb2d3b;
 }
