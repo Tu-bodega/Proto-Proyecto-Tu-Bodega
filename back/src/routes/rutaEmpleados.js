@@ -43,8 +43,8 @@ const rutaEmpleado = express.Router();
 */
 
 /**
- * @openapi
- * /empleados//leer:
+ * @swagger
+ * /empleados/leer:
  *   get:
  *     summary: Lee todos los empleados
  *     tags: [empleados]
@@ -65,6 +65,9 @@ const rutaEmpleado = express.Router();
  *                   nombre:
  *                     type: string
  *                     description: El nombre del empleado.
+ *                   apellido:
+ *                     type: string
+ *                     description: El apellido del empleado.
  *                   correo:
  *                     type: string
  *                     description: El correo electrónico del empleado.
@@ -77,13 +80,13 @@ const rutaEmpleado = express.Router();
  *         description: Error en conexión con la base de datos.
  */
 
-rutaEmpleado.get("/leer",(req,res)=>{
-    req.getConnection((error,conexion)=>{
-        error? res.status(500).json({error:'Error en conexion con la base de datos'})
-        :conexion.query("SELECT * FROM empleados",(err,resultado)=>{
-            err? res.status(400).json({err:'tabla no encontrada'})
-            :res.send(resultado)
-        });
+rutaEmpleado.get("/leer", (req, res) => {
+    req.getConnection((error, conexion) => {
+        error ? res.status(500).json({ error: 'Error en conexion con la base de datos' })
+            : conexion.query("SELECT * FROM empleados", (err, resultado) => {
+                err ? res.status(400).json({ err: 'tabla no encontrada' })
+                    : res.send(resultado)
+            });
     });
 });
 
@@ -168,23 +171,25 @@ rutaEmpleado.post("/validar", (req, res) => {
 
             if (resultados.length > 0) {
                 // comparación de contraseñas 
-                const compareContra = bcrypt.compareSync(contra, resultados[0].password_empleado); 
+                const compareContra = bcrypt.compareSync(contra, resultados[0].password_empleado);
                 if (compareContra) {
                     res.json({
-                        saludos: resultados[0].nombre_empleado, 
+                        saludos: resultados[0].nombre_empleado,
+                        correo: resultados[0].correo_empleado, // Corrección para enviar el correo del usuario
                         mensaje: 'Bienvenido',
                     });
                 } else {
                     // Si la contraseña no coincide
-                    res.status(401).json({ error: 'Usuario, correo o contraseña incorrectos.' }); // Código de estado cambiado a 401
+                    res.status(401).json({ error: 'Usuario, correo o contraseña incorrectos.' });
                 }
             } else {
                 // Si no hay resultados de la base de datos
-                res.status(401).json({ error: 'Usuario, correo o contraseña incorrectos.' }); // Código de estado cambiado a 401
+                res.status(401).json({ error: 'Usuario, correo o contraseña incorrectos.' });
             }
         });
     });
 });
+
 
 
 /**
@@ -259,8 +264,11 @@ rutaEmpleado.post("/validar", (req, res) => {
 
 
 rutaEmpleado.post("/crear", async (req, res) => {
-    const { nombre, apellido, contra, correo } = req.body;
+    const { nombre, apellido, correo } = req.body;
+    const contra = req.body.contra;
+    const contraAdmi = req.body.contraAdmi;
     const rol = parseInt(req.body.rol);
+    const id = parseInt(req.body.id);
     const encriptacion = await bcrypt.hash(contra, 8);
 
     // Primero, verificamos si ya existe un usuario con el mismo correo
@@ -290,8 +298,127 @@ rutaEmpleado.post("/crear", async (req, res) => {
     });
 });
 
+/**
+ *@swagger
+*paths:
+*  /empleados/actualizar:
+*    put:
+*      summary: Actualiza la información de un empleado
+*      tags:
+*        - empleados
+*      description: Actualiza los datos de un empleado existente en la base de datos. Requiere autenticación del administrador.
+*      requestBody:
+*        required: true
+*        content:
+*          application/json:
+*            schema:
+*              type: object
+*              properties:
+*                id:
+*                  type: integer
+*                  description: ID único del empleado a actualizar.
+*                nombre:
+*                  type: string
+*                  description: Nuevo nombre del empleado.
+*                apellido:
+*                  type: string
+*                  description: Nuevo apellido del empleado.
+*                correo:
+*                  type: string
+*                  description: Nuevo correo electrónico del empleado.
+*                contra:
+*                  type: string
+*                  description: Nueva contraseña del empleado.
+*                rol:
+*                  type: integer
+*                  description: Nuevo rol del empleado.
+*                correoU:
+*                  type: string
+*                  description: Correo electrónico del usuario administrador.
+*                contraAdmi:
+*                  type: string
+*                  description: Contraseña del usuario administrador.
+*              required:
+*                - id
+*                - nombre
+*                - apellido
+*                - correo
+*                - contra
+*                - rol
+*                - correoU
+*                - contraAdmi
+*      responses:
+*        201:
+*          description: Usuario actualizado con éxito.
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  mensaje:
+*                    type: string
+*                    example: Usuario actualizado con éxito
+*                  resultado:
+*                    type: array
+*                    items:
+*                      type: object
+*                      properties:
+*                        id:
+*                          type: integer
+*                        nombre_empleado:
+*                          type: string
+*                        apellido_empleado:
+*                          type: string
+*                        correo_empleado:
+*                          type: string
+*                        rol_empleados_id:
+*                          type: integer
+*        400:
+*          description: Solicitud incorrecta, datos faltantes o inválidos.
+*        401:
+*          description: No autorizado, no se encontró el usuario administrador o fallo en la inserción.
+*        403:
+*          description: Prohibido, contraseña de administrador incorrecta.
+*        500:
+*          description: Error en la conexión con la base de datos.
+*/
 
+rutaEmpleado.put("/actualizar", async (req, res) => {
+    const id = parseInt(req.body.id);
+    const { nombre, apellido, correo, contra } = req.body;
+    const rol = parseInt(req.body.rol);
+    const correoU = req.body.correoU;
+    const contraAdmi = req.body.contraAdmi;
+    const encriptacion = await bcrypt.hash(contra, 8);
 
+    req.getConnection((error, conexion) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error en conexión con base de datos' });
+        }
+        conexion.query("SELECT * FROM empleados WHERE correo_empleado=?", correoU, (err, resultado) => {
+            if (err) {
+                return res.status(400).json({ error: 'se totio' })
+            }
+            if (resultado.length === 0) {
+                return res.status(401).json({ error: 'No se encontro el usuario administrador' })
+            } else {
+                const compareContra = bcrypt.compareSync(contraAdmi, resultado[0].password_empleado);
+                if (!compareContra) {
+                    return res.status(403).json({ mensaje: 'contraseña de administrador incorrecta' })
+                }
+                else {
+                    conexion.query("UPDATE empleados SET nombre_empleado=?, apellido_empleado=?, password_empleado=?, correo_empleado=?, rol_empleados_id=? WHERE id=? ",
+                        [nombre, apellido, encriptacion, correo, rol, id], (errors, respuesta) => {
+                            if (errors) {
+                                return res.status(401).json({ error: 'fallo en la insercion ' });
+                            }
+                            return res.status(201).send({ mensaje: "Usuario actualizado con éxito", resultado });
+                        });
+                }
+            }
+        });
+    })
+});
 
 
 export default rutaEmpleado;

@@ -1,5 +1,6 @@
 import "../../css/Usuarios.css";
 import CrearUsuario from "./crearUsuarios.js";
+import ListarUsuarios from "./listaUsuarios.js";
 
 function Usuarios() {
     const abrir = (num)=>{
@@ -26,7 +27,7 @@ function Usuarios() {
                     <CrearUsuario/>
                 </div>
                 <div id='readUser' className='userRead'>
-                    
+                    <ListarUsuarios/>
                 </div>
             </section>
         </div>

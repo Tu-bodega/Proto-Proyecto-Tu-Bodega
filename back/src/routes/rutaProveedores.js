@@ -27,10 +27,8 @@ rutaProveedores.post("/crear", (req, res) => {
     const correo = String(req.body.correo);
     const direccion = String(req.body.direccion);
     const telefono = String(req.body.telefono);
-
-
-    // Aquí podrías añadir validaciones para los datos recibidos
     
+    // Aquí podrías añadir validaciones para los datos recibidos
 
     req.getConnection((error, conexion) => {
         if (error) {
