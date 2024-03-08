@@ -6,8 +6,6 @@ import Axios from "axios";
 import "../../css/Usuarios.css";
 import { useAuth } from "../../auth/AuthContext.js";
 
-
-
 function ListarUsuarios() {
     //variable global
     const { correoU } = useAuth();
@@ -21,13 +19,22 @@ function ListarUsuarios() {
     const [contraAdmi, setContraAdmi] = useState('');
 
 
-    //modal
+    //modal actualizar
     const [show, setShow] = useState(false);
     const handleClose = () => {
         setShow(false)
-        leerUsuarios();
+        limpiarCampos();
     };
     const handleShow = () => setShow(true);
+
+    //modal eliminar
+    const [showDos, setShowDos] = useState(false);
+    const handleCloseDos = () => {
+        setShowDos(false)
+        leerUsuarios();
+    };
+    const handleShowDos = () => setShowDos(true);
+    
 
     //lista
     const [listaUsuarios, setListaUsuarios] = useState([]);
@@ -35,6 +42,11 @@ function ListarUsuarios() {
         leerUsuarios();
     }, []);
 
+    //eliminar usuario
+    const eliminarUsuario = (dato) =>{
+        handleShowDos();
+        setId(dato.id)
+    }
     //editar usuarios
     const editarUser = (dato) => {
         handleShow();
@@ -56,25 +68,9 @@ function ListarUsuarios() {
         setContraNueva("");
     };
 
-
-    const leerUsuarios = () => {
-        Axios.get("http://localhost:3001/empleados/leer")
-            .then((response) => {
-                setListaUsuarios(response.data);
-                limpiarCampos(); 
-            })
-            .catch((error) => {
-                Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
-                // Mostrar mensaje al usuario, si es necesario
-            });
-    };
-
-
-
+    //validacion formulario actualizacion
     const validarFormulario = () => {
         const regexCorreo = /^(?=.{1,64}@)[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*@[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*(?:\.[A-Za-z]{2,})+$/;
-        const regexContra = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
-
         if (!nombre.trim() || !apellido.trim() || !correo.trim() || !contraAdmi.trim()) {
             Swal.fire("Error", "Todos los campos son obligatorios y no deben contener sólo espacios.", "error");
             return false;
@@ -83,21 +79,23 @@ function ListarUsuarios() {
             Swal.fire("Error", "Correo inválido", "error");
             return false;
         }
-
-        if (!regexContra.test(contraNueva)) {
-            Swal.fire("Error", "Formato de contraseña incorrecto", "error");
-            document.querySelector('.mensajeContra').style.display = 'flex';
-            return false;
-        }
-
         return true;
+    };
+
+    const leerUsuarios = () => {
+        Axios.get("http://localhost:3001/empleados/leer")
+            .then((response) => {
+                setListaUsuarios(response.data);
+                limpiarCampos();
+            })
+            .catch((error) => {
+                Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
+            });
     };
 
     const actualizar = async (e) => {
         e.preventDefault();
-
         if (!validarFormulario()) return;
-
         try {
             const response = await Axios.put("http://localhost:3001/empleados/actualizar", {
                 id: id, //del usuario a actualizar
@@ -112,11 +110,22 @@ function ListarUsuarios() {
             Swal.fire("Éxito", "Usuario actualizado con éxito", "success");
             leerUsuarios();
             handleClose();
-            limpiarCampos(); 
         } catch (error) {
             Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
         }
     };
+
+    const eliminar = () => {
+        Axios.delete(`http://localhost:3001/empleados/eliminar/${id}?correo=${encodeURIComponent(correoU)}&password=${encodeURIComponent(contraAdmi)}`)
+            .then(() => {
+                Swal.fire("Éxito", "Usuario eliminado con éxito", "success");
+                handleCloseDos()
+            })
+            .catch((error) => {
+                Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
+            });
+    };
+
 
     return (
         <div className="container">
@@ -154,6 +163,7 @@ function ListarUsuarios() {
                                                         <i className='bx bx-edit-alt'></i>
                                                     </button>
                                                     <button
+                                                        onClick={() =>{ eliminarUsuario(dato);}}
                                                         className="botones btnDele">
                                                         <i className='bx bx-trash'></i>
                                                     </button>
@@ -166,7 +176,7 @@ function ListarUsuarios() {
                         </tbody>
                     </table>
                 </div>
-                <button className="btonLista btn btn-success" onClick={leerUsuarios}>listar</button>
+                <button className="btonLista btn btn-success" onClick={leerUsuarios}>Actualizar Lista 🔃</button>
             </div>
             <div className="container actualizar" id="formActu">
                 <Modal show={show} onHide={handleClose}>
@@ -199,15 +209,13 @@ function ListarUsuarios() {
                             <div className="input-group mb-3">
                                 <span className="input-group-text">Contraseña nueva :</span>
                                 <input value={contraNueva} id="repetirContrasenaInput" onChange={(event) => { setContraNueva(event.target.value) }} type="password"
-                                    className="form-control" placeholder="Su contraseña debe tener entre 8 y 20 caracteres largo, contener
-                                    letras y números, y no debe contener espacios, caracteres especiales ni emojis.">
+                                    className="form-control" placeholder="Ejemplo de contraseña: Contra123">
                                 </input>
                             </div>
                             <div
                                 id="passwordHelpBlock"
-                                className="mensajeContra">
-                                Su contraseña debe tener entre 8 y 20 caracteres, contener letras y números, y
-                                no debe contener espacios, caracteres especiales ni emojis.
+                                className="mensajeContra2">
+                                La contraseña debe tener 8-20 caracteres con letras y números, sin espacios, caracteres especiales ni emojis.
                             </div>
 
                             <div className="input-group mb-3">
@@ -235,6 +243,28 @@ function ListarUsuarios() {
                     </Modal.Footer>
                 </Modal>
 
+            </div>
+            <div className="container eliminar">
+                <Modal show={showDos} onHide={handleCloseDos}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Eliminar Usuario</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Contraseña:</span>
+                            <input id="contrasenaInput" onChange={(event) => { setContraAdmi(event.target.value) }} type="password"
+                                className="form-control" placeholder="contraseña de perfil Administrador" required>
+                            </input>
+                        </div>
+                        <span className="mensajeactu">Para poder efectuar un cambio se debe ingresar la contraseña del perfil administrador</span>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="btnActu">
+                            <button onClick={eliminar} type="button" className="btn btn-primary">Eliminar</button>
+                            <button onClick={handleCloseDos} type="button" className="btn btn-danger">Cancelar</button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </div>
     );

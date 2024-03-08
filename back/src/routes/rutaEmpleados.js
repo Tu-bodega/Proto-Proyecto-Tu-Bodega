@@ -299,118 +299,123 @@ rutaEmpleado.post("/crear", async (req, res) => {
 });
 
 /**
- *@swagger
-*paths:
-*  /empleados/actualizar:
-*    put:
-*      summary: Actualiza la información de un empleado
-*      tags:
-*        - empleados
-*      description: Actualiza los datos de un empleado existente en la base de datos. Requiere autenticación del administrador.
-*      requestBody:
-*        required: true
-*        content:
-*          application/json:
-*            schema:
-*              type: object
-*              properties:
-*                id:
-*                  type: integer
-*                  description: ID único del empleado a actualizar.
-*                nombre:
-*                  type: string
-*                  description: Nuevo nombre del empleado.
-*                apellido:
-*                  type: string
-*                  description: Nuevo apellido del empleado.
-*                correo:
-*                  type: string
-*                  description: Nuevo correo electrónico del empleado.
-*                contra:
-*                  type: string
-*                  description: Nueva contraseña del empleado.
-*                rol:
-*                  type: integer
-*                  description: Nuevo rol del empleado.
-*                correoU:
-*                  type: string
-*                  description: Correo electrónico del usuario administrador.
-*                contraAdmi:
-*                  type: string
-*                  description: Contraseña del usuario administrador.
-*              required:
-*                - id
-*                - nombre
-*                - apellido
-*                - correo
-*                - contra
-*                - rol
-*                - correoU
-*                - contraAdmi
-*      responses:
-*        201:
-*          description: Usuario actualizado con éxito.
-*          content:
-*            application/json:
-*              schema:
-*                type: object
-*                properties:
-*                  mensaje:
-*                    type: string
-*                    example: Usuario actualizado con éxito
-*                  resultado:
-*                    type: array
-*                    items:
-*                      type: object
-*                      properties:
-*                        id:
-*                          type: integer
-*                        nombre_empleado:
-*                          type: string
-*                        apellido_empleado:
-*                          type: string
-*                        correo_empleado:
-*                          type: string
-*                        rol_empleados_id:
-*                          type: integer
-*        400:
-*          description: Solicitud incorrecta, datos faltantes o inválidos.
-*        401:
-*          description: No autorizado, no se encontró el usuario administrador o fallo en la inserción.
-*        403:
-*          description: Prohibido, contraseña de administrador incorrecta.
-*        500:
-*          description: Error en la conexión con la base de datos.
+* @swagger
+* /actualizar:
+*   put:
+*     summary: Actualiza la información de un empleado
+*     tags: [empleados]
+*     requestBody:
+*       required: true
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             properties:
+*               id:
+*                 type: integer
+*                 description: ID del empleado a actualizar
+*               nombre:
+*                 type: string
+*                 description: Nuevo nombre del empleado
+*               apellido:
+*                 type: string
+*                 description: Nuevo apellido del empleado
+*               correo:
+*                 type: string
+*                 description: Nuevo correo electrónico del empleado
+*               contra:
+*                 type: string
+*                 description: Nueva contraseña del empleado (opcional, si se proporciona debe seguir el formato de seguridad especificado)
+*               rol:
+*                 type: integer
+*                 description: Nuevo rol del empleado
+*               correoU:
+*                 type: string
+*                 description: Correo electrónico del usuario administrador que realiza la actualización
+*               contraAdmi:
+*                 type: string
+*                 description: Contraseña del usuario administrador para autorizar la actualización
+*             required:
+*               - id
+*               - nombre
+*               - apellido
+*               - correo
+*               - rol
+*               - correoU
+*               - contraAdmi
+*             example:
+*               id: 1
+*               nombre: "Laura"
+*               apellido: "Martínez"
+*               correo: "laura.martinez@gmail.com"
+*               contra: "NuevaContra1234"
+*               rol: 2
+*               correoU: "admin@gmail.com"
+*               contraAdmi: "AdminContra1234"
+*     responses:
+*       201:
+*         description: Usuario actualizado con éxito
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 mensaje:
+*                   type: string
+*                   example: "Usuario actualizado con éxito"
+*       400:
+*         description: Solicitud incorrecta debido a entrada de datos errónea
+*       401:
+*         description: No autorizado debido a credenciales inválidas o falla en la inserción
+*       403:
+*         description: Prohibido el acceso por contraseña de administrador incorrecta o formato de nueva contraseña incorrecto
+*       500:
+*         description: Error en conexión con base de datos
 */
+
 
 rutaEmpleado.put("/actualizar", async (req, res) => {
     const id = parseInt(req.body.id);
-    const { nombre, apellido, correo, contra } = req.body;
+    const { nombre, apellido, correo, contra, correoU, contraAdmi } = req.body;
     const rol = parseInt(req.body.rol);
-    const correoU = req.body.correoU;
-    const contraAdmi = req.body.contraAdmi;
-    const encriptacion = await bcrypt.hash(contra, 8);
+    var consulActu;
+    var datos;
+    const regexContra = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
+
+    if (contra === '') {
+        var consulActu = 'nombre_empleado=?, apellido_empleado=?, correo_empleado=?, rol_empleados_id=?';
+        var datos = [nombre, apellido, correo, rol, id];
+    }
+    else if (!regexContra.test(contra)) {
+        return res.status(403).json({ mensaje: "Formato de nueva contraseña incorrecto" })
+    }
+    else {
+        const encriptacion = await bcrypt.hash(contra, 8);
+        var consulActu = 'nombre_empleado=?, apellido_empleado=?, password_empleado=?, correo_empleado=?, rol_empleados_id=?';
+        var datos = [nombre, apellido, encriptacion, correo, rol, id];
+    }
 
     req.getConnection((error, conexion) => {
         if (error) {
-            return res.status(500).json({ error: 'Error en conexión con base de datos' });
+            return res.status(500).json({ mensaje: 'Error en conexión con base de datos' });
         }
         conexion.query("SELECT * FROM empleados WHERE correo_empleado=?", correoU, (err, resultado) => {
             if (err) {
-                return res.status(400).json({ error: 'se totio' })
+                return res.status(400).json({ mensaje: 'se totio' })
             }
             if (resultado.length === 0) {
-                return res.status(401).json({ error: 'No se encontro el usuario administrador' })
+                return res.status(401).json({ mensaje: 'No se encontro el usuario administrador' })
             } else {
                 const compareContra = bcrypt.compareSync(contraAdmi, resultado[0].password_empleado);
                 if (!compareContra) {
                     return res.status(403).json({ mensaje: 'contraseña de administrador incorrecta' })
                 }
                 else {
-                    conexion.query("UPDATE empleados SET nombre_empleado=?, apellido_empleado=?, password_empleado=?, correo_empleado=?, rol_empleados_id=? WHERE id=? ",
-                        [nombre, apellido, encriptacion, correo, rol, id], (errors, respuesta) => {
+                    conexion.query(`UPDATE empleados SET ${consulActu} WHERE id=? `,datos, (errors, respuesta) => {
                             if (errors) {
-                                return res.status(401).json({ error: 'fallo en la insercion ' });
+                                console.log(consulActu);
+                                console.log(datos);
+                                return res.status(401).json({ mensaje: 'fallo en la insercion ' });
                             }
                             return res.status(201).send({ mensaje: "Usuario actualizado con éxito", resultado });
                         });
@@ -419,6 +424,87 @@ rutaEmpleado.put("/actualizar", async (req, res) => {
         });
     })
 });
+
+/**
+* @swagger
+* /eliminar/{id}:
+*   delete:
+*     summary: Elimina un empleado por ID
+*     tags: [empleados]
+*     parameters:
+*       - in: path
+*         name: id
+*         schema:
+*           type: integer
+*         required: true
+*         description: ID del empleado a eliminar
+*       - in: query
+*         name: correo
+*         schema:
+*           type: string
+*         required: true
+*         description: Correo electrónico del usuario administrador que realiza la eliminación
+*       - in: query
+*         name: password
+*         schema:
+*           type: string
+*         required: true
+*         description: Contraseña del usuario administrador para autorizar la eliminación
+*     responses:
+*       200:
+*         description: Usuario eliminado con éxito
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 mensaje:
+*                   type: string
+*                   example: "usuario eliminado con exito"
+*       400:
+*         description: Solicitud incorrecta debido a entrada de datos errónea
+*       401:
+*         description: No autorizado debido a credenciales inválidas o falla en la eliminación
+*       403:
+*         description: Prohibido el acceso por contraseña de administrador incorrecta
+*       500:
+*         description: Error en conexión con base de datos
+*/
+
+
+rutaEmpleado.delete("/eliminar/:id", (req, res) => {
+    const id = parseInt(req.params.id); // Accede al ID proporcionado en la ruta
+    const correoU = req.query.correo; // Accede al correo electrónico enviado como parámetro de consulta
+    const contraAdmi = req.query.password; // Accede a la contraseña enviada como parámetro de consulta
+
+    req.getConnection((error, conexion) => {
+        if (error) {
+            return res.status(500).json({ mensaje: 'Error en conexión con base de datos' });
+        }
+        conexion.query("SELECT * FROM empleados WHERE correo_empleado=?", correoU, (err, resultado) => {
+            if (err) {
+                return res.status(400).json({ mensaje: 'se totio' })
+            }
+            if (resultado.length === 0) {
+                return res.status(401).json({ mensaje: 'No se encontro el usuario administrador' })
+            } else {
+                const compareContra = bcrypt.compareSync(contraAdmi, resultado[0].password_empleado);
+                if (!compareContra) {
+                    return res.status(403).json({ mensaje: 'contraseña de administrador incorrecta' })
+                }
+                else{
+                    conexion.query("DELETE FROM empleados WHERE id=?", id, (err, respuesta) => {
+                        if(err) {
+                            return res.status(401).json({ mensaje: 'fallo en la eliminacion' });
+                        }
+                        return res.status(200).json({mensaje: 'usuario eliminado con exito'});
+                    });
+                }
+            }
+        });
+    });
+});                
+
 
 
 export default rutaEmpleado;
