@@ -1,93 +1,250 @@
-import { useState } from 'react';
-import Axios from 'axios';
+import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from 'react-bootstrap/Modal';
+import Swal from 'sweetalert2'
+import Axios from "axios";
 import "../../css/Productos.css";
-import Swal from 'sweetalert2';
 
 function ListaProductos() {
-
-    const [productosLista, setProductosLista] = useState([]);
-
-    /*const para utilizar el boton de actualizar produucto*/
-    const productoActualizar = (producto) => {
-        console.log("Actualizar producto:", producto);
+    //variable global
+    //formulario actualizacion
+    const [id, setId] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [precioCompra, setPrecioCompra] = useState('');
+    const [precioVenta, setPrecioVenta] = useState('');
+    const [unidades, setUnidades] = useState('');
+    const [fecha, setFecha] = useState('');
+    const [unidadMedida, setUnidadMedida] = useState('');
+    const [proveedor, setProveedor] = useState('');
+    //modal actualizar
+    const [show, setShow] = useState(false);
+    const handleClose = () => {
+        setShow(false)
+        limpiarCampos();
     };
-
-    /*logica para utilizar el boton de eliminar produucto*/
-    const productoEliminar = (producto) => {
-        const confirmacion = window.confirm(`¿Estás seguro de que deseas eliminar el producto ${producto.nombre_producto}?`);
-
-        if (confirmacion) {
-            Axios.delete(`http://localhost:3001/productos/eliminar/${producto.id}`)
-                .then((response) => {
-                    const msg = "Producto Eliminado"
-                    Swal.fire({
-                        title: 'EXITO',
-                        text: msg,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
-                    leerProductos();
-                })
-                .catch((error) => {
-                    Swal.fire({
-                        title: 'Error',
-                        text: "no se pudo eliminar el producto",
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                });
-        };
+    const handleShow = () => setShow(true);
+    //modal eliminar
+    const [showDos, setShowDos] = useState(false);
+    const handleCloseDos = () => {
+        setShowDos(false)
+        leerProductos();
     };
+    const handleShowDos = () => setShowDos(true);
+    
 
-    /* funcion para leer los productos de la base de datos*/
-    function leerProductos() {
-        Axios.get("http://localhost:3001/productos/leer").then((response) => {
-            setProductosLista(response.data);
-        });
+    //lista
+    const [listaProductos, setListaProductos] = useState([]);
+    useEffect(() => {
+        leerProductos();
+    }, []);
+
+    //eliminar productos
+    const eliminarProductos = (dato) =>{
+        handleShowDos();
+        setId(dato.id)
     }
-    /* return para traer la informacion en una tabla*/
-    return (
-        <div className='listaProductos'>
+    //editar productos
+    const editarProduct = (dato) => {
+        handleShow();
+        setNombre(dato.nombre_producto);
+        setDescripcion(dato.descripcion_producto);
+        setPrecioCompra(dato.precio_compra_producto);
+        setPrecioVenta(dato.precio_venta_producto);
+        setUnidades(dato.unidades_producto);
+        setFecha(dato.fecha_producto);
+        setUnidadMedida(dato.unidades_medida_id);
+        setProveedor(dato.proveedores_id);
+        setId(dato.id);
+    };
 
-            <div className="cajaFormu">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Precio de Compra</th>
-                            <th>Precio de Venta</th>
-                            <th>Unidades</th>
-                            <th>Fecha</th>
-                            <th>Medida</th>
-                            <th>Proveedor</th>
-                            <th>actualizar/eliminar</th>
-                        </tr>
-                    </thead>
+    //limpiar campos
+    const limpiarCampos = () => {
+        setNombre("");
+        setDescripcion("");
+        setPrecioCompra("");
+        setPrecioVenta("");
+        setUnidades("");
+        setFecha("");
+        setUnidadMedida("");
+        setProveedor("");
+        setId("");
+    };
+
+    const leerProductos = () => {
+        Axios.get("http://localhost:3001/productos/leer")
+            .then((response) => {
+                setListaProductos(response.data);
+                limpiarCampos();
+            })
+            .catch((error) => {
+                Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
+            });
+    };
+
+    const actualizar = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await Axios.put("http://localhost:3001/productos/actualizar", {
+                id: id, //del producto a actualizar
+                nombre: nombre, //del producto a actualizar
+                descripcion: descripcion, //del producto a actualizar
+                precioCompra: precioCompra, //del producto a actualizar
+                precioVenta: precioVenta, //del producto a actualizar
+                unidades: unidades, //del producto a actualizar
+                fecha: fecha, //del producto a actualizar
+                unidadMedida: unidadMedida, //del producto a actualizar
+                proveedor: proveedor //del producto a actualizar
+            });
+            Swal.fire("Éxito", "producto actualizado con éxito", "success");
+            leerProductos();
+            handleClose();
+        } catch (error) {
+            Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
+        }
+    };
+    
+return (
+    <div className="container">
+        <div className="container lista" id="lista">
+            <table className="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th className="columnaUno">#</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio de Compra</th>
+                        <th>Precio de Venta</th>
+                        <th>Unidades</th>
+                        <th>Fecha</th>
+                        <th>Medida</th>
+                        <th>Proveedor</th>
+                        <th className="columnaFinal">opciones</th>
+                    </tr>
+                </thead>
+            </table>
+            <div className="scrollTabla" style={{ overflowY: 'auto'}}>
+                <table className="table table-striped table-hover contenido" >
                     <tbody>
-                        {productosLista.map((valor, key) => (
-                            <tr key={key}>
-                                <td>{valor.nombre_producto}</td>
-                                <td>{valor.descripcion_producto}</td>
-                                <td>{valor.precio_compra_producto}</td>
-                                <td>{valor.precio_venta_producto}</td>
-                                <td>{valor.unidades_producto}</td>
-                                <td>{new Date(valor.fecha_producto).toLocaleDateString('es')}</td>
-                                <td>{valor.unidades_medida_id}</td>
-                                <td>{valor.proveedores_id}</td>
-                                <td>
-                                    <button onClick={() => productoActualizar(valor)}>Actualizar</button>
-                                    <button onClick={() => productoEliminar(valor)}>Eliminar</button>
-                                </td>
-                            </tr>
-                        ))}
+                        {
+                            listaProductos.map((dato, key) => {
+                                return (
+                                    <tr key={key}>
+                                        <td className="columnaUno">{dato.id}</td>
+                                        <td>{dato.nombre_producto}</td>
+                                        <td>{dato.descripcion_producto}</td>
+                                        <td>{dato.precio_compra_producto}</td>
+                                        <td>{dato.precio_venta_producto}</td>
+                                        <td>{dato.unidades_producto}</td>
+                                        <td>{dato.fecha_producto}</td>
+                                        <td>{dato.unidades_medida_id === 1 ?
+                                            <span>Amililitros</span> :
+                                             dato.unidades_medida_id === 2 ?
+                                            <span>litros</span> :
+                                             dato.unidades_medida_id === 3 ?
+                                            <span>gramos</span> :
+                                            <span>kilogramos</span>}</td>
+
+                                        <td className="columnaFinal">
+                                            <div className="filaFinal">
+                                                <button className="botones btnEdit" variant="primary"
+                                                    onClick={() => { editarProduct(dato); }}>
+                                                    <i className='bx bx-edit-alt'></i>
+                                                </button>
+                                                <button
+                                                    onClick={() =>{ eliminarProductos(dato);}}
+                                                    className="botones btnDele">
+                                                    <i className='bx bx-trash'></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
             </div>
-            <button className="btnLeer" onClick={leerProductos}>Lista</button>
+            <button className="btonLista btn btn-success" onClick={leerProductos}>Actualizar Lista 🔃</button>
         </div>
-    );
-}
-
+        <div className="container actualizar" id="formActu">
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Actualizar producto</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="container formularioActu">
+                    <form>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Nombre:</span>
+                            <input value={nombre} id="nombreInput" onChange={(event) => { setNombre(event.target.value) }} type="text"
+                                className="form-control" placeholder="Nombre" aria-label="Username" required>
+                            </input>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">descripcion:</span>
+                            <input value={descripcion} id="descripcionInput" onChange={(event) => { setDescripcion(event.target.value) }} type="text"
+                                className="form-control" placeholder="descripcion" required>
+                            </input>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Precio de compra:</span>
+                            <input value={precioCompra} id="precioCompraInput" onChange={(event) => { setPrecioCompra(event.target.value) }} type="number"
+                                className="form-control" placeholder="precioCompra" required>
+                            </input>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Precio de venta:</span>
+                            <input value={precioVenta} id="precioVentaInput" onChange={(event) => { setPrecioVenta(event.target.value) }} type="number"
+                                className="form-control" placeholder="precioVenta" required>
+                            </input>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">unidades:</span>
+                            <input value={unidades} id="unidadesInput" onChange={(event) => { setUnidades(event.target.value) }} type="number"
+                                className="form-control" placeholder="unidades" required>
+                            </input>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">fecha:</span>
+                            <input value={fecha} id="fechaInput" onChange={(event) => { setFecha(event.target.value) }} type="Date"
+                                className="form-control" placeholder="fecha" required>
+                            </input>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">medida:</span>
+                            <input value={unidadMedida} id="unidadMedidaInput" onChange={(event) => { setUnidadMedida(event.target.value) }} type="text"
+                                className="form-control" placeholder="unidadMedida" required>
+                            </input>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">proveedor:</span>
+                            <input value={proveedor} id="proveedorInput" onChange={(event) => { setProveedor(event.target.value) }} type="text"
+                                className="form-control" placeholder="proveedor" required>
+                            </input>
+                        </div>
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className="btnActu">
+                        <button onClick={actualizar} type="button" className="btn btn-primary">Actualizar</button>
+                        <button onClick={handleClose} type="button" className="btn btn-danger">Cancelar</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+        </div>
+        <div className="container eliminar">
+            <Modal show={showDos} onHide={handleCloseDos}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Eliminar producto</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <div className="btnActu">
+                        <button  type="button" className="btn btn-primary">Eliminar</button>
+                        <button onClick={handleCloseDos} type="button" className="btn btn-danger">Cancelar</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    </div>)
+};
 export default ListaProductos;

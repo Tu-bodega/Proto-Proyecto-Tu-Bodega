@@ -65,6 +65,47 @@ rutaProductos.post("/crear", (req, res) => {
     });
 });
 
+rutaProductos.put("/actualizarProducto",(req,res)=>{
+    const nombre = req.body.nombre;
+    const descripcion = req.body.descripcion;
+    const precioCompra = parseFloat(req.body.precioC);
+    const precioVenta = parseFloat(req.body.precioV);
+    const unidades = req.body.unidades;
+    const fecha = req.body.fecha; // Uso correcto de new Date
+    const unidadMedida = req.body.medida;
+    const proveedor = req.body.proveedor;
+    const id = parseInt(req.body.id);
+    const consult = 'UPDATE productos SET nombre=?, descripcion=?, precioCompra=?, precioVenta=?, unidades=?, fecha=?, unidadMedida=?, proveedor=? WHERE id=?';
+
+    req.getConnection((error, conexion)=>{
+        if(error){
+            return res.status(500).json({error: 'Fallo conexión con el servidor'});
+        }
+        conexion.query(consult[nombre, descripcion, precioCompra, precioVenta, unidades, fecha, unidadMedida, proveedor, id],(err,datos)=>{
+            if(err){
+                return res.status(400).json({err:'Tabla no encontrada o error en la consulta'});
+            }
+            res.status(200).json({mensaje: 'Producto actualizado exitosamente'})
+        })
+    })
+})
+
+rutaProductos.delete("/eliminarProducto",(req, res)=>{
+    const id = parseInt(req.body.id);
+
+    req.getConnection((error, conexion)=>{
+        if(error){
+            return res.status(500).json({error: 'Fallo conexión con el servidor'});
+        }
+        conexion.query('DELETE FROM productos WHERE id=?',[id],(err, resultado)=>{
+            if(err){
+                return res.status(400).json({err:'Tabla no encontrada o error en la consulta'});
+            }
+            res.status(200).json({mensaje: 'Producto eliminado exitosamente'})
+        })
+    })
+    
+})
 
 
 export default rutaProductos;
