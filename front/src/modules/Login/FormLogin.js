@@ -15,6 +15,10 @@ function FormLogin() {
     const navigate = useNavigate(); // Inicializa useNavigate para redireccionar al usuario
 
     const logear = (evento) => {
+        let interfazUser = '/Admi'; 
+        if(rol == 2){
+            interfazUser = '/Caja'
+        }
         evento.preventDefault();
         Axios.post("http://localhost:3001/login/validar", {
             rol: rol,
@@ -25,7 +29,7 @@ function FormLogin() {
             if (response.data.saludos && response.data.correo) {
                 // Llama a login con ambos, el nombre del usuario y el correo electrónico
                 login(response.data.saludos, response.data.correo);
-                navigate('/Admi'); // Redirecciona al usuario a la ruta de administrador
+                navigate(`${interfazUser}`); // Redirecciona al usuario a la ruta de administrador
             } else {
                 // Si no, muestra un mensaje de error indicando que faltan datos
                 Swal.fire({
