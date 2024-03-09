@@ -142,7 +142,7 @@ function ListarUsuarios() {
                         </tr>
                     </thead>
                 </table>
-                <div style={{ overflowY: 'auto', maxHeight: '65%' }}>
+                <div className="scrollTabla" style={{ overflowY: 'auto'}}>
                     <table className="table table-striped table-hover contenido" >
                         <tbody>
                             {

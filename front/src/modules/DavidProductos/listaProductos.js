@@ -9,11 +9,11 @@ function ListaProductos() {
     const [productosLista, setProductosLista] = useState([]);
 
     /*const para utilizar el boton de actualizar produucto*/
-    const productoActualizar = (producto) =>{
+    const productoActualizar = (producto) => {
         console.log("Actualizar producto:", producto);
     };
 
-     /*logica para utilizar el boton de eliminar produucto*/
+    /*logica para utilizar el boton de eliminar produucto*/
     const productoEliminar = (producto) => {
         const confirmacion = window.confirm(`¿Estás seguro de que deseas eliminar el producto ${producto.nombre_producto}?`);
 
@@ -49,7 +49,7 @@ function ListaProductos() {
     /* return para traer la informacion en una tabla*/
     return (
         <div className='listaProductos'>
-            
+
             <div className="cajaFormu">
                 <table>
                     <thead>
@@ -77,8 +77,8 @@ function ListaProductos() {
                                 <td>{valor.unidades_medida_id}</td>
                                 <td>{valor.proveedores_id}</td>
                                 <td>
-                                    <button onClick={()=> productoActualizar(valor)}>Actualizar</button>
-                                    <button onClick={()=> productoEliminar(valor)}>Eliminar</button>
+                                    <button onClick={() => productoActualizar(valor)}>Actualizar</button>
+                                    <button onClick={() => productoEliminar(valor)}>Eliminar</button>
                                 </td>
                             </tr>
                         ))}

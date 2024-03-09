@@ -118,3 +118,10 @@
     font-size: 12px;
     color:#bb2d3b;
 }
+
+.scrollTabla{
+    height: 60%; 
+}
+#lista{
+    height: 100%;
+}

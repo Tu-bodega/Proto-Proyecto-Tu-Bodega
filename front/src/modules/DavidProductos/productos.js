@@ -31,7 +31,8 @@ function Productos() {
                     <CrearProductos />
                 </div>
                 <div id='readProduct'
-                    className='productRead'><ListaProductos />
+                    className='productRead'>
+                    <ListaProductos />
                 </div>
             </section>
         </div>
