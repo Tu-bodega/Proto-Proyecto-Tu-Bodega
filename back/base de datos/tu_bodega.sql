@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-03-2024 a las 16:11:50
+-- Tiempo de generación: 09-03-2024 a las 15:25:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -54,7 +54,7 @@ CREATE TABLE `empleados` (
   `id` int(11) NOT NULL,
   `nombre_empleado` varchar(45) DEFAULT NULL,
   `apellido_empleado` varchar(45) DEFAULT NULL,
-  `password_empleado` varchar(100) DEFAULT NULL,
+  `password_empleado` varchar(200) DEFAULT NULL,
   `correo_empleado` varchar(80) DEFAULT NULL,
   `rol_empleados_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -64,9 +64,17 @@ CREATE TABLE `empleados` (
 --
 
 INSERT INTO `empleados` (`id`, `nombre_empleado`, `apellido_empleado`, `password_empleado`, `correo_empleado`, `rol_empleados_id`) VALUES
-(1, 'jaime', 'mendez', '$2a$08$Pu5Dw.8VwRf/W83dtTegFOIL3zLZIX25eAiaGassHTUJzOgM6aijm', 'jaime@gmail.com', 1),
-(2, 'camilo', 'castillo', '$2a$08$tce9vXo3h8gfHAXCGDNTIeIK1r8NnIXpEgQ9jErTRSmEocpO5Z3sG', 'camil-code@gmail.com', 1),
-(3, 'Andres', 'Muñoz', '$2a$08$WHlcrj61CY5svqHdmHik1.QZXftO9GrG4f5mC9xRRBrbR/KQ/zOCi', 'andy@gmail.com', 1);
+(1, 'Camilo', 'Castillo', '$2a$08$tce9vXo3h8gfHAXCGDNTIeIK1r8NnIXpEgQ9jErTRSmEocpO5Z3sG', 'camil-code@gmail.com', 1),
+(2, 'Andres', 'Muños', '$2a$08$I1odbQ7zT/rsNnNebvDgm.B.qGX385gAjmCOnXmpMNQWz042vJiP6', 'andy@gmail.com', 2),
+(3, 'David', 'Garcia', '$2a$08$9jS8LW0jv3JFTmGbK68mM.qjmbBv2sJyT3oOgqWP4OwW76JYUcWm6', 'david@gmail.com', 2),
+(4, 'Jaime', 'Mendez', '$2a$08$C.ijyG7vZk21TracwB9jzOvKeE7AcfYPDQYEzROtbGPMvY/4PkFsW', 'jaime@gmail.com', 2),
+(6, 'raton', 'perro', '$2a$08$Us7l6lPnf3swwo6ltKQFt.fF5JQxuTWt67dIf0SlFz/ENSviQV.A2', 'perro@gmail.com', 2),
+(7, 'marco', 'zuleta', '$2a$08$LyZzmpo4.4hOj/4NZoChF.KlW/bZj.1cDMvFdCwIdHOB9RbfLRnhm', 'mark@gmail.com', 2),
+(8, 'raul', 'cespedes', '$2a$08$W7QA0p69uPoPYrZsjUWMk.SvZHdzQ00g92Z86zawRVgFfZY3AwlN6', 'reces@gmail.com', 2),
+(9, 'homero', 'simpson', '$2a$08$1.Q/pfXEq5XVJGpY7FKm9Ok9LHu1ezmqI7D8MEfDuN8KIec4xIXda', 'simpo@gmail.com', 2),
+(10, 'mario', 'lopez', '$2a$08$wqvXMz15EOPmbiAmWAOfv.v3B1gP/8xY8ATc2sjBRSZl4nAS77mHa', 'mario@gmail.com', 2),
+(11, 'susana', 'lopez', '$2a$08$0N0ssiBordOp9IOjQKrJEuQWOOYgwBLpoeG79EgANRinMvqfKoxGG', 'susa@gmail.com', 2),
+(12, 'yiyi', 'castro', '$2a$08$gj2a701l3aSCuyQ/clm2EuiSpzxjAtSq.mKVAN5ogGASO9KSAPgQ6', 'yiy@gmail.com', 2);
 
 -- --------------------------------------------------------
 
@@ -165,7 +173,8 @@ CREATE TABLE `rol_empleados` (
 --
 
 INSERT INTO `rol_empleados` (`id`, `nombre_rol`) VALUES
-(1, 'Administrador');
+(1, 'Administrador'),
+(2, 'cajero');
 
 -- --------------------------------------------------------
 
@@ -293,7 +302,7 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `facturas`
@@ -323,7 +332,7 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT de la tabla `rol_empleados`
 --
 ALTER TABLE `rol_empleados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `supermercado`

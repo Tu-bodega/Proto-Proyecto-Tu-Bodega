@@ -28,7 +28,7 @@ function Proveedores() {
                     <CrearProveedores/>
                 </div>
                 <div id='readProveedores'className='ProveedoresRead'>
-
+                    
                 </div>
             </section>
         </div>

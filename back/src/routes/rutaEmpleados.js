@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 
 const rutaEmpleado = express.Router();
+
 /** 
 *@swagger
 *components:
@@ -84,8 +85,8 @@ rutaEmpleado.get("/leer", (req, res) => {
     req.getConnection((error, conexion) => {
         error ? res.status(500).json({ error: 'Error en conexion con la base de datos' })
             : conexion.query("SELECT * FROM empleados", (err, resultado) => {
-                err ? res.status(400).json({ err: 'tabla no encontrada' })
-                    : res.send(resultado)
+                err ? res.status(400).json({ err: 'Tabla no encontrada o error en la consulta' })
+                    : res.status(200).json({mensaje:'unalisat de empleados', resultado})
             });
     });
 });
@@ -116,6 +117,10 @@ rutaEmpleado.get("/leer", (req, res) => {
 *               - rol
 *               - correo
 *               - contra
+*             example:
+*                rol_empleados_id: 1
+*                correo_empleado: camil-code@gmail.com
+*                password_empleado: Contraseña12345
 *     responses:
 *       200:
 *         description: Autenticación exitosa, saludos al empleado.
@@ -127,6 +132,9 @@ rutaEmpleado.get("/leer", (req, res) => {
 *                 saludos:
 *                   type: string
 *                   description: Nombre del empleado.
+*                 correo:
+*                   type: string
+*                   description: correo del empleado.
 *                 mensaje:
 *                   type: string
 *                   description: Mensaje de bienvenida.
@@ -173,7 +181,7 @@ rutaEmpleado.post("/validar", (req, res) => {
                 // comparación de contraseñas 
                 const compareContra = bcrypt.compareSync(contra, resultados[0].password_empleado);
                 if (compareContra) {
-                    res.json({
+                    res.status(200).json({
                         saludos: resultados[0].nombre_empleado,
                         correo: resultados[0].correo_empleado, // Corrección para enviar el correo del usuario
                         mensaje: 'Bienvenido',
