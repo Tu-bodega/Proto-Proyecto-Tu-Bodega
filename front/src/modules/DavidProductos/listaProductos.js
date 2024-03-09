@@ -121,7 +121,7 @@ function ListaProductos() {
         }).catch((error)=>{
             Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
             handleCloseDos();
-        })
+        });
     };
 
     return (
