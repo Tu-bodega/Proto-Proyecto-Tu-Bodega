@@ -85,7 +85,7 @@ rutaEmpleado.get("/leer", (req, res) => {
         error ? res.status(500).json({ error: 'Error en conexion con la base de datos' })
             : conexion.query("SELECT * FROM empleados", (err, resultado) => {
                 err ? res.status(400).json({ err: 'tabla no encontrada' })
-                    : res.send(resultado)
+                    : res.send(resultado);
             });
     });
 });
