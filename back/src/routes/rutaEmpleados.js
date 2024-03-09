@@ -188,7 +188,7 @@ rutaEmpleado.post("/validar", (req, res) => {
                     });
                 } else {
                     // Si la contraseña no coincide
-                    res.status(401).json({ error: 'Usuario, correo o contraseña incorrectos.' });
+                    res.status(401).json({ error: 'usuario, correo o contraseña incorrectos.' });
                 }
             } else {
                 // Si no hay resultados de la base de datos
