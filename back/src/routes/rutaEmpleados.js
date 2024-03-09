@@ -85,8 +85,8 @@ rutaEmpleado.get("/leer", (req, res) => {
     req.getConnection((error, conexion) => {
         error ? res.status(500).json({ error: 'Error en conexion con la base de datos' })
             : conexion.query("SELECT * FROM empleados", (err, resultado) => {
-                err ? res.status(400).json({ err: 'Tabla no encontrada o error en la consulta' })
-                    : res.status(200).json({mensaje:'unalisat de empleados', resultado})
+                err ? res.status(400).json({ err: 'tabla no encontrada' })
+                    : res.send(resultado);
             });
     });
 });
