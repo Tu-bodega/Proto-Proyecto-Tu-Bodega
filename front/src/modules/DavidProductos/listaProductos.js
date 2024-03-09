@@ -6,7 +6,6 @@ import Axios from "axios";
 import "../../css/Productos.css";
 
 function ListaProductos() {
-    //variable global
     //formulario actualizacion
     const [id, setId] = useState('');
     const [nombre, setNombre] = useState('');
@@ -17,6 +16,7 @@ function ListaProductos() {
     const [fecha, setFecha] = useState('');
     const [unidadMedida, setUnidadMedida] = useState('');
     const [proveedor, setProveedor] = useState('');
+
     //modal actualizar
     const [show, setShow] = useState(false);
     const handleClose = () => {
@@ -24,6 +24,7 @@ function ListaProductos() {
         limpiarCampos();
     };
     const handleShow = () => setShow(true);
+
     //modal eliminar
     const [showDos, setShowDos] = useState(false);
     const handleCloseDos = () => {
@@ -31,7 +32,7 @@ function ListaProductos() {
         leerProductos();
     };
     const handleShowDos = () => setShowDos(true);
-    
+
 
     //lista
     const [listaProductos, setListaProductos] = useState([]);
@@ -40,10 +41,19 @@ function ListaProductos() {
     }, []);
 
     //eliminar productos
-    const eliminarProductos = (dato) =>{
+    const eliminarProductos = (dato) => {
         handleShowDos();
         setId(dato.id)
     }
+
+    function formatearFecha(fecha) {
+        const date = new Date(fecha);
+        const anio = date.getFullYear();
+        const mes = (date.getMonth() + 1).toString().padStart(2, "0");
+        const dia = date.getDate().toString().padStart(2, '0');
+        return `${anio}-${mes}-${dia}`
+    };
+
     //editar productos
     const editarProduct = (dato) => {
         handleShow();
@@ -52,7 +62,7 @@ function ListaProductos() {
         setPrecioCompra(dato.precio_compra_producto);
         setPrecioVenta(dato.precio_venta_producto);
         setUnidades(dato.unidades_producto);
-        setFecha(dato.fecha_producto);
+        setFecha(formatearFecha(dato.fecha_producto));
         setUnidadMedida(dato.unidades_medida_id);
         setProveedor(dato.proveedores_id);
         setId(dato.id);
@@ -103,148 +113,158 @@ function ListaProductos() {
             Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
         }
     };
-    
-return (
-    <div className="container">
-        <div className="container lista" id="lista">
-            <table className="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th className="columnaUno">#</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Precio de Compra</th>
-                        <th>Precio de Venta</th>
-                        <th>Unidades</th>
-                        <th>Fecha</th>
-                        <th>Medida</th>
-                        <th>Proveedor</th>
-                        <th className="columnaFinal">opciones</th>
-                    </tr>
-                </thead>
-            </table>
-            <div className="scrollTabla" style={{ overflowY: 'auto'}}>
-                <table className="table table-striped table-hover contenido" >
-                    <tbody>
-                        {
-                            listaProductos.map((dato, key) => {
-                                return (
-                                    <tr key={key}>
-                                        <td className="columnaUno">{dato.id}</td>
-                                        <td>{dato.nombre_producto}</td>
-                                        <td>{dato.descripcion_producto}</td>
-                                        <td>{dato.precio_compra_producto}</td>
-                                        <td>{dato.precio_venta_producto}</td>
-                                        <td>{dato.unidades_producto}</td>
-                                        <td>{dato.fecha_producto}</td>
-                                        <td>{dato.unidades_medida_id === 1 ?
-                                            <span>Amililitros</span> :
-                                             dato.unidades_medida_id === 2 ?
-                                            <span>litros</span> :
-                                             dato.unidades_medida_id === 3 ?
-                                            <span>gramos</span> :
-                                            <span>kilogramos</span>}</td>
 
-                                        <td className="columnaFinal">
-                                            <div className="filaFinal">
-                                                <button className="botones btnEdit" variant="primary"
-                                                    onClick={() => { editarProduct(dato); }}>
-                                                    <i className='bx bx-edit-alt'></i>
-                                                </button>
-                                                <button
-                                                    onClick={() =>{ eliminarProductos(dato);}}
-                                                    className="botones btnDele">
-                                                    <i className='bx bx-trash'></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
+    const eliminarProducto = (id) => {
+        Axios.delete(`http://localhost:3001/productos/eliminar/${id}`).then(() => {
+            Swal.fire("Éxito", "producto eliminado con éxito", "success");
+            handleCloseDos();
+        }).catch((error)=>{
+            Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
+            handleCloseDos();
+        })
+    };
+
+    return (
+        <div className="container">
+            <div className="container lista" id="lista">
+                <table className="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th className="columnaUnoP">#</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio de Compra</th>
+                            <th>Precio de Venta</th>
+                            <th>Unidades</th>
+                            <th>Fecha</th>
+                            <th>Medida</th>
+                            <th>Proveedor</th>
+                            <th className="columnaFinal">opciones</th>
+                        </tr>
+                    </thead>
                 </table>
+                <div className="scrollTabla" style={{ overflowY: 'auto' }}>
+                    <table className="table table-striped table-hover contenido" >
+                        <tbody>
+                            {
+                                listaProductos.map((dato, key) => {
+                                    return (
+                                        <tr key={key}>
+                                            <td className="columnaUnoP">{dato.id}</td>
+                                            <td>{dato.nombre_producto}</td>
+                                            <td>{dato.descripcion_producto}</td>
+                                            <td>{dato.precio_compra_producto}</td>
+                                            <td>{dato.precio_venta_producto}</td>
+                                            <td>{dato.unidades_producto}</td>
+                                            <td>{new Date(dato.fecha_producto).toLocaleDateString('es')}</td>
+                                            <td>{dato.unidades_medida_id === 1 ?
+                                                <span>mililitros</span> :
+                                                dato.unidades_medida_id === 2 ?
+                                                    <span>litros</span> :
+                                                    dato.unidades_medida_id === 3 ?
+                                                        <span>gramos</span> :
+                                                        <span>kilogramos</span>}</td>
+                                            <td>{dato.proveedores_id}</td>
+                                            <td className="columnaFinal">
+                                                <div className="filaFinal">
+                                                    <button className="botones btnEdit" variant="primary"
+                                                        onClick={() => { editarProduct(dato); }}>
+                                                        <i className='bx bx-edit-alt'></i>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => { eliminarProductos(dato); }}
+                                                        className="botones btnDele">
+                                                        <i className='bx bx-trash'></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <button className="btonLista btn btn-success" onClick={leerProductos}>Actualizar Lista 🔃</button>
             </div>
-            <button className="btonLista btn btn-success" onClick={leerProductos}>Actualizar Lista 🔃</button>
-        </div>
-        <div className="container actualizar" id="formActu">
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Actualizar producto</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="container formularioActu">
-                    <form>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">Nombre:</span>
-                            <input value={nombre} id="nombreInput" onChange={(event) => { setNombre(event.target.value) }} type="text"
-                                className="form-control" placeholder="Nombre" aria-label="Username" required>
-                            </input>
+            <div className="container actualizar" id="formActu">
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Actualizar producto</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="container formularioActu">
+                        <form>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">Nombre:</span>
+                                <input value={nombre} id="nombreInput" onChange={(event) => { setNombre(event.target.value) }} type="text"
+                                    className="form-control" placeholder="Nombre" aria-label="Username" required>
+                                </input>
+                            </div>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">descripcion:</span>
+                                <input value={descripcion} id="descripcionInput" onChange={(event) => { setDescripcion(event.target.value) }} type="text"
+                                    className="form-control" placeholder="descripcion" required>
+                                </input>
+                            </div>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">Precio de compra:</span>
+                                <input value={precioCompra} id="precioCompraInput" onChange={(event) => { setPrecioCompra(event.target.value) }} type="number"
+                                    className="form-control" placeholder="precioCompra" required>
+                                </input>
+                            </div>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">Precio de venta:</span>
+                                <input value={precioVenta} id="precioVentaInput" onChange={(event) => { setPrecioVenta(event.target.value) }} type="number"
+                                    className="form-control" placeholder="precioVenta" required>
+                                </input>
+                            </div>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">unidades:</span>
+                                <input value={unidades} id="unidadesInput" onChange={(event) => { setUnidades(event.target.value) }} type="number"
+                                    className="form-control" placeholder="unidades" required>
+                                </input>
+                            </div>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">fecha:</span>
+                                <input value={fecha} id="fechaInput" onChange={(event) => { setFecha(event.target.value) }} type="Date"
+                                    className="form-control" placeholder="fecha" required>
+                                </input>
+                            </div>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">medida:</span>
+                                <input value={unidadMedida} id="unidadMedidaInput" onChange={(event) => { setUnidadMedida(event.target.value) }} type="text"
+                                    className="form-control" placeholder="unidadMedida" required>
+                                </input>
+                            </div>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">proveedor:</span>
+                                <input value={proveedor} id="proveedorInput" onChange={(event) => { setProveedor(event.target.value) }} type="text"
+                                    className="form-control" placeholder="proveedor" required>
+                                </input>
+                            </div>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="btnActu">
+                            <button onClick={actualizar} type="button" className="btn btn-primary">Actualizar</button>
+                            <button onClick={handleClose} type="button" className="btn btn-danger">Cancelar</button>
                         </div>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">descripcion:</span>
-                            <input value={descripcion} id="descripcionInput" onChange={(event) => { setDescripcion(event.target.value) }} type="text"
-                                className="form-control" placeholder="descripcion" required>
-                            </input>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+            <div className="container eliminar">
+                <Modal show={showDos} onHide={handleCloseDos}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Eliminar producto</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Footer>
+                        <div className="btnActu">
+                            <button onClick={()=>{ eliminarProducto(id) }} type="button" className="btn btn-primary">Eliminar</button>
+                            <button onClick={handleCloseDos} type="button" className="btn btn-danger">Cancelar</button>
                         </div>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">Precio de compra:</span>
-                            <input value={precioCompra} id="precioCompraInput" onChange={(event) => { setPrecioCompra(event.target.value) }} type="number"
-                                className="form-control" placeholder="precioCompra" required>
-                            </input>
-                        </div>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">Precio de venta:</span>
-                            <input value={precioVenta} id="precioVentaInput" onChange={(event) => { setPrecioVenta(event.target.value) }} type="number"
-                                className="form-control" placeholder="precioVenta" required>
-                            </input>
-                        </div>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">unidades:</span>
-                            <input value={unidades} id="unidadesInput" onChange={(event) => { setUnidades(event.target.value) }} type="number"
-                                className="form-control" placeholder="unidades" required>
-                            </input>
-                        </div>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">fecha:</span>
-                            <input value={fecha} id="fechaInput" onChange={(event) => { setFecha(event.target.value) }} type="Date"
-                                className="form-control" placeholder="fecha" required>
-                            </input>
-                        </div>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">medida:</span>
-                            <input value={unidadMedida} id="unidadMedidaInput" onChange={(event) => { setUnidadMedida(event.target.value) }} type="text"
-                                className="form-control" placeholder="unidadMedida" required>
-                            </input>
-                        </div>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">proveedor:</span>
-                            <input value={proveedor} id="proveedorInput" onChange={(event) => { setProveedor(event.target.value) }} type="text"
-                                className="form-control" placeholder="proveedor" required>
-                            </input>
-                        </div>
-                    </form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="btnActu">
-                        <button onClick={actualizar} type="button" className="btn btn-primary">Actualizar</button>
-                        <button onClick={handleClose} type="button" className="btn btn-danger">Cancelar</button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-        </div>
-        <div className="container eliminar">
-            <Modal show={showDos} onHide={handleCloseDos}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Eliminar producto</Modal.Title>
-                </Modal.Header>
-                <Modal.Footer>
-                    <div className="btnActu">
-                        <button  type="button" className="btn btn-primary">Eliminar</button>
-                        <button onClick={handleCloseDos} type="button" className="btn btn-danger">Cancelar</button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    </div>)
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        </div>)
 };
 export default ListaProductos;

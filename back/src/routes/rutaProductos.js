@@ -2,6 +2,11 @@ import express from "express";
 
 const rutaProductos = express.Router();
 
+
+
+
+
+
 rutaProductos.get("/leer", (req, res) => {
     req.getConnection((error, conexion) => {
         if (error) {
@@ -65,23 +70,24 @@ rutaProductos.post("/crear", (req, res) => {
     });
 });
 
-rutaProductos.put("/actualizarProducto",(req,res)=>{
+rutaProductos.put("/actualizar",(req,res)=>{
+    const id = parseInt(req.body.id);
     const nombre = req.body.nombre;
     const descripcion = req.body.descripcion;
-    const precioCompra = parseFloat(req.body.precioC);
-    const precioVenta = parseFloat(req.body.precioV);
+    const precioCompra = parseFloat(req.body.precioCompra);
+    const precioVenta = parseFloat(req.body.precioVenta);
     const unidades = req.body.unidades;
     const fecha = req.body.fecha; // Uso correcto de new Date
-    const unidadMedida = req.body.medida;
+    const unidadMedida = req.body.unidadMedida;
     const proveedor = req.body.proveedor;
-    const id = parseInt(req.body.id);
-    const consult = 'UPDATE productos SET nombre=?, descripcion=?, precioCompra=?, precioVenta=?, unidades=?, fecha=?, unidadMedida=?, proveedor=? WHERE id=?';
+    const consult = `UPDATE productos SET nombre_producto=?, descripcion_producto=?,
+    precio_compra_producto=?, precio_venta_producto=?, unidades_producto=?, fecha_producto=?, unidades_medida_id=?, proveedores_id=? WHERE id=?`;
 
     req.getConnection((error, conexion)=>{
         if(error){
             return res.status(500).json({error: 'Fallo conexión con el servidor'});
         }
-        conexion.query(consult[nombre, descripcion, precioCompra, precioVenta, unidades, fecha, unidadMedida, proveedor, id],(err,datos)=>{
+        conexion.query(consult,[nombre, descripcion, precioCompra, precioVenta, unidades, fecha, unidadMedida, proveedor, id],(err,datos)=>{
             if(err){
                 return res.status(400).json({err:'Tabla no encontrada o error en la consulta'});
             }
@@ -90,8 +96,8 @@ rutaProductos.put("/actualizarProducto",(req,res)=>{
     })
 })
 
-rutaProductos.delete("/eliminarProducto",(req, res)=>{
-    const id = parseInt(req.body.id);
+rutaProductos.delete("/eliminar/:id",(req, res)=>{
+    const id = parseInt(req.params.id);
 
     req.getConnection((error, conexion)=>{
         if(error){

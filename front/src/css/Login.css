@@ -69,7 +69,9 @@ select {
 
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="date"],
+input[type="password"], 
+input[type="number"] {
     padding: 20px 45px 20px 20px;
 }
 
