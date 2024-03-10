@@ -308,7 +308,7 @@ rutaEmpleado.post("/crear", async (req, res) => {
 
 /**
 * @swagger
-* /actualizar:
+* /empleados/actualizar:
 *   put:
 *     summary: Actualiza la información de un empleado
 *     tags: [empleados]
@@ -435,7 +435,7 @@ rutaEmpleado.put("/actualizar", async (req, res) => {
 
 /**
 * @swagger
-* /eliminar/{id}:
+* /empleados/eliminar/{id}:
 *   delete:
 *     summary: Elimina un empleado por ID
 *     tags: [empleados]

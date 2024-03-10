@@ -59,20 +59,48 @@ const rutaProductos = express.Router();
 
 /**
 @swagger
-* /leer:
+* /productos/leer:
 *   get:
 *     summary: Obtiene todos los productos
 *     tags: [productos]
 *     description: "Retorna todos los productos de la base de datos. No requiere parámetros de entrada."
 *     responses:
 *       200:
-*         description: Consulta exitosa, productos retornados.
+*         description: Una lista de empleados.
 *         content:
 *           application/json:
 *             schema:
 *               type: array
 *               items:
-*                 $ref: '#/components/schemas/productos'
+*                 type: object
+*                 properties:
+*                     id:
+*                         type: integer
+*                         description: Id autogenerado en la base de datos
+*                     nombre_producto:
+*                         type: string
+*                         description: nombre del producto
+*                     descripcion_producto:
+*                         type: string
+*                         description: descripcion del producto
+*                     precio_compra_producto: 
+*                         type: integer
+*                         description: precio de compra del producto
+*                     precio_venta_producto:
+*                         type: integer
+*                         description:  precio de venta del producto
+*                     unidades_producto:
+*                         type: integer
+*                         description: numero de unidades del producto
+*                     fecha_producto:
+*                         type: date
+*                         description: fecha de ingreso del producto
+*                     unidades_medida_id:
+*                         type: integer
+*                         description: llave foranea tabla unidad de medida,(1=mililitros,2=litros,3=gramos,4=kilogramos)
+*                     proveedores_id:
+*                         type: integer
+*                         description: llave foranea tabla proveedores
 *       400:
 *         description: Error en la consulta, tabla no encontrada.
 *         content:
@@ -115,7 +143,7 @@ rutaProductos.get("/leer", (req, res) => {
 
 /**
 @swagger
-* /crear:
+* /productos/crear:
 *   post:
 *     summary: Agrega un nuevo producto
 *     tags: [productos]
@@ -233,7 +261,7 @@ rutaProductos.post("/crear", (req, res) => {
 
 /**
 @swagger
-* /actualizar:
+* /productos/actualizar:
 *   put:
 *     summary: Actualiza un producto existente
 *     tags: [productos]
@@ -346,7 +374,7 @@ rutaProductos.put("/actualizar",(req,res)=>{
 
 /**
 @swagger
-* /eliminar/{id}:
+* /productos/eliminar/{id}:
 *   delete:
 *     summary: Elimina un producto existente
 *     tags: [productos]
