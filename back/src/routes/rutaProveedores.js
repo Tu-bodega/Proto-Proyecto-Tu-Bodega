@@ -382,9 +382,8 @@ rutaProveedores.put("/actualizar", (req, res) => {
  *                   type: string
  *                   example: Fallo conexión con el servidor
  */
-rutaProveedores.delete("/eliminar", (req, res) => {
-    const id = req.body.id; // El ID del proveedor que quieres eliminar
-
+rutaProveedores.delete("/eliminar/:id", (req, res) => {
+    const id = parseInt(req.params.id)
     req.getConnection((error, conexion) => {
         if (error) {
             return res.status(500).json({ error: 'Fallo conexión con el servidor' });
