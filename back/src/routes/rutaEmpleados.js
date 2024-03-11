@@ -272,11 +272,11 @@ rutaEmpleado.post("/validar", (req, res) => {
 
 
 rutaEmpleado.post("/crear", async (req, res) => {
-    const { nombre, apellido, correo } = req.body;
+    const nombre = String(req.body.nombre).trim();
+    const apellido = String(req.body.apellido).trim();
+    const correo = String(req.body.correo).trim();
     const contra = req.body.contra;
-    const contraAdmi = req.body.contraAdmi;
     const rol = parseInt(req.body.rol);
-    const id = parseInt(req.body.id);
     const encriptacion = await bcrypt.hash(contra, 8);
 
     // Primero, verificamos si ya existe un usuario con el mismo correo

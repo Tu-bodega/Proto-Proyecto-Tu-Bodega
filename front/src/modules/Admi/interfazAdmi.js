@@ -4,35 +4,39 @@ import "../../css/admi.css"
 import Productos from "../DavidProductos/productos.js";
 import Proveedores from "../JaimeProveedores/proveedores.js";
 import Usuarios from "../CamiloUsers/usuarios.js";
+import Clientes from "../Clientes/clientes.js";
 
 function Admi() {
     const iconBox = `<i class='bx bx-package'></i> `;
     const iconClose = `<i class='bx bxl-dropbox'></i> `;
+
+
     const openForm = (numBtn) => {
-        // Mapeo de los números de botón a los IDs de los elementos
         const formDisplayMappings = {
-            1: "camiloUser",
-            2: "andresClients",
-            3: "jaimeProveedores",
-            4: "davidProductos",
+            1: { formId: "camiloUser", btnClass: "btn-usuarios" },
+            2: { formId: "andresClients", btnClass: "btn-clientes" },
+            3: { formId: "jaimeProveedores", btnClass: "btn-proveedores" },
+            4: { formId: "davidProductos", btnClass: "btn-productos" },
         };
 
-        // Esconde todos los formularios
-        Object.values(formDisplayMappings).forEach(id => {
-            document.getElementById(id).style.display = "none";
-            document.getElementById('user').innerHTML = `Administrador ${iconBox}`;
+        // Esconde todos los formularios y quita el estilo activo de todos los botones
+        Object.values(formDisplayMappings).forEach(({ formId, btnClass }) => {
+            document.getElementById(formId).style.display = "none";
+            document.querySelectorAll(`.btn-izq`).forEach(btn => btn.classList.remove('btn-activo'));
         });
 
-        // Si numBtn es 0, simplemente sal de la función para no mostrar ningún formulario
+        document.getElementById('user').innerHTML = `Administrador ${iconBox}`;
+
         if (numBtn === 0) {
             return;
         }
 
-        // Muestra solo el formulario correspondiente al botón presionado
-        const selectedFormId = formDisplayMappings[numBtn];
-        if (selectedFormId) {
-            document.getElementById(selectedFormId).style.display = "flex";
+        const { formId, btnClass } = formDisplayMappings[numBtn];
+        if (formId) {
+            document.getElementById(formId).style.display = "flex";
             document.getElementById('user').innerHTML = `Administrador ${iconClose}`;
+            // Aplica el estilo activo al botón presionado
+            document.querySelector(`.${btnClass}`).classList.add('btn-activo');
         }
     };
 
@@ -47,22 +51,22 @@ function Admi() {
                         <h2 id="user" onClick={() => openForm(0)} >Administrador <i className='bx bx-package'></i></h2>
                     </section>
                     <section>
-                        <button onClick={() => openForm(1)} className="btn-izq">
+                        <button onClick={() => openForm(1)} className="btn-izq btn-usuarios">
                             Usuarios
                         </button>
                     </section>
                     <section>
-                        <button onClick={() => openForm(2)} className="btn-izq">
+                        <button onClick={() => openForm(2)} className="btn-izq btn-clientes">
                             Clientes
                         </button>
                     </section>
                     <section>
-                        <button onClick={() => openForm(3)} className="btn-izq">
+                        <button onClick={() => openForm(3)} className="btn-izq btn-proveedores">
                             Proveedores
                         </button>
                     </section>
                     <section>
-                        <button onClick={() => openForm(4)} className="btn-izq">
+                        <button onClick={() => openForm(4)} className="btn-izq btn-productos">
                             Productos
                         </button>
                     </section>
@@ -71,13 +75,13 @@ function Admi() {
                 <section className="containerForms" >
                     {/*a qui cada uno importara la interfaz que le corresponde */}
                     <div id="camiloUser" className="boxForm">
-                        <Usuarios/>
+                        <Usuarios />
                     </div>
                     <div id="andresClients" className="boxForm">
-                        {/* formulario de andres */}
+                        <Clientes />
                     </div>
                     <div id="jaimeProveedores" className="boxForm">
-                        <Proveedores/>
+                        <Proveedores />
                     </div>
                     <div id="davidProductos" className="boxForm">
                         < Productos />

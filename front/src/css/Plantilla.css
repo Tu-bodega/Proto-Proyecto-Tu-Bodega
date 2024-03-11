@@ -52,6 +52,7 @@ header a {
 .bx-exit {
     margin-top: 5px;
     color: var(--iconos);
+    cursor: pointer;
 }
 
 .bx-exit:hover {
@@ -99,7 +100,6 @@ button {
     right: 20px;
     top: 25%;
     transform: translate(-50%);
-    cursor: pointer;
 }
 
 .caja{

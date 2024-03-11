@@ -9,6 +9,7 @@ import configDb from "./configuraciones/configDataBase.js";
 import rutaProductos from "./routes/rutaProductos.js";
 import rutaEmpleado from "./routes/rutaEmpleados.js";
 import rutaProveedores from "./routes/rutaProveedores.js";
+import rutaClientes from "./routes/rutaClientes.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get("/",(req,res)=>{
 
 app.use("/login", rutaEmpleado);
 app.use("/empleados", rutaEmpleado);
+app.use("/clientes", rutaClientes);
 app.use("/productos", rutaProductos);
 app.use("/proveedores", rutaProveedores);
 

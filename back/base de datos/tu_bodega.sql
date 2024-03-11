@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-03-2024 a las 15:25:52
+-- Tiempo de generación: 11-03-2024 a las 22:54:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -42,7 +42,13 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `nombre_cliente`, `apellido_cliente`, `documento_cliente`, `correo_cliente`, `telefono_cliente`, `direccion_cliente`) VALUES
-(1, 'Aurita', 'Niño', '1255789562', 'Aurita@gmail.com', '7226854', 'carrera 72 l Bis #44-55');
+(1, 'Aurita', 'Niño', '1255789562', 'Aurita@gmail.com', '7226854', 'carrera 72 l Bis #44-55'),
+(2, 'aura', 'niños', '1155789562', 'lurita@gmail.com', '7226852', 'carrera 72 l Bis #44-55'),
+(3, 'copo', 'castillo', '1233489852', 'copo@gmail.com', '76585121', 'calle falsa 123'),
+(4, 'carla', 'castaño', '1233489855', 'calra@gmail.com', '7110362', 'calle456'),
+(5, 'Carlos', 'huran', '587765489', 'carlo@gmail.com', '7605425', 'calle 754'),
+(6, 'pedro', 'sanchez', '157654892', 'piedra@gmail.com', '3148526587', 'calle123456'),
+(7, 'mariela', 'duque', '7651742451', 'mairela@gmail.com', '6614758', 'calle9000');
 
 -- --------------------------------------------------------
 
@@ -65,16 +71,23 @@ CREATE TABLE `empleados` (
 
 INSERT INTO `empleados` (`id`, `nombre_empleado`, `apellido_empleado`, `password_empleado`, `correo_empleado`, `rol_empleados_id`) VALUES
 (1, 'Camilo', 'Castillo', '$2a$08$tce9vXo3h8gfHAXCGDNTIeIK1r8NnIXpEgQ9jErTRSmEocpO5Z3sG', 'camil-code@gmail.com', 1),
-(2, 'Andres', 'Muños', '$2a$08$I1odbQ7zT/rsNnNebvDgm.B.qGX385gAjmCOnXmpMNQWz042vJiP6', 'andy@gmail.com', 2),
-(3, 'David', 'Garcia', '$2a$08$9jS8LW0jv3JFTmGbK68mM.qjmbBv2sJyT3oOgqWP4OwW76JYUcWm6', 'david@gmail.com', 2),
-(4, 'Jaime', 'Mendez', '$2a$08$C.ijyG7vZk21TracwB9jzOvKeE7AcfYPDQYEzROtbGPMvY/4PkFsW', 'jaime@gmail.com', 2),
+(2, 'Andres', 'Muños', '$2a$08$UFxG3V1oxa1FdAdlr90pfOkPzo8tAfQCVJMWokk4mqBf3UljhuGC.', 'andy@gmail.com', 2),
+(3, 'David', 'Garcia', '$2a$08$etVGOo/GuMX.LvvkuyG.i.phYPfcuALRsD0eamXNPLYL2Efkdcm1m', 'david@gmail.com', 2),
+(4, 'Jaime', 'Mendez', '$2a$08$KQ59rkyMz12fdOa86pNjBOT9QJ9F8jmW2Nc3a4tBRIzY1/JQFZqYS', 'jaime@gmail.com', 2),
 (6, 'raton', 'perro', '$2a$08$Us7l6lPnf3swwo6ltKQFt.fF5JQxuTWt67dIf0SlFz/ENSviQV.A2', 'perro@gmail.com', 2),
 (7, 'marco', 'zuleta', '$2a$08$LyZzmpo4.4hOj/4NZoChF.KlW/bZj.1cDMvFdCwIdHOB9RbfLRnhm', 'mark@gmail.com', 2),
 (8, 'raul', 'cespedes', '$2a$08$W7QA0p69uPoPYrZsjUWMk.SvZHdzQ00g92Z86zawRVgFfZY3AwlN6', 'reces@gmail.com', 2),
 (9, 'homero', 'simpson', '$2a$08$1.Q/pfXEq5XVJGpY7FKm9Ok9LHu1ezmqI7D8MEfDuN8KIec4xIXda', 'simpo@gmail.com', 2),
 (10, 'mario', 'lopez', '$2a$08$wqvXMz15EOPmbiAmWAOfv.v3B1gP/8xY8ATc2sjBRSZl4nAS77mHa', 'mario@gmail.com', 2),
 (11, 'susana', 'lopez', '$2a$08$0N0ssiBordOp9IOjQKrJEuQWOOYgwBLpoeG79EgANRinMvqfKoxGG', 'susa@gmail.com', 2),
-(12, 'yiyi', 'castro', '$2a$08$gj2a701l3aSCuyQ/clm2EuiSpzxjAtSq.mKVAN5ogGASO9KSAPgQ6', 'yiy@gmail.com', 2);
+(12, 'yiyi', 'castro', '$2a$08$gj2a701l3aSCuyQ/clm2EuiSpzxjAtSq.mKVAN5ogGASO9KSAPgQ6', 'yiy@gmail.com', 2),
+(13, 'copó', 'castillo', '$2a$08$G6XMTaXdG9HW6nuRcSnVzuCzqFmxUtG/IfQKcjk2HRsJz6fqhxDdO', 'copo@gmail.com', 2),
+(14, 'Stanly', 'march', '$2a$08$ulY5Fef5aLd3l5TYMMk8.Ozud/6vf2VFTFmPUsALzvHmPwJ2hwSUe', 'stanley@gmail.con', 2),
+(15, 'elza', 'pato', '$2a$08$IR9qnB85Niw5DJdpBizm8eMmVm5cpEMVWYUdjacqBteZqPtRyiGz.', 'elzapato@gmail.com', 2),
+(16, 'patricia', 'teran', '$2a$08$UvSHc6i0KtrONwUQEIHpIun6EjTQgY0cRgLTTxGudbXmrv22DAgUi', 'pato@gmail.com', 2),
+(17, 'raul', 'mesa', '$2a$08$qyuqyC52nMVjfRCtVoxHwufnQF8sNzMcXTtkz/I.ymHTWLnY4JOnu', 'raul@gmail.com', 2),
+(18, 'miriam', 'solano', '$2a$08$S2mR9misdZGHsj8poacz2.G1J.s4Debw532umiWc6BK3bhUOLfYFK', 'mir@gmail.com', 2),
+(19, 'lisa', 'simpson', '$2a$08$M.DAVz.m/HLPzQR8XNw1ye2BS6SdCWPVwW2NdIUc2qxI.EctIpooq', 'lisa@gmail.com', 2);
 
 -- --------------------------------------------------------
 
@@ -129,10 +142,14 @@ INSERT INTO `productos` (`id`, `nombre_producto`, `descripcion_producto`, `preci
 (2, 'POKER', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
 (3, 'AGUILA', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
 (4, 'TEKATE', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
-(5, 'CORONA', 'CERVEZA', 2500, 4000, 30, '2024-02-27', 1, 1),
-(6, 'PILSEN', 'CERVEZA', 3000, 4500, 20, '2024-02-27', 1, 1),
-(7, 'CLUB COLOMBIA', 'CERVEZA', 3000, 4500, 20, '2024-02-27', 1, 1),
-(8, 'Aguardiente', 'bebida alcoholica', 30000, 38450, 10, '2024-02-26', 1, 1);
+(9, 'CLUB COLOMBIA', 'Cerveza nacional', 2500, 3500, 30, '2024-03-09', 1, 1),
+(10, 'BBC', 'Cerveza nacional', 2500, 3500, 30, '2024-03-09', 1, 1),
+(11, 'CORONA', 'Cerveza internacional', 2500, 3500, 30, '2024-03-09', 1, 1),
+(12, 'Chocolatina', 'Chocolates nacionales', 2500, 3500, 300, '2024-03-09', 3, 2),
+(13, 'Pirulito', 'Dulses nacionales', 2500, 3500, 300, '2024-03-09', 3, 2),
+(14, 'Nucita', 'Dulses nacionales', 500, 3500, 30, '2024-03-09', 4, 2),
+(15, 'quipitos', 'dulses', 500, 3500, 30, '2024-03-09', 3, 2),
+(16, 'cigarillos dulses', 'dulses', 200, 500, 300, '2024-03-09', 3, 2);
 
 -- --------------------------------------------------------
 
@@ -154,8 +171,9 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`id`, `nit_proveedor`, `nombre_proveedor`, `correo_proveedor`, `direccion_proveedor`, `telefono_proveedor`) VALUES
-(1, '860005224', 'Bavaria S.A', 'bavaria@dte.paperless.com.co', 'Carrera 53A # 127-35', '(601) 743 12 24'),
-(2, '8903018845', 'Colombina S.A', 'nmunoz@colombina.com', 'Carrera 36 # 17 B 54', '	(601) 8773000');
+(1, '860005224', 'Bavaria S.A', 'bavaria@dte.paperless.com.co', 'Carrera 53A # 127-35', '6017431224'),
+(2, '8903018845', 'Colombina S.A', 'nmunoz@colombina.com', 'Carrera 36 # 17 B 54', '6018773000'),
+(3, '12345678363', 'ponqui', 'ponki@gmail.com', 'carrera 45', '765812');
 
 -- --------------------------------------------------------
 
@@ -296,13 +314,13 @@ ALTER TABLE `unidades_medida`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `facturas`
@@ -320,13 +338,13 @@ ALTER TABLE `facturas_vs_productos`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `rol_empleados`

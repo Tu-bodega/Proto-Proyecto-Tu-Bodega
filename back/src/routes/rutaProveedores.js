@@ -92,7 +92,6 @@ rutaProveedores.get("/leer", (req, res) => {
                 return res.status(400).json({ err: 'Tabla no encontrada' });
             }
             res.send(lineas);
-            console.log('consulta exitosa status 200');
         });
     });
 });
@@ -103,7 +102,7 @@ rutaProveedores.get("/leer", (req, res) => {
  *   post:
  *     summary: Crea un nuevo proveedor
  *     tags: [Proveedores]
- *     description: Agrega un nuevo proveedor a la base de datos.
+ *     description: Agrega un nuevo proveedor a la base de datos, asegurándose de que el NIT, correo, dirección y teléfono sean únicos.
  *     requestBody:
  *       required: true
  *       content:
@@ -113,19 +112,19 @@ rutaProveedores.get("/leer", (req, res) => {
  *             properties:
  *               nit:
  *                 type: string
- *                 description: El NIT del proveedor.
+ *                 description: NIT del proveedor, debe ser único.
  *               nombre:
  *                 type: string
- *                 description: El nombre del proveedor.
+ *                 description: Nombre del proveedor.
  *               correo:
  *                 type: string
- *                 description: El correo electrónico del proveedor.
+ *                 description: Correo electrónico del proveedor, debe ser único.
  *               direccion:
  *                 type: string
- *                 description: La dirección del proveedor.
+ *                 description: Dirección del proveedor, debe ser única.
  *               telefono:
  *                 type: string
- *                 description: El teléfono del proveedor.
+ *                 description: Teléfono del proveedor, debe ser único.
  *             required:
  *               - nit
  *               - nombre
@@ -133,8 +132,8 @@ rutaProveedores.get("/leer", (req, res) => {
  *               - direccion
  *               - telefono
  *             example:
- *               nit: "900123456-7"
- *               nombre: "Proveedor S.A."
+ *               nit: "123456789"
+ *               nombre: "Proveedor SA"
  *               correo: "contacto@proveedorsa.com"
  *               direccion: "Calle 123 #45-67"
  *               telefono: "3216549870"
@@ -148,9 +147,9 @@ rutaProveedores.get("/leer", (req, res) => {
  *               properties:
  *                 mensaje:
  *                   type: string
- *                   example: Proveedor agregado exitosamente
+ *                   example: Proveedor agregado exitosamente.
  *       400:
- *         description: Tabla no encontrada o error en la consulta.
+ *         description: Error en la consulta o datos de entrada inválidos.
  *         content:
  *           application/json:
  *             schema:
@@ -158,7 +157,17 @@ rutaProveedores.get("/leer", (req, res) => {
  *               properties:
  *                 error:
  *                   type: string
- *                   example: Tabla no encontrada o error en la consulta
+ *                   example: Error en la consulta o datos de entrada inválidos.
+ *       409:
+ *         description: Conflicto, el NIT, correo, dirección o teléfono ya están registrados.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   example: El NIT/correo/dirección/teléfono ya está registrado.
  *       500:
  *         description: Fallo conexión con el servidor.
  *         content:
@@ -168,36 +177,60 @@ rutaProveedores.get("/leer", (req, res) => {
  *               properties:
  *                 error:
  *                   type: string
- *                   example: Fallo conexión con el servidor
+ *                   example: Fallo conexión con el servidor.
  */
 
 
 rutaProveedores.post("/crear", (req, res) => {
-    const consulta = 'nit_proveedor, nombre_proveedor, correo_proveedor, direccion_proveedor,telefono_proveedor';
+    const consulta = 'nit_proveedor, nombre_proveedor, correo_proveedor, direccion_proveedor, telefono_proveedor';
 
     const nit = String(req.body.nit);
-    const nombre = String(req.body.nombre);
-    const correo = String(req.body.correo);
-    const direccion = String(req.body.direccion);
-    const telefono = String(req.body.telefono);
-
-    // Aquí podrías añadir validaciones para los datos recibidos
+    const nombre = String(req.body.nombre).trim();
+    const correo = String(req.body.correo).trim();
+    const direccion = String(req.body.direccion).trim();
+    const telefono = String(req.body.telefono).replace(/\s+/g, '');
 
     req.getConnection((error, conexion) => {
         if (error) {
             return res.status(500).json({ error: 'Fallo conexión con el servidor' });
         }
-        conexion.query(`INSERT INTO proveedores(${consulta}) VALUES (?, ?, ?, ?, ?)`,
-            [nit, nombre, correo, direccion, telefono],
-            (err, resultado) => {
-                if (err) {
-                    return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
-                }
-                res.status(200).json({ mensaje: 'Proveedor agregado exitosamente' });
 
+        // Verificar si el NIT ya está registrado
+        conexion.query("SELECT * FROM proveedores WHERE nit_proveedor = ?", [nit], (err, resultados) => {
+            if (err) return res.status(400).json({ error: 'Nit ya registrado' });
+            if (resultados.length > 0) return res.status(409).json({ mensaje: 'El NIT ya está registrado.' });
+
+            // Verificar si el correo ya está registrado
+            conexion.query("SELECT * FROM proveedores WHERE correo_proveedor = ?", [correo], (err, resultados) => {
+                if (err) return res.status(400).json({ error: 'Correo ya registrado' });
+                if (resultados.length > 0) return res.status(409).json({ mensaje: 'El correo ya está registrado.' });
+
+                // Verificar si la dirección ya está registrada
+                conexion.query("SELECT * FROM proveedores WHERE direccion_proveedor = ?", [direccion], (err, resultados) => {
+                    if (err) return res.status(400).json({ error: 'Direccion ya registrado' });
+                    if (resultados.length > 0) return res.status(409).json({ mensaje: 'La dirección ya está registrada.' });
+
+                    // Verificar si el teléfono ya está registrado
+                    conexion.query("SELECT * FROM proveedores WHERE telefono_proveedor = ?", [telefono], (err, resultados) => {
+                        if (err) return res.status(400).json({ error: 'Telefono ya registrado' });
+                        if (resultados.length > 0) return res.status(409).json({ mensaje: 'El teléfono ya está registrado.' });
+
+                        // Si pasa todas las verificaciones, insertar el nuevo proveedor
+                        conexion.query(`INSERT INTO proveedores(${consulta}) VALUES (?, ?, ?, ?, ?)`,
+                            [nit, nombre, correo, direccion, telefono],
+                            (err, resultado) => {
+                                if (err) {
+                                    return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
+                                }
+                                res.status(200).json({ mensaje: 'Proveedor agregado exitosamente' });
+                            });
+                    });
+                });
             });
+        });
     });
 });
+
 
 /**
  * @swagger
@@ -292,11 +325,11 @@ rutaProveedores.put("/actualizar", (req, res) => {
     const consultaActualizar = 'nit_proveedor = ?, nombre_proveedor = ?, correo_proveedor = ?, direccion_proveedor = ?, telefono_proveedor = ?';
     const id = req.body.id; // El ID del proveedor que quieres actualizar
 
-    const nit = String(req.body.nit);
-    const nombre = String(req.body.nombre);
-    const correo = String(req.body.correo);
-    const direccion = String(req.body.direccion);
-    const telefono = String(req.body.telefono);
+    const nit = String(req.body.nit).trim();
+    const nombre = String(req.body.nombre).trim();
+    const correo = String(req.body.correo).trim();
+    const direccion = String(req.body.direccion).trim();
+    const telefono = String(req.body.telefono).replace(/\s+/g, '');
 
     // Aquí podrías añadir validaciones para los datos recibidos
 
@@ -321,7 +354,7 @@ rutaProveedores.put("/actualizar", (req, res) => {
 
 /**
  * @swagger
- * /proveedores/eliminar:
+ * /proveedores/eliminar/{id}:
  *   delete:
  *     summary: Elimina un proveedor existente
  *     tags: [Proveedores]

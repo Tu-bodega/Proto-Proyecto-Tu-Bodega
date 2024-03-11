@@ -1,4 +1,4 @@
-.boxProveedores {
+.boxClientes {
     height: 98%;
     width: 98%;
     border-radius: 10px;
@@ -9,27 +9,27 @@
 }
 
 /* barra de navegacion*/
-.navProveedores {
+.navClientes {
     height: 50px;
     width: 100%;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
 }
-.navProveedores button{
+.navClientes button{
     height: 100%;
     width:  49.5%;
     border-radius: 10px;
 }
 
-.moduleProveedores {
+.moduleClientes {
     height: 86%;
     width: 100%;
     border-radius: 10px;
     background-color: var(--container);
 }
 
-.proveedoresCreate {
+.clientesCreate {
     height: 100%;
     width: 100%;
     background-color: white;
@@ -37,30 +37,15 @@
     border-radius: 10px;
 }
 
-.proveedoresRead {
+.clientesRead {
     height: 100%;
     width: 100%;
     background-color: rgb(250, 250, 250);
     display: none;
     border-radius: 10px;
 }
-.containerProductos{
-    background-color: white;
-    width: 100%;
-    height: 100%;
-}
 
-.proveedoresAgregar{
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-    border-radius: 10px;
-    height: 100%;
-    width: 100%;
-}
-
-
-.mensajeProveedores{
+.mensajeCorreo{
     font-size: 12px;
     padding-left: 10px;
     display: none;

@@ -82,10 +82,40 @@ import express from "express";
  *                   direccion_cliente:
  *                     type: string
  *                     description: La dirección del cliente.
+ *                 required:
+ *                     - nombre
+ *                     - apellido
+ *                     - documento
+ *                     - correo
+ *                     - telefono
+ *                     - direccion
+ *                 example:
+ *                     nombre: "Carlos"
+ *                     apellido: "Monsalve"
+ *                     documento: 1234567890
+ *                     correo: "carlo@proveedorsa.com"
+ *                     telefono: 3216549870
+ *                     direccion: "Calle 123 #45-67"
  *       400:
- *         description: Tabla no encontrada o error en la consulta.
+ *         description: Error en la consulta.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error en la consulta
  *       500:
- *         description: Error en conexión con la base de datos.
+ *         description: Fallo conexión con el servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Fallo conexión con el servidor
  */
 
 const rutaClientes = express.Router();
@@ -97,10 +127,9 @@ rutaClientes.get("/leer", (req, res) => {
         }
         conexion.query("SELECT * FROM clientes", (err, lineas) => {
             if (err) {
-                return res.status(400).json({ err: 'Tabla no encontrada' });
+                return res.status(400).json({ err: 'Error en la consulta' });
             }
             res.send(lineas);
-            console.log('consulta exitosa status 200');
         });
     });
 });
@@ -111,7 +140,7 @@ rutaClientes.get("/leer", (req, res) => {
  *   post:
  *     summary: Crea un nuevo cliente
  *     tags: [clientes]
- *     description: Agrega un nuevo cliente a la base de datos.
+ *     description: Agrega un nuevo cliente a la base de datos, verificando que el correo, documento y teléfono no estén ya registrados.
  *     requestBody:
  *       required: true
  *       content:
@@ -145,14 +174,15 @@ rutaClientes.get("/leer", (req, res) => {
  *               - telefono
  *               - direccion
  *             example:
- *               nombre: "carlos"
- *               apellido: "monsalve"
+ *               nombre: "Carlos"
+ *               apellido: "Monsalve"
+ *               documento: 1234567890
  *               correo: "carlo@proveedorsa.com"
- *               telefono: "3216549870"
+ *               telefono: 3216549870
  *               direccion: "Calle 123 #45-67"
  *     responses:
  *       200:
- *         description: cliente agregado exitosamente.
+ *         description: Cliente agregado exitosamente.
  *         content:
  *           application/json:
  *             schema:
@@ -160,9 +190,9 @@ rutaClientes.get("/leer", (req, res) => {
  *               properties:
  *                 mensaje:
  *                   type: string
- *                   example: cliente agregado exitosamente
+ *                   example: Cliente agregado exitosamente
  *       400:
- *         description: Tabla no encontrada o error en la consulta.
+ *         description: Error en la consulta.
  *         content:
  *           application/json:
  *             schema:
@@ -170,7 +200,17 @@ rutaClientes.get("/leer", (req, res) => {
  *               properties:
  *                 error:
  *                   type: string
- *                   example: Tabla no encontrada o error en la consulta
+ *                   example: Error en la consulta
+ *       409:
+ *         description: Datos de cliente ya registrados (correo, documento, o teléfono).
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   example: El correo/documento/teléfono ya está registrado. Por favor, use otro.
  *       500:
  *         description: Fallo conexión con el servidor.
  *         content:
@@ -183,34 +223,53 @@ rutaClientes.get("/leer", (req, res) => {
  *                   example: Fallo conexión con el servidor
  */
 
+
 rutaClientes.post("/crear", (req, res) => {
-    const consulta = 'nombre_cliente, apellido_cliente, documente_cliente, correo_cliente, telefono_cliente, direccion_cliente';
-
-    const nombre = String(req.body.nombre);
-    const apellido = String(req.body.apellido);
-    const documento = String(req.body.documento);
+    const consulta = 'nombre_cliente, apellido_cliente, documento_cliente, correo_cliente, telefono_cliente, direccion_cliente';
+    const nombre = String(req.body.nombre).trim();
+    const apellido = String(req.body.apellido).trim();
+    const documento = String(req.body.documento).trim();
     const correo = String(req.body.correo);
-    const telefono = String(req.body.telefono);
-    const direccion = String(req.body.direccion);
-    
-
-    // Aquí podrías añadir validaciones para los datos recibidos
+    const telefono = String(req.body.telefono).replace(/\s+/g, '');
+    const direccion = String(req.body.direccion).trim();
 
     req.getConnection((error, conexion) => {
-        if (error) {
-            return res.status(500).json({ error: 'Fallo conexión con el servidor' });
-        }
-        conexion.query(`INSERT INTO clientes (${consulta}) VALUES (?, ?, ?, ?, ?)`,
-            [nombre, apellido, documento, correo, telefono, direccion],
-            (err, resultado) => {
-                if (err) {
-                    return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
-                }
-                res.status(200).json({ mensaje: 'Cliente agregado exitosamente' });
+        if (error) return res.status(500).json({ error: 'Fallo conexión con el servidor' });
 
+        // Verificar si el correo ya está registrado
+        conexion.query("SELECT * FROM clientes WHERE correo_cliente = ?", [correo], (err, respuestaCorreo) => {
+            if (err) return res.status(400).json({ err: "error en la consulta" });
+            if (respuestaCorreo.length > 0) {
+                return res.status(409).json({ mensaje: 'El correo ya está registrado. Por favor, use otro correo.' });
+            }
+
+            // Verificar si el documento ya está registrado
+            conexion.query("SELECT * FROM clientes WHERE documento_cliente = ?", [documento], (err, respuestaDocumento) => {
+                if (err) return res.status(400).json({ err: "error en la consulta" });
+                if (respuestaDocumento.length > 0) {
+                    return res.status(409).json({ mensaje: 'El documento ya está registrado.' });
+                }
+
+                // Verificar si el teléfono ya está registrado
+                conexion.query("SELECT * FROM clientes WHERE telefono_cliente = ?", [telefono], (err, respuestaTelefono) => {
+                    if (err) return res.status(400).json({ err: "error en la consulta" });
+                    if (respuestaTelefono.length > 0) {
+                        return res.status(409).json({ mensaje: 'El teléfono ya está registrado. Por favor, use otro teléfono.' });
+                    }
+
+                    // Si pasa todas las verificaciones, insertar el nuevo cliente
+                    conexion.query(`INSERT INTO clientes (${consulta}) VALUES (?, ?, ?, ?, ?, ?)`,
+                        [nombre, apellido, documento, correo, telefono, direccion],
+                        (er, resultado) => {
+                            if (er) return res.status(400).json({ er: 'Tabla no encontrada o error en la consulta' });
+                            res.status(200).json({ mensaje: 'Cliente agregado exitosamente' });
+                        });
+                });
             });
+        });
     });
 });
+
 
 /**
  * @swagger
@@ -316,7 +375,7 @@ rutaClientes.put("/actualizar", (req, res) => {
     const correo = String(req.body.correo);
     const telefono = String(req.body.telefono);
     const direccion = String(req.body.direccion);
-    
+
 
     // Aquí podrías añadir validaciones para los datos recibidos
 
@@ -340,7 +399,7 @@ rutaClientes.put("/actualizar", (req, res) => {
 
 /**
  * @swagger
- * /clientes/eliminar:
+ * /clientes/eliminar/{id}:
  *   delete:
  *     summary: Elimina un cliente existente
  *     tags: [clientes]

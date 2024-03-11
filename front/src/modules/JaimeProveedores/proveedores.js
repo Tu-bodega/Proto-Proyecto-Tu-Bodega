@@ -24,10 +24,10 @@ function Proveedores() {
                 <button onClick={() => { open(2) }} >Lista de Proveedores</button>
             </nav>
             <section className='moduleProveedores'>
-                <div id='createProveedores'className='ProveedoresCreate'>
+                <div id='createProveedores'className='proveedoresCreate'>
                     <CrearProveedores/>
                 </div>
-                <div id='readProveedores'className='ProveedoresRead'>
+                <div id='readProveedores'className='proveedoresRead'>
                     
                 </div>
             </section>

@@ -72,13 +72,13 @@ function CrearProductos() {
                         <div className="input-group mb-3">
                             <span className="input-group-text">descripcion:</span>
                             <input value={descripcion} id="descripcionInput" onChange={(event) => { setDescripcion(event.target.value) }} type="text"
-                                className="form-control" placeholder="descripcion" required>
+                                className="form-control" placeholder="Descripcion" required>
                             </input>
                         </div>
                         <div className="input-group mb-3">
                             <span className="input-group-text">Precio de compra:</span>
                             <input value={precioC} id="precioCompraInput" onChange={(event) => { setPrecioC(event.target.value) }} type="number"
-                                className="form-control" placeholder="precio Compra" required>
+                                className="form-control" placeholder="Precio Compra" required>
                             </input>
                         </div>
                         <div className="input-group mb-3">
@@ -96,7 +96,7 @@ function CrearProductos() {
                         <div className="input-group mb-3">
                             <span className="input-group-text">unidades:</span>
                             <input value={unidades} id="unidadesInput" onChange={(event) => { setUnidades(event.target.value) }} type="number"
-                                className="form-control" placeholder="unidades" required>
+                                className="form-control" placeholder="Unidades" required>
                             </input>
                         </div>
                         <div className="input-group mb-3">
@@ -108,7 +108,7 @@ function CrearProductos() {
                         <div className="input-group mb-3">
                             <span className="input-group-text">Precio de venta:</span>
                             <input value={precioV} id="precioVentaInput" onChange={(event) => { setPrecioV(event.target.value) }} type="number"
-                                className="form-control" placeholder="precio Venta" required>
+                                className="form-control" placeholder="Precio Venta" required>
                             </input>
                         </div>
                         <div className="input-group mb-3">
@@ -122,7 +122,7 @@ function CrearProductos() {
                     </div>
                 </div>
                 <div className='contenedorBtnP'>
-                    <button className='btnRegistrar' type='submit'>Registrar Producto</button>
+                    <button className='btn btn-success' type='submit'>Registrar Producto</button>
                 </div>
             </form>
 
