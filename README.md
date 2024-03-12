@@ -32,10 +32,6 @@
 
 ------------
 <h2></h2>
-<h3>Tambien visita</h3>
-
-
-<h2></h2>
 <p><h2>Contacto</h2>Si tienes preguntas o necesitas más información, no dudes en contactarnos:</p>
 <a href="https://github.com/Camil-Coder">Camil-Coder: Lider de proyecto😎</a><br>
 <a href="https://github.com/BlackCode100">David Ortega, desarrollador</a>
