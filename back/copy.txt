@@ -1,9 +1,0 @@
-rutaEmpleado.put("actualizar",async(req,res)=>{
-    const nombre = String(req.body.nombre);
-    const apellido = String(req.body.apellido);
-    const contra = String(req.body.contra);
-    const correo = String(req.body.correo);
-    const rol = parseInt(req.body.rol);
-    
-    
-});
