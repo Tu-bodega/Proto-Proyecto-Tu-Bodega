@@ -15,7 +15,7 @@
 </p>
 <h2>Características</h2>
 
--Control de Stock: Facilita un seguimiento preciso de inventario, con datos de cantidades, ubicaciones y condición de artículos
+- Control de Stock: Facilita un seguimiento preciso de inventario, con datos de cantidades, ubicaciones y condición de artículos
 
 
 
