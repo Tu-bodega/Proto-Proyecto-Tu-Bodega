@@ -8,14 +8,14 @@
 		<img  src="https://i.imgur.com/KePtaHj.jpeg"   />
 </p>
 <p>
-	Este proyecto de software está diseñado para gestionar eficientemente inventarios y operaciones contables. Su principal objetivo es facilitar el registro y seguimiento de inventarios, permitir la generación de balances contables y servir como una herramienta útil en procesos de auditoría. Es ideal para pequeñas y medianas empresas que buscan optimizar sus operaciones financieras y de inventario.
+	Este proyecto de software está especialmente diseñado para optimizar la gestión de stock en almacenes, enfocándose exclusivamente en la entrada y salida de productos. Su principal objetivo es simplificar el registro y seguimiento de inventarios, asegurando una administración eficaz del flujo de productos. Al no involucrar procesos contables, se convierte en una herramienta ágil y dedicada para aquellos negocios, pequeñas y medianas empresas que buscan mejorar la eficiencia en la gestión de sus inventarios, sin la complejidad de las operaciones financieras. Es la solución perfecta para optimizar el control de stock y facilitar la operación diaria de almacenes.
 </p>
 <p>
 		<img  src="https://i.imgur.com/N6uZLTp.png"   />
 </p>
 <h2>Características</h2>
 
-- Registro de Inventarios: Permite a los usuarios mantener un registro detallado de los productos en inventario, incluyendo cantidades, ubicaciones y estado.
+-Control de Stock: Facilita un seguimiento preciso de inventario, con datos de cantidades, ubicaciones y condición de artículos
 
 
 
@@ -28,7 +28,7 @@
 ------------
 
 
-- Seguridad de Datos: Asegura la integridad y confidencialidad de la información financiera y de inventarios.
+- Seguridad de Datos: Asegura la integridad y confidencialidad de la información de inventarios.
 
 ------------
 <h2></h2>
@@ -38,5 +38,5 @@
 <h2></h2>
 <p><h2>Contacto</h2>Si tienes preguntas o necesitas más información, no dudes en contactarnos:</p>
 <a href="https://github.com/Camil-Coder">Camil-Coder: Lider de proyecto😎</a><br>
-<a href="https://github.com/Andy2691">Andy, desarrollador</a>
+<a href="https://github.com/BlackCode100">David Ortega, desarrollador</a>
 <h2></h2>
