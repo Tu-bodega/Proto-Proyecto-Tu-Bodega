@@ -184,50 +184,26 @@ rutaProveedores.get("/leer", (req, res) => {
 rutaProveedores.post("/crear", (req, res) => {
     const consulta = 'nit_proveedor, nombre_proveedor, correo_proveedor, direccion_proveedor, telefono_proveedor';
 
-    const nit = String(req.body.nit);
-    const nombre = String(req.body.nombre).trim();
-    const correo = String(req.body.correo).trim();
-    const direccion = String(req.body.direccion).trim();
-    const telefono = String(req.body.telefono).replace(/\s+/g, '');
+    const nit = req.body.nit;
+    const nombre = req.body.nombre;
+    const correo = req.body.correo;
+    const direccion = req.body.direccion;
+    const telefono = req.body.telefono;
+
+    // Aquí podrías añadir validaciones para los datos recibidos
 
     req.getConnection((error, conexion) => {
         if (error) {
             return res.status(500).json({ error: 'Fallo conexión con el servidor' });
         }
-
-        // Verificar si el NIT ya está registrado
-        conexion.query("SELECT * FROM proveedores WHERE nit_proveedor = ?", [nit], (err, resultados) => {
-            if (err) return res.status(400).json({ error: 'Nit ya registrado' });
-            if (resultados.length > 0) return res.status(409).json({ mensaje: 'El NIT ya está registrado.' });
-
-            // Verificar si el correo ya está registrado
-            conexion.query("SELECT * FROM proveedores WHERE correo_proveedor = ?", [correo], (err, resultados) => {
-                if (err) return res.status(400).json({ error: 'Correo ya registrado' });
-                if (resultados.length > 0) return res.status(409).json({ mensaje: 'El correo ya está registrado.' });
-
-                // Verificar si la dirección ya está registrada
-                conexion.query("SELECT * FROM proveedores WHERE direccion_proveedor = ?", [direccion], (err, resultados) => {
-                    if (err) return res.status(400).json({ error: 'Direccion ya registrado' });
-                    if (resultados.length > 0) return res.status(409).json({ mensaje: 'La dirección ya está registrada.' });
-
-                    // Verificar si el teléfono ya está registrado
-                    conexion.query("SELECT * FROM proveedores WHERE telefono_proveedor = ?", [telefono], (err, resultados) => {
-                        if (err) return res.status(400).json({ error: 'Telefono ya registrado' });
-                        if (resultados.length > 0) return res.status(409).json({ mensaje: 'El teléfono ya está registrado.' });
-
-                        // Si pasa todas las verificaciones, insertar el nuevo proveedor
-                        conexion.query(`INSERT INTO proveedores(${consulta}) VALUES (?, ?, ?, ?, ?)`,
-                            [nit, nombre, correo, direccion, telefono],
-                            (err, resultado) => {
-                                if (err) {
-                                    return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
-                                }
-                                res.status(200).json({ mensaje: 'Proveedor agregado exitosamente' });
-                            });
-                    });
-                });
+        conexion.query(`INSERT INTO proveedores (${consulta}) VALUES (?, ?, ?, ?, ?)`,
+            [nit, nombre, correo, direccion, telefono],
+            (err, resultado) => {
+                if (err) {
+                    return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
+                }
+                res.status(200).json({ mensaje: 'Proveedor agregado exitosamente', id: resultado.insertId });
             });
-        });
     });
 });
 
@@ -322,35 +298,28 @@ rutaProveedores.post("/crear", (req, res) => {
  */
 
 rutaProveedores.put("/actualizar", (req, res) => {
-    const consultaActualizar = 'nit_proveedor = ?, nombre_proveedor = ?, correo_proveedor = ?, direccion_proveedor = ?, telefono_proveedor = ?';
-    const id = req.body.id; // El ID del proveedor que quieres actualizar
+    
+    const id = parseInt(req.body.id);
+    const nit = req.body.nit;
+    const nombre = req.body.nombre;
+    const correo = req.body.correo;
+    const direccion = req.body.direccion;
+    const telefono = req.body.telefono;
+    const consult = `UPDATE proveedores SET nit_proveedor=?, nombre_proveedor=?,
+    correo_proveedor=?, direccion_proveedor=?, telefono_proveedor=? WHERE id=?`;
 
-    const nit = String(req.body.nit).trim();
-    const nombre = String(req.body.nombre).trim();
-    const correo = String(req.body.correo).trim();
-    const direccion = String(req.body.direccion).trim();
-    const telefono = String(req.body.telefono).replace(/\s+/g, '');
-
-    // Aquí podrías añadir validaciones para los datos recibidos
-
-    req.getConnection((error, conexion) => {
-        if (error) {
-            return res.status(500).json({ error: 'Fallo conexión con el servidor' });
+    req.getConnection((error, conexion)=>{
+        if(error){
+            return res.status(500).json({error: 'Fallo conexión con el servidor'});
         }
-        conexion.query(`UPDATE proveedores SET ${consultaActualizar} WHERE id_proveedor = ?`,
-            [nit, nombre, correo, direccion, telefono, id],
-            (err, resultado) => {
-                if (err) {
-                    return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
-                }
-                if (resultado.affectedRows === 0) {
-                    return res.status(404).json({ mensaje: 'Proveedor no encontrado' });
-                }
-                res.status(200).json({ mensaje: 'Proveedor actualizado exitosamente' });
-            });
-    });
-});
-
+        conexion.query(consult,[nit, nombre, correo, direccion, telefono, id],(err,datos)=>{
+            if(err){
+                return res.status(400).json({err:'Tabla no encontrada o error en la consulta'});
+            }
+            res.status(200).json({mensaje: 'Proveedor actualizado exitosamente'})
+        })
+    })
+})
 
 /**
  * @swagger
@@ -421,7 +390,7 @@ rutaProveedores.delete("/eliminar/:id", (req, res) => {
         if (error) {
             return res.status(500).json({ error: 'Fallo conexión con el servidor' });
         }
-        conexion.query(`DELETE FROM proveedores WHERE id_proveedor = ?`, [id], (err, resultado) => {
+        conexion.query(`DELETE FROM proveedores WHERE id = ?`, [id], (err, resultado) => {
             if (err) {
                 return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
             }

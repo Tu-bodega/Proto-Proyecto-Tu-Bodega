@@ -78,7 +78,6 @@ function ListaProductos() {
         setFecha("");
         setUnidadMedida("");
         setProveedor("");
-        setId("");
     };
 
     const leerProductos = () => {
