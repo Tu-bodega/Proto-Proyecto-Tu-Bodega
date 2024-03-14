@@ -16,8 +16,8 @@ function FormLogin() {
 
     const logear = (evento) => {
         let interfazUser = '/Admi'; 
-        if(rol == 2){
-            interfazUser = '/Caja'
+        if(rol === 2){
+            interfazUser = '/Almacenista'
         }
         evento.preventDefault();
         Axios.post("http://localhost:3001/login/validar", {
@@ -67,7 +67,7 @@ function FormLogin() {
                         onChange={(event) => { setRol(event.target.value); }}>
                         <option value="" hidden>Seleccione su rol</option>
                         <option value="1">Administrador</option>
-                        <option value="2">Cajero</option>
+                        <option value="2">Almacenista</option>
                     </select>
                     <i className="bx bxs-user-account" />
                 </section>

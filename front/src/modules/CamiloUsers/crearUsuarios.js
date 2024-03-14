@@ -135,7 +135,7 @@ function CrearUsuario() {
                     >
                         <option value="" hidden>Seleccione su rol</option>
                         <option value="1">Administrador</option>
-                        <option value="2">Cajero</option>
+                        <option value="2">Almacenista</option>
                     </select>
                 </div>
                 <button className="btn btn-success" type="submit">Agregar</button>

@@ -28,7 +28,7 @@ const rutaEmpleado = express.Router();
 *                    description: correo empleado
 *                rol_empleados_id:
 *                    type: integer
-*                    description: llave foranea con tabla rol_empleados 1 para administrador 2 para cajero
+*                    description: llave foranea con tabla rol_empleados 1 para administrador 2 para almacenista
 *            required:
 *                -   nombre_empleado
 *                -   apellido_empleado
@@ -74,7 +74,7 @@ const rutaEmpleado = express.Router();
  *                     description: El correo electrónico del empleado.
  *                   cargo:
  *                     type: string
- *                     description: El cargo del empleado en la empresa.
+ *                     description: El cargo del empleado.
  *       400:
  *         description: Tabla no encontrada o error en la consulta.
  *       500:

@@ -5,7 +5,7 @@ import Productos from "../DavidProductos/productos.js";
 import Proveedores from "../JaimeProveedores/proveedores.js";
 import Clientes from "../Clientes/clientes.js";
 
-function Admi() {
+function Almacenista() {
     const iconBox = `<i class='bx bx-package'></i> `;
     const iconClose = `<i class='bx bxl-dropbox'></i> `;
 
@@ -23,7 +23,7 @@ function Admi() {
             document.querySelectorAll(`.btn-izq`).forEach(btn => btn.classList.remove('btn-activo'));
         });
 
-        document.getElementById('user').innerHTML = `Administrador ${iconBox}`;
+        document.getElementById('user').innerHTML = `Almacenista ${iconBox}`;
 
         if (numBtn === 0) {
             return;
@@ -32,7 +32,7 @@ function Admi() {
         const { formId, btnClass } = formDisplayMappings[numBtn];
         if (formId) {
             document.getElementById(formId).style.display = "flex";
-            document.getElementById('user').innerHTML = `Administrador ${iconClose}`;
+            document.getElementById('user').innerHTML = `Almacenista ${iconClose}`;
             // Aplica el estilo activo al botón presionado
             document.querySelector(`.${btnClass}`).classList.add('btn-activo');
         }
@@ -46,7 +46,7 @@ function Admi() {
                 {/* contenedor Aside lado izquierdo */}
                 <aside >
                     <section className="nombreUsuario" >
-                        <h2 id="user" onClick={() => openForm(0)} >Administrador <i className='bx bx-package'></i></h2>
+                        <h2 id="user" onClick={() => openForm(0)} >Almacenista <i className='bx bx-package'></i></h2>
                     </section>
                     <section>
                         <button onClick={() => openForm(1)} className="btn-izq btn-clientes">
@@ -82,4 +82,4 @@ function Admi() {
     )
 }
 
-export default Admi;
+export default Almacenista;

@@ -1,6 +1,17 @@
 import express from "express";
+import multer from "multer";
 
 const rutaProductos = express.Router();
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'uploads/');// Configura Multer para guardar archivos subidos en el directorio 'uploads/'
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);// Genera un nombre de archivo único agregando un timestamp al nombre original
+    }
+});
+const upload = multer({ storage: storage });
+
 
 /** 
 @swagger
@@ -55,7 +66,6 @@ const rutaProductos = express.Router();
 *                unidades_medida_id: 1
 *                proveedores_id: 1
 */
-
 
 /**
 @swagger
@@ -123,16 +133,22 @@ const rutaProductos = express.Router();
 *                   description: Mensaje indicando falla de conexión con el servidor.
 */
 
-
-
 rutaProductos.get("/leer", (req, res) => {
     req.getConnection((error, conexion) => {
         if (error) {
             return res.status(500).json({ error: 'fallo conexion con el servidor' });
         }
-        conexion.query("SELECT * FROM productos", (err, lineas) => {
+        // Incluye un INNER JOIN para obtener el nombre de la unidad de medida
+        const sqlQuery = `
+            SELECT p.*, u.nombre_unidaded_medida, np.nombre_proveedor
+            FROM productos p
+            INNER JOIN 
+            unidades_medida u ON p.unidades_medida_id  = u.id
+            INNER JOIN
+            proveedores np ON p.proveedores_id = np.id`;
+        conexion.query(sqlQuery, (err, lineas) => {
             if (err) {
-                return res.status(400).json({ err: 'Tabla no encontrada' });
+                return res.status(400).json({ err: 'Error al realizar la consulta', detalle: err.message });
             }
             res.send(lineas);
             console.log('consulta exitosa status 200');
@@ -180,6 +196,9 @@ rutaProductos.get("/leer", (req, res) => {
 *               proveedor:
 *                 type: integer
 *                 description: ID del proveedor del producto.
+*               imagen:
+*                 type: string
+*                 description: imagen del producto.
 *             required:
 *               - nombre
 *               - descripcion
@@ -189,6 +208,7 @@ rutaProductos.get("/leer", (req, res) => {
 *               - fecha
 *               - medida
 *               - proveedor
+*               - imagen
 *     responses:
 *       200:
 *         description: Producto agregado exitosamente.
@@ -225,36 +245,24 @@ rutaProductos.get("/leer", (req, res) => {
 *                   description: Mensaje indicando falla de conexión con el servidor.
 */
 
-
-
-rutaProductos.post("/crear", (req, res) => {
-    const consulta = 'nombre_producto, descripcion_producto, precio_compra_producto, precio_venta_producto, ';
-    const consultaPartDos = 'unidades_producto, fecha_producto, unidades_medida_id, proveedores_id';
-
-    const nombre = req.body.nombre;
-    const descripcion = req.body.descripcion;
-    const precioCompra = parseFloat(req.body.precioC);
-    const precioVenta = parseFloat(req.body.precioV);
-    const unidades = req.body.unidades;
-    const fecha = req.body.fecha; // Uso correcto de new Date
-    const unidadMedida = req.body.medida;
-    const proveedor = req.body.proveedor;
-
-    // Aquí podrías añadir validaciones para los datos recibidos
-    
+rutaProductos.post("/crear", upload.single('imagen'), (req, res) => {
+    const { nombre, descripcion, precioC, precioV, unidades, fecha, medida, proveedor } = req.body;
+    const precioCompra = parseFloat(precioC);
+    const precioVenta = parseFloat(precioV);
+    const imagen = req.file ? req.file.path : '';
 
     req.getConnection((error, conexion) => {
         if (error) {
             return res.status(500).json({ error: 'Fallo conexión con el servidor' });
         }
-        conexion.query(`INSERT INTO productos (${consulta}${consultaPartDos}) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [nombre, descripcion, precioCompra, precioVenta, unidades, fecha, unidadMedida, proveedor],
+        const consulta = 'INSERT INTO productos (nombre_producto, descripcion_producto, precio_compra_producto, precio_venta_producto, unidades_producto, fecha_producto, unidades_medida_id, proveedores_id, ruta_imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        conexion.query(consulta,
+            [nombre, descripcion, precioCompra, precioVenta, unidades, fecha, medida, proveedor, imagen],
             (err, resultado) => {
                 if (err) {
                     return res.status(400).json({ error: 'Tabla no encontrada o error en la consulta' });
                 }
                 res.status(200).json({ mensaje: 'Producto agregado exitosamente', id: resultado.insertId });
-                console.log(`unidad Medida ${unidadMedida}`);
             });
     });
 });
@@ -436,6 +444,5 @@ rutaProductos.delete("/eliminar/:id",(req, res)=>{
     })
     
 })
-
 
 export default rutaProductos;

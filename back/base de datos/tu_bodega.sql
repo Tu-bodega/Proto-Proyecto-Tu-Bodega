@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-03-2024 a las 22:54:29
+-- Tiempo de generación: 14-03-2024 a las 02:13:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -11,6 +11,8 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+create database tu_bodega;
+use tu_bodega;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -130,6 +132,7 @@ CREATE TABLE `productos` (
   `precio_venta_producto` decimal(10,0) DEFAULT NULL,
   `unidades_producto` int(11) DEFAULT NULL,
   `fecha_producto` date DEFAULT NULL,
+  `ruta_imagen` varchar(200) NOT NULL,
   `unidades_medida_id` int(11) DEFAULT NULL,
   `proveedores_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -138,18 +141,10 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `nombre_producto`, `descripcion_producto`, `precio_compra_producto`, `precio_venta_producto`, `unidades_producto`, `fecha_producto`, `unidades_medida_id`, `proveedores_id`) VALUES
-(2, 'POKER', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
-(3, 'AGUILA', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
-(4, 'TEKATE', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
-(9, 'CLUB COLOMBIA', 'Cerveza nacional', 2500, 3500, 30, '2024-03-09', 1, 1),
-(10, 'BBC', 'Cerveza nacional', 2500, 3500, 30, '2024-03-09', 1, 1),
-(11, 'CORONA', 'Cerveza internacional', 2500, 3500, 30, '2024-03-09', 1, 1),
-(12, 'Chocolatina', 'Chocolates nacionales', 2500, 3500, 300, '2024-03-09', 3, 2),
-(13, 'Pirulito', 'Dulses nacionales', 2500, 3500, 300, '2024-03-09', 3, 2),
-(14, 'Nucita', 'Dulses nacionales', 500, 3500, 30, '2024-03-09', 4, 2),
-(15, 'quipitos', 'dulses', 500, 3500, 30, '2024-03-09', 3, 2),
-(16, 'cigarillos dulses', 'dulses', 200, 500, 300, '2024-03-09', 3, 2);
+INSERT INTO `productos` (`id`, `nombre_producto`, `descripcion_producto`, `precio_compra_producto`, `precio_venta_producto`, `unidades_producto`, `fecha_producto`, `ruta_imagen`, `unidades_medida_id`, `proveedores_id`) VALUES
+(1, 'POKER', 'CERVEZA NACIONAL', 2500, 3000, 90, '2024-03-12', 'uploads\\1710343587241-poker.jpeg', 1, 1),
+(2, 'TEKATE', 'CERVEZA IMPORTADA', 2000, 3000, 60, '2024-03-12', 'uploads\\1710344763680-tekate.jpeg', 1, 1),
+(4, 'AGUARDIENTE NECTAR', 'AGUARDIENTE NACIONAL', 30000, 60000, 10, '2024-03-12', 'uploads\\1710356248291-aguardiente.jpeg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -192,7 +187,7 @@ CREATE TABLE `rol_empleados` (
 
 INSERT INTO `rol_empleados` (`id`, `nombre_rol`) VALUES
 (1, 'Administrador'),
-(2, 'cajero');
+(2, 'Almacenistas');
 
 -- --------------------------------------------------------
 
@@ -232,7 +227,7 @@ CREATE TABLE `unidades_medida` (
 --
 
 INSERT INTO `unidades_medida` (`id`, `nombre_unidaded_medida`) VALUES
-(1, 'Mililitros'),
+(1, '(ml)'),
 (2, 'Litros'),
 (3, 'Gramos'),
 (4, 'Kilogramos');
@@ -338,7 +333,7 @@ ALTER TABLE `facturas_vs_productos`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`

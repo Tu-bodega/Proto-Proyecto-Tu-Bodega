@@ -6,13 +6,15 @@ import cors from "cors";
 import swaggerJSDOCs from "../swagger.js";
 import configPuerto from "./configuraciones/configPuerto.js";
 import configDb from "./configuraciones/configDataBase.js";
-import rutaProductos from "./routes/rutaProductos.js";
-import rutaEmpleado from "./routes/rutaEmpleados.js";
-import rutaProveedores from "./routes/rutaProveedores.js";
-import rutaClientes from "./routes/rutaClientes.js";
+import rutaProductos from "./routes/productos.routes.js";
+import rutaEmpleado from "./routes/empleados.routes.js";
+import rutaProveedores from "./routes/proveedores.routes.js";
+import rutaClientes from "./routes/clientes.routes.js";
+import unidadMeida from "./routes/unidadMedida.routes.js";
 
 const app = express();
 
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(myCon(mysql, configDb.mysql,'single'));
@@ -31,5 +33,6 @@ app.use("/login", rutaEmpleado);
 app.use("/empleados", rutaEmpleado);
 app.use("/clientes", rutaClientes);
 app.use("/productos", rutaProductos);
+app.use("/productos", unidadMeida);
 app.use("/proveedores", rutaProveedores);
 
