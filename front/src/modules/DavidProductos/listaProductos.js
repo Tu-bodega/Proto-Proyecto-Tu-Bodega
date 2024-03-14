@@ -40,7 +40,6 @@ function ListaProductos() {
         leerProductos();
     }, []);
 
-
     //eliminar productos
     const eliminarProductos = (dato) => {
         handleShowDos();
@@ -79,6 +78,7 @@ function ListaProductos() {
         setFecha("");
         setUnidadMedida("");
         setProveedor("");
+        setId("");
     };
 
     const leerProductos = () => {
@@ -118,7 +118,7 @@ function ListaProductos() {
         Axios.delete(`http://localhost:3001/productos/eliminar/${id}`).then(() => {
             Swal.fire("Éxito", "producto eliminado con éxito", "success");
             handleCloseDos();
-        }).catch((error) => {
+        }).catch((error)=>{
             Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
             handleCloseDos();
         });
@@ -127,74 +127,47 @@ function ListaProductos() {
     return (
         <div className="container">
             <div className="container lista" id="lista">
-                <div className="scrollTabla" id="scrolltP" style={{ overflowY: 'auto' }}>
+                <table className="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th className="columnaUnoP">#</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio de Compra</th>
+                            <th>Precio de Venta</th>
+                            <th>Unidades</th>
+                            <th>Fecha</th>
+                            <th>Medida</th>
+                            <th>Proveedor</th>
+                            <th className="columnaFinal">opciones</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div className="scrollTabla" style={{ overflowY: 'auto' }}>
                     <table className="table table-striped table-hover contenido" >
                         <tbody>
                             {
                                 listaProductos.map((dato, key) => {
                                     return (
-                                        <tr key={key} style={{ marginBottom: '20px', border: '1px solid #ccc', padding: '10px' }}>
-                                            <td className="resumenProduc">
-                                                <div style={{ width: '100px', height: '100px', overflow: 'hidden' }}>
-                                                    <img src={`http://localhost:3001/${dato.ruta_imagen}`} alt={dato.nombre_producto} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                                </div>
-                                                <div>
-                                                    <ul>
-                                                        <li><h5>Nombre:</h5></li>
-                                                        <p>{dato.nombre_producto}</p>
-                                                    </ul>
-                                                    <ul>
-                                                        <li><h5>Descripcion:</h5></li>
-                                                        <p>{dato.descripcion_producto}</p>
-                                                    </ul>
-                                                </div>
-                                                <div>
-                                                    <ul>
-                                                        <li><h5>Precio Compra:</h5></li>
-                                                        <p>{dato.precio_compra_producto}</p>
-                                                    </ul>
-                                                    <ul>
-                                                        <li><h5>Precio Venta:</h5></li>
-                                                        <p>{dato.precio_venta_producto}</p>
-                                                    </ul>
-                                                </div>
-                                                <div>
-                                                    <ul>
-                                                        <li><h5>Unidades Disponibles:</h5></li>
-                                                        <p>{dato.unidades_producto}</p>
-                                                    </ul>
-                                                    <ul>
-                                                        <li><h5>Fecha de ingreso:</h5></li>
-                                                        <p>{new Date(dato.fecha_producto).toLocaleDateString('es')}</p>
-                                                    </ul>
-                                                </div>
-                                                <div>
-                                                    <ul>
-                                                        <li><h5>Unidades de medida:</h5></li>
-                                                        <p>{dato.nombre_unidaded_medida}</p>
-                                                    </ul>
-                                                    <ul>
-                                                        <li><h5>Proveedor:</h5></li>
-                                                        <p>{dato.nombre_proveedor}</p>
-                                                    </ul>
-                                                </div>
-                                                <div>
-                                                    <ul>
-                                                        <li><h5>Agregado por:</h5></li>
-                                                        <p>pepito</p>
-                                                    </ul>
-                                                    <ul>
-                                                        <li><h5>Actualizado por:</h5></li>
-                                                        <p></p>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                            <td className="columnaFinal" id="columnaFinal">
-                                                <div className="btnsProduc">
-                                                    <button className="botones btnEdit" onClick={() => { editarProduct(dato); }}>
+                                        <tr key={key}>
+                                            <td className="columnaUnoP">{dato.id}</td>
+                                            <td>{dato.nombre_producto}</td>
+                                            <td>{dato.descripcion_producto}</td>
+                                            <td>{dato.precio_compra_producto}</td>
+                                            <td>{dato.precio_venta_producto}</td>
+                                            <td>{dato.unidades_producto}</td>
+                                            <td>{new Date(dato.fecha_producto).toLocaleDateString('es')}</td>
+                                            <td>{dato.nombre_unidaded_medida}</td>
+                                            <td>{dato.nombre_proveedor}</td>
+                                            <td className="columnaFinal">
+                                                <div className="filaFinal">
+                                                    <button className="botones btnEdit" variant="primary"
+                                                        onClick={() => { editarProduct(dato); }}>
                                                         <i className='bx bx-edit-alt'></i>
                                                     </button>
-                                                    <button className="botones btnDele" onClick={() => { eliminarProductos(dato); }}>
+                                                    <button
+                                                        onClick={() => { eliminarProductos(dato); }}
+                                                        className="botones btnDele">
                                                         <i className='bx bx-trash'></i>
                                                     </button>
                                                 </div>
@@ -280,7 +253,7 @@ function ListaProductos() {
                     </Modal.Header>
                     <Modal.Footer>
                         <div className="btnActu">
-                            <button onClick={() => { eliminarProducto(id) }} type="button" className="btn btn-primary">Eliminar</button>
+                            <button onClick={()=>{ eliminarProducto(id) }} type="button" className="btn btn-primary">Eliminar</button>
                             <button onClick={handleCloseDos} type="button" className="btn btn-danger">Cancelar</button>
                         </div>
                     </Modal.Footer>
