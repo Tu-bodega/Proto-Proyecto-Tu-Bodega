@@ -53,6 +53,7 @@ function ListaProveedores() {
         setCorreo(dato.correo_proveedor);
         setDireccion(dato.direccion_proveedor);
         setTelefono(dato.telefono_proveedor);
+        setId(dato.id);
     };
 
     //limpiar campos
@@ -140,7 +141,7 @@ function ListaProveedores() {
                                                         <i className='bx bx-edit-alt'></i>
                                                     </button>
                                                     <button
-                                                        onClick={() => { eliminarProveedores(dato); }}
+                                                        onClick={() => { eliminarProvee(dato); }}
                                                         className="botones btnDele">
                                                         <i className='bx bx-trash'></i>
                                                     </button>
