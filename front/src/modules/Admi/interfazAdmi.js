@@ -17,6 +17,7 @@ function Admi() {
             2: { formId: "andresClients", btnClass: "btn-clientes" },
             3: { formId: "jaimeProveedores", btnClass: "btn-proveedores" },
             4: { formId: "davidProductos", btnClass: "btn-productos" },
+            5: { formId: "salida", btnClass: "btn-salida" },
         };
 
         // Esconde todos los formularios y quita el estilo activo de todos los botones
@@ -70,6 +71,11 @@ function Admi() {
                             Productos
                         </button>
                     </section>
+                    <section>
+                        <button onClick={() => openForm(5)} className="btn-izq btn-productos">
+                            Salida
+                        </button>
+                    </section>
                 </aside>
                 {/* contenedor Formularios de los botones lado derecho */}
                 <section className="containerForms" >
@@ -85,6 +91,9 @@ function Admi() {
                     </div>
                     <div id="davidProductos" className="boxForm">
                         < Productos />
+                    </div>
+                    <div id="salida" className="boxForm">
+                        
                     </div>
                 </section>
             </article>

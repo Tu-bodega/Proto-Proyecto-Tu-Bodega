@@ -16,7 +16,7 @@ function FormLogin() {
 
     const logear = (evento) => {
         let interfazUser = '/Admi'; 
-        if(rol === 2){
+        if(rol === '2'){
             interfazUser = '/Almacenista'
         }
         evento.preventDefault();

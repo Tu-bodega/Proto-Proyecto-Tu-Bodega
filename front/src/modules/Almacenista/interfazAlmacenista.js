@@ -15,6 +15,7 @@ function Almacenista() {
             1: { formId: "Clientes", btnClass: "btn-clientes" },
             2: { formId: "jaimeProveedores", btnClass: "btn-proveedores" },
             3: { formId: "davidProductos", btnClass: "btn-productos" },
+            4: { formId: "salida", btnClass: "btn-salida" },
         };
 
         // Esconde todos los formularios y quita el estilo activo de todos los botones
@@ -63,6 +64,11 @@ function Almacenista() {
                             Productos
                         </button>
                     </section>
+                    <section>
+                        <button onClick={() => openForm(4)} className="btn-izq btn-productos">
+                            Salida
+                        </button>
+                    </section>
                 </aside>
                 {/* contenedor Formularios de los botones lado derecho */}
                 <section className="containerForms" >
@@ -75,6 +81,9 @@ function Almacenista() {
                     </div>
                     <div id="davidProductos" className="boxForm">
                         < Productos />
+                    </div>
+                    <div id="salida" className="boxForm">
+                        
                     </div>
                 </section>
             </article>
