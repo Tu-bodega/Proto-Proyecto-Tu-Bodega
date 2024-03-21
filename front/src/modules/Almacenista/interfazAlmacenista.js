@@ -3,7 +3,8 @@ import "../../css/Plantilla.css";
 import "../../css/admi.css"
 import Productos from "../DavidProductos/productos.js";
 import Proveedores from "../JaimeProveedores/proveedores.js";
-import Clientes from "../Clientes/clientes.js";
+import Clientes from "../AndresClientes/clientes.js";
+import Salidas from "../Salida/Cards.js";
 
 function Almacenista() {
     const iconBox = `<i class='bx bx-package'></i> `;
@@ -83,7 +84,7 @@ function Almacenista() {
                         < Productos />
                     </div>
                     <div id="salida" className="boxForm">
-                        
+                        <Salidas />
                     </div>
                 </section>
             </article>

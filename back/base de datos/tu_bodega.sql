@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-03-2024 a las 16:56:50
+-- Tiempo de generación: 21-03-2024 a las 21:36:32
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -36,19 +36,6 @@ CREATE TABLE `clientes` (
   `telefono_cliente` varchar(45) DEFAULT NULL,
   `direccion_cliente` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id`, `nombre_cliente`, `apellido_cliente`, `documento_cliente`, `correo_cliente`, `telefono_cliente`, `direccion_cliente`) VALUES
-(1, 'Aurita', 'Niño', '1255789562', 'Aurita@gmail.com', '7226854', 'carrera 72 l Bis #44-55'),
-(2, 'aura', 'niños', '1155789562', 'lurita@gmail.com', '7226852', 'carrera 72 l Bis #44-55'),
-(3, 'copo', 'castillo', '1233489852', 'copo@gmail.com', '76585121', 'calle falsa 123'),
-(4, 'carla', 'castaño', '1233489855', 'calra@gmail.com', '7110362', 'calle456'),
-(5, 'Carlos', 'huran', '587765489', 'carlo@gmail.com', '7605425', 'calle 754'),
-(6, 'pedro', 'sanchez', '157654892', 'piedra@gmail.com', '3148526587', 'calle123456'),
-(7, 'mariela', 'duque', '7651742451', 'mairela@gmail.com', '6614758', 'calle9000');
 
 -- --------------------------------------------------------
 
@@ -115,7 +102,7 @@ CREATE TABLE `productos` (
 INSERT INTO `productos` (`id`, `nombre_producto`, `descripcion_producto`, `precio_compra_producto`, `precio_venta_producto`, `unidades_producto`, `fecha_producto`, `ruta_imagen`, `unidades_medida_id`, `proveedores_id`) VALUES
 (1, 'POKER', 'CERVEZA NACIONAL', 2500, 3000, 90, '2024-03-12', 'uploads\\1710343587241-poker.jpeg', 1, 1),
 (2, 'TEKATE', 'CERVEZA IMPORTADA', 2000, 3000, 60, '2024-03-12', 'uploads\\1710344763680-tekate.jpeg', 1, 1),
-(4, 'AGUARDIENTE NECTAR', 'AGUARDIENTE NACIONAL', 30000, 60000, 10, '2024-03-12', 'uploads\\1710356248291-aguardiente.jpeg', 2, 1);
+(3, 'AGUARDIENTE NECTAR', 'AGUARDIENTE NACIONAL', 30000, 60000, 10, '2024-03-12', 'uploads\\1710356248291-aguardiente.jpeg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -179,9 +166,9 @@ CREATE TABLE `salidas` (
 --
 
 CREATE TABLE `salida_vs_productos` (
-  `id` int(11) NOT NULL,
   `salidas_id` int(11) NOT NULL,
-  `productos_id` int(11) NOT NULL
+  `productos_id` int(11) NOT NULL,
+  `Unidades` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -256,7 +243,6 @@ ALTER TABLE `salidas`
 -- Indices de la tabla `salida_vs_productos`
 --
 ALTER TABLE `salida_vs_productos`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `fk_salida_has_productos_productos1_idx` (`productos_id`) USING BTREE,
   ADD KEY `fk_salida_has_productos_salidas1_idx` (`salidas_id`) USING BTREE;
 
@@ -274,7 +260,7 @@ ALTER TABLE `unidades_medida`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
@@ -286,13 +272,13 @@ ALTER TABLE `empleados`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `rol_empleados`
@@ -304,12 +290,6 @@ ALTER TABLE `rol_empleados`
 -- AUTO_INCREMENT de la tabla `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `salida_vs_productos`
---
-ALTER TABLE `salida_vs_productos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

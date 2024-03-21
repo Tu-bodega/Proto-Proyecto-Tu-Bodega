@@ -182,8 +182,9 @@ rutaEmpleado.post("/validar", (req, res) => {
                 const compareContra = bcrypt.compareSync(contra, resultados[0].password_empleado);
                 if (compareContra) {
                     res.status(200).json({
-                        saludos: resultados[0].nombre_empleado,
-                        correo: resultados[0].correo_empleado, // Corrección para enviar el correo del usuario
+                        idUser: resultados[0].id,
+                        nombre: resultados[0].nombre_empleado,
+                        correo: resultados[0].correo_empleado,
                         mensaje: 'Bienvenido',
                     });
                 } else {

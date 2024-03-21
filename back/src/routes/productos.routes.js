@@ -151,7 +151,6 @@ rutaProductos.get("/leer", (req, res) => {
                 return res.status(400).json({ err: 'Error al realizar la consulta', detalle: err.message });
             }
             res.send(lineas);
-            console.log('consulta exitosa status 200');
         });
     });
 });

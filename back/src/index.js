@@ -11,6 +11,8 @@ import rutaEmpleado from "./routes/empleados.routes.js";
 import rutaProveedores from "./routes/proveedores.routes.js";
 import rutaClientes from "./routes/clientes.routes.js";
 import unidadMeida from "./routes/unidadMedida.routes.js";
+import rutaSalida from "./routes/salida.routes.js"; 
+
 
 const app = express();
 
@@ -35,4 +37,5 @@ app.use("/clientes", rutaClientes);
 app.use("/productos", rutaProductos);
 app.use("/productos", unidadMeida);
 app.use("/proveedores", rutaProveedores);
+app.use("/salidas", rutaSalida); 
 

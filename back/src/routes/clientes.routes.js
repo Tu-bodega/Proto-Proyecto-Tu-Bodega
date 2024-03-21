@@ -125,11 +125,11 @@ rutaClientes.get("/leer", (req, res) => {
         if (error) {
             return res.status(500).json({ error: 'fallo conexion con el servidor' });
         }
-        conexion.query("SELECT * FROM clientes", (err, lineas) => {
+        conexion.query("SELECT * FROM clientes", (err, respuesta) => {
             if (err) {
                 return res.status(400).json({ err: 'Error en la consulta' });
             }
-            res.send(lineas);
+            res.status(200).json({mensaje: 'todo ok', respuesta});
         });
     });
 });
