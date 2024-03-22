@@ -22,7 +22,7 @@ aside {
     font-family: sans-serif;
     position: absolute;
     right: 20px;
-    top: 10%;
+    top: 17%;
     transform: translate(-50%);
 }
 
@@ -33,7 +33,7 @@ aside {
     font-family: 'Fira Sans', sans-serif;
     font-weight: 700;
     right: 20px;
-    top: 25%;
+    top: 31%;
     transform: translate(-50%);
     cursor:context-menu;
 }

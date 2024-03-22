@@ -43,7 +43,7 @@ function CrearUsuario() {
             Swal.fire("Error", "Todos los campos son obligatorios y no deben contener sólo espacios.", "error");
             return false;
         }
-        
+
         if (!regexCorreo.test(correo)) {
             Swal.fire("Error", "Correo inválido", "error");
             return false;
@@ -69,7 +69,7 @@ function CrearUsuario() {
         if (!validarFormulario()) return;
 
         try {
-            const response = await Axios.post("http://localhost:3001/empleados/crear", usuario);
+            await Axios.post("http://localhost:3001/empleados/crear", usuario);
             Swal.fire("Éxito", "Usuario agregado con éxito", "success");
             limpiarCampos();
         } catch (error) {
@@ -135,7 +135,7 @@ function CrearUsuario() {
                     >
                         <option value="" hidden>Seleccione su rol</option>
                         <option value="1">Administrador</option>
-                        <option value="2">Cajero</option>
+                        <option value="2">Almacenista</option>
                     </select>
                 </div>
                 <button className="btn btn-success" type="submit">Agregar</button>

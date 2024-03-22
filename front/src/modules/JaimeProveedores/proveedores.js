@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../css/Proveedores.css";
 import CrearProveedores from './crearProveedores.js';
+import ListaProveedores from './listaProveedores.js';
 
 function Proveedores() {
     const open = (num) => {
@@ -28,7 +29,7 @@ function Proveedores() {
                     <CrearProveedores/>
                 </div>
                 <div id='readProveedores'className='proveedoresRead'>
-                    
+                    <ListaProveedores />
                 </div>
             </section>
         </div>

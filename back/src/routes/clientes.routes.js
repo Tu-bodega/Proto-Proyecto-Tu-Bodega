@@ -366,7 +366,7 @@ rutaClientes.post("/crear", (req, res) => {
  */
 
 rutaClientes.put("/actualizar", (req, res) => {
-    const consultaActualizar = 'nombre_cliente = ?, apellido_cliente =?, documento_cliente, correo_proveedor = ?, telefono_proveedor = ?, direccion_proveedor = ?';
+    const consultaActualizar = 'nombre_cliente = ?, apellido_cliente =?, documento_cliente =?, correo_cliente = ?, telefono_cliente = ?, direccion_cliente = ?';
     const id = req.body.id; // El ID del cliente que quieres actualizar
 
     const nombre = String(req.body.nombre);
@@ -461,8 +461,8 @@ rutaClientes.put("/actualizar", (req, res) => {
  *                   example: Fallo conexión con el servidor
  */
 
-rutaClientes.delete("/eliminar/id", (req, res) => {
-    const id = req.params.id; // El ID del proveedor que quieres eliminar
+rutaClientes.delete("/eliminar/:id", (req, res) => {
+    const id = req.params.id; // El ID del cliente que quieres eliminar
 
     req.getConnection((error, conexion) => {
         if (error) {

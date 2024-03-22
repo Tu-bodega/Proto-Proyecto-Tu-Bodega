@@ -4,7 +4,7 @@ import "../../css/admi.css"
 import Productos from "../DavidProductos/productos.js";
 import Proveedores from "../JaimeProveedores/proveedores.js";
 import Clientes from "../AndresClientes/clientes.js";
-import Salidas from "../Salida/Cards.js";
+import Salidas from "../Salida/CardsAlma.js";
 
 function Almacenista() {
     const iconBox = `<i class='bx bx-package'></i> `;

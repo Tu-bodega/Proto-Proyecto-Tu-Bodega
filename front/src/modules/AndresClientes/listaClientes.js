@@ -33,6 +33,8 @@ function ListaClientes() {
 
     //lista Clientes
     const [listaClientes, setListaClientes] = useState([]);
+
+
     useEffect(() => {
         leerClientes();
     }, []);
@@ -67,16 +69,15 @@ function ListaClientes() {
     };
 
     //avance martes
-    const leerClientes = () => {
-        Axios.get("http://localhost:3001/clientes/leer")
-            .then((response) => {
-                setListaClientes(response.data);
-                limpiarCampos();
-            })
-            .catch((error) => {
-                Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
-            });
-    };
+    const leerClientes = async () => {
+        try {
+            const clientesList = await Axios.get("http://localhost:3001/clientes/leer");
+            setListaClientes(clientesList.data.respuesta);
+            limpiarCampos();
+        } catch (error) {
+            Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
+        }
+    }
 
     const actualizar = async (e) => {
         e.preventDefault();
@@ -103,7 +104,7 @@ function ListaClientes() {
             Swal.fire("Éxito", "cliente eliminado con éxito", "success");
             handleCloseDos();
         }).catch((error)=>{
-            Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
+            Swal.fire("Advertencia", "Este cliente esta vinculado con una salida, no deberia ser eliminado", "warning");
             handleCloseDos();
         });
     };

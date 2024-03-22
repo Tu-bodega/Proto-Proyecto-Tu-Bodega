@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../css/Clientes.css";
 import CrearCliente from './crearCliente';
+import ListaClientes from './listaClientes.js';
 
 
 function Clientes() {
@@ -25,11 +26,11 @@ function Clientes() {
                 <button onClick={() => { open(2) }} >Lista de Clientes</button>
             </nav>
             <section className='moduleClientes'>
-                <div id='createClientes'className='clientesCreate'>
-                    <CrearCliente/>
+                <div id='createClientes' className='clientesCreate'>
+                    <CrearCliente />
                 </div>
-                <div id='readClientes'className='clientesRead'>
-                    
+                <div id='readClientes' className='clientesRead'>
+                    <ListaClientes />
                 </div>
             </section>
         </div>

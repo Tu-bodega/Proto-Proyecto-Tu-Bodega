@@ -157,14 +157,8 @@ function ListaProductos() {
                                             <td>{dato.precio_venta_producto}</td>
                                             <td>{dato.unidades_producto}</td>
                                             <td>{new Date(dato.fecha_producto).toLocaleDateString('es')}</td>
-                                            <td>{dato.unidades_medida_id === 1 ?
-                                                <span>mililitros</span> :
-                                                dato.unidades_medida_id === 2 ?
-                                                    <span>litros</span> :
-                                                    dato.unidades_medida_id === 3 ?
-                                                        <span>gramos</span> :
-                                                        <span>kilogramos</span>}</td>
-                                            <td>{dato.proveedores_id}</td>
+                                            <td>{dato.nombre_unidaded_medida}</td>
+                                            <td>{dato.nombre_proveedor}</td>
                                             <td className="columnaFinal">
                                                 <div className="filaFinal">
                                                     <button className="botones btnEdit" variant="primary"
