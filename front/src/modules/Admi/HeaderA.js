@@ -16,7 +16,7 @@ function HeaderA() {
             <div className="logo">
                 <img src={logoImage} alt="Logo-software-tu-bodega" height="40PX" />
             </div>
-            <h1 className="tipoUsuario">{`Hola ${usuario}`} 🧑🏼‍💻</h1>
+            <h1 className="tipoUsuario">{`Hola ${usuario}`} 🤖</h1>
             <div>
                 <h1 className="btn-salida" onClick={salir}>
                     <i className="bx bx-exit" />

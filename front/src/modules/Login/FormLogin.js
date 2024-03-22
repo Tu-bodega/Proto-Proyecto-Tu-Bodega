@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import Swal from 'sweetalert2';
 import { useAuth } from "../../auth/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import "../../css/Plantilla.css";
 import "../../css/Login.css";
 
@@ -15,9 +15,9 @@ function FormLogin() {
     const navigate = useNavigate(); // Inicializa useNavigate para redireccionar al usuario
 
     const logear = (evento) => {
-        let interfazUser = '/Admi';
-        if (rol === '2') {
-            interfazUser = '/Almacenista'
+        let interfazUser = '/Admi'; 
+        if(rol == 2){
+            interfazUser = '/Caja'
         }
         evento.preventDefault();
         Axios.post("http://localhost:3001/login/validar", {
@@ -26,9 +26,9 @@ function FormLogin() {
             contra: contra
         }).then(response => {
             // Asegúrate de que la respuesta del servidor incluya tanto el nombre del usuario como el correo
-            if (response.data.nombre && response.data.correo && response.data.idUser ) {
+            if (response.data.saludos && response.data.correo) {
                 // Llama a login con ambos, el nombre del usuario y el correo electrónico
-                login(response.data.nombre, response.data.correo, response.data.idUser );
+                login(response.data.saludos, response.data.correo);
                 navigate(`${interfazUser}`); // Redirecciona al usuario a la ruta de administrador
             } else {
                 // Si no, muestra un mensaje de error indicando que faltan datos
@@ -56,7 +56,7 @@ function FormLogin() {
             });
         });
     };
-
+    
     return (
         <main>
             <form onSubmit={logear} className="containerForm">
@@ -67,7 +67,7 @@ function FormLogin() {
                         onChange={(event) => { setRol(event.target.value); }}>
                         <option value="" hidden>Seleccione su rol</option>
                         <option value="1">Administrador</option>
-                        <option value="2">Almacenista</option>
+                        <option value="2">Cajero</option>
                     </select>
                     <i className="bx bxs-user-account" />
                 </section>
@@ -76,7 +76,7 @@ function FormLogin() {
                     <label>
                         <input onChange={(event) => { setCorreo(event.target.value) }}
                             className="input" type="email" placeholder="correo" value={correo} required></input>
-                        <i className="bx bxs-user" />
+                    <i className="bx bxs-user" />
                     </label>
                 </section>
                 {/* bloque contraseña usuario */}
@@ -84,7 +84,7 @@ function FormLogin() {
                     <label>
                         <input onChange={(event) => { setContra(event.target.value) }}
                             className="input" type="password" placeholder="contraseña" value={contra} required></input>
-                        <i className="bx bxs-lock-alt" />
+                    <i className="bx bxs-lock-alt" />
                     </label>
                 </section>
                 {/* boton ingresar o */}

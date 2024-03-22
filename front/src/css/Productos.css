@@ -16,10 +16,9 @@
     display: flex;
     justify-content: space-between;
 }
-
-.navProduct button {
+.navProduct button{
     height: 100%;
-    width: 49.5%;
+    width:  49.5%;
     border-radius: 10px;
 }
 
@@ -138,15 +137,6 @@ table {
     flex-direction:column;
 }
 
-#containerP {
-    justify-content: start;
-}
-
-.foraneas {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
 .contenedorBtnP{
     width: 100%;
@@ -164,3 +154,4 @@ table {
 #fechaInput{
     padding-right: 10px;
 }
+
