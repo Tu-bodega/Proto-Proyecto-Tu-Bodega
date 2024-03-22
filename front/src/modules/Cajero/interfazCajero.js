@@ -1,9 +1,8 @@
-import HeaderA from "./HeaderA.js";
+import HeaderA from "../Admi/HeaderA.js";
 import "../../css/Plantilla.css";
 import "../../css/admi.css"
 import Productos from "../DavidProductos/productos.js";
 import Proveedores from "../JaimeProveedores/proveedores.js";
-import Usuarios from "../CamiloUsers/usuarios.js";
 import Clientes from "../Clientes/clientes.js";
 
 function Admi() {
@@ -13,10 +12,9 @@ function Admi() {
 
     const openForm = (numBtn) => {
         const formDisplayMappings = {
-            1: { formId: "camiloUser", btnClass: "btn-usuarios" },
-            2: { formId: "andresClients", btnClass: "btn-clientes" },
-            3: { formId: "jaimeProveedores", btnClass: "btn-proveedores" },
-            4: { formId: "davidProductos", btnClass: "btn-productos" },
+            1: { formId: "Clientes", btnClass: "btn-clientes" },
+            2: { formId: "jaimeProveedores", btnClass: "btn-proveedores" },
+            3: { formId: "davidProductos", btnClass: "btn-productos" },
         };
 
         // Esconde todos los formularios y quita el estilo activo de todos los botones
@@ -34,7 +32,7 @@ function Admi() {
         const { formId, btnClass } = formDisplayMappings[numBtn];
         if (formId) {
             document.getElementById(formId).style.display = "flex";
-            document.getElementById('user').innerHTML = `Administrador ${iconClose}`;
+            document.getElementById('user').innerHTML = `Cajero ${iconClose}`;
             // Aplica el estilo activo al botón presionado
             document.querySelector(`.${btnClass}`).classList.add('btn-activo');
         }
@@ -48,25 +46,20 @@ function Admi() {
                 {/* contenedor Aside lado izquierdo */}
                 <aside >
                     <section className="nombreUsuario" >
-                        <h2 id="user" onClick={() => openForm(0)} >Administrador <i className='bx bx-package'></i></h2>
+                        <h2 id="user" onClick={() => openForm(0)} >Cajero <i className='bx bx-package'></i></h2>
                     </section>
                     <section>
-                        <button onClick={() => openForm(1)} className="btn-izq btn-usuarios">
-                            Usuarios
-                        </button>
-                    </section>
-                    <section>
-                        <button onClick={() => openForm(2)} className="btn-izq btn-clientes">
+                        <button onClick={() => openForm(1)} className="btn-izq btn-clientes">
                             Clientes
                         </button>
                     </section>
                     <section>
-                        <button onClick={() => openForm(3)} className="btn-izq btn-proveedores">
+                        <button onClick={() => openForm(2)} className="btn-izq btn-proveedores">
                             Proveedores
                         </button>
                     </section>
                     <section>
-                        <button onClick={() => openForm(4)} className="btn-izq btn-productos">
+                        <button onClick={() => openForm(3)} className="btn-izq btn-productos">
                             Productos
                         </button>
                     </section>
@@ -74,10 +67,7 @@ function Admi() {
                 {/* contenedor Formularios de los botones lado derecho */}
                 <section className="containerForms" >
                     {/*a qui cada uno importara la interfaz que le corresponde */}
-                    <div id="camiloUser" className="boxForm">
-                        <Usuarios />
-                    </div>
-                    <div id="andresClients" className="boxForm">
+                    <div id="Clientes" className="boxForm">
                         <Clientes />
                     </div>
                     <div id="jaimeProveedores" className="boxForm">

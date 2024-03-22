@@ -155,7 +155,7 @@ function ListarUsuarios() {
                                             <td>{dato.correo_empleado}</td>
                                             <td>{dato.rol_empleados_id === 1 ?
                                                 <span>Administrador</span> :
-                                                <span>Almacenista</span>}</td>
+                                                <span>cajero</span>}</td>
                                             <td className="columnaFinal">
                                                 <div className="filaFinal">
                                                     <button className="botones btnEdit" variant="primary"
@@ -223,7 +223,7 @@ function ListarUsuarios() {
                                 <select value={rol} name="rol" className="form-select" onChange={(event) => { setRol(event.target.value) }} required>
                                     <option value="" hidden>Seleccione su rol</option>
                                     <option value="1">Administrador</option>
-                                    <option value="2">Almacenista</option>
+                                    <option value="2">Cajero</option>
                                 </select>
                             </div>
                         </form>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-03-2024 a las 21:36:32
+-- Tiempo de generación: 11-03-2024 a las 22:54:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -37,6 +37,19 @@ CREATE TABLE `clientes` (
   `direccion_cliente` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`id`, `nombre_cliente`, `apellido_cliente`, `documento_cliente`, `correo_cliente`, `telefono_cliente`, `direccion_cliente`) VALUES
+(1, 'Aurita', 'Niño', '1255789562', 'Aurita@gmail.com', '7226854', 'carrera 72 l Bis #44-55'),
+(2, 'aura', 'niños', '1155789562', 'lurita@gmail.com', '7226852', 'carrera 72 l Bis #44-55'),
+(3, 'copo', 'castillo', '1233489852', 'copo@gmail.com', '76585121', 'calle falsa 123'),
+(4, 'carla', 'castaño', '1233489855', 'calra@gmail.com', '7110362', 'calle456'),
+(5, 'Carlos', 'huran', '587765489', 'carlo@gmail.com', '7605425', 'calle 754'),
+(6, 'pedro', 'sanchez', '157654892', 'piedra@gmail.com', '3148526587', 'calle123456'),
+(7, 'mariela', 'duque', '7651742451', 'mairela@gmail.com', '6614758', 'calle9000');
+
 -- --------------------------------------------------------
 
 --
@@ -59,7 +72,7 @@ CREATE TABLE `empleados` (
 INSERT INTO `empleados` (`id`, `nombre_empleado`, `apellido_empleado`, `password_empleado`, `correo_empleado`, `rol_empleados_id`) VALUES
 (1, 'Camilo', 'Castillo', '$2a$08$tce9vXo3h8gfHAXCGDNTIeIK1r8NnIXpEgQ9jErTRSmEocpO5Z3sG', 'camil-code@gmail.com', 1),
 (2, 'Andres', 'Muños', '$2a$08$UFxG3V1oxa1FdAdlr90pfOkPzo8tAfQCVJMWokk4mqBf3UljhuGC.', 'andy@gmail.com', 2),
-(3, 'David', 'Garcia', '$2a$08$l5THnzWW4QQ/lMJyngLG/.ZnIjuKAoM3kB6.G69LK2.M0D3O5Mmju', 'david@gmail.com', 2),
+(3, 'David', 'Garcia', '$2a$08$etVGOo/GuMX.LvvkuyG.i.phYPfcuALRsD0eamXNPLYL2Efkdcm1m', 'david@gmail.com', 2),
 (4, 'Jaime', 'Mendez', '$2a$08$KQ59rkyMz12fdOa86pNjBOT9QJ9F8jmW2Nc3a4tBRIzY1/JQFZqYS', 'jaime@gmail.com', 2),
 (6, 'raton', 'perro', '$2a$08$Us7l6lPnf3swwo6ltKQFt.fF5JQxuTWt67dIf0SlFz/ENSviQV.A2', 'perro@gmail.com', 2),
 (7, 'marco', 'zuleta', '$2a$08$LyZzmpo4.4hOj/4NZoChF.KlW/bZj.1cDMvFdCwIdHOB9RbfLRnhm', 'mark@gmail.com', 2),
@@ -79,6 +92,33 @@ INSERT INTO `empleados` (`id`, `nombre_empleado`, `apellido_empleado`, `password
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `facturas`
+--
+
+CREATE TABLE `facturas` (
+  `id` int(11) NOT NULL,
+  `fecha_factura` date DEFAULT NULL,
+  `iva_factura` varchar(45) DEFAULT NULL,
+  `clientes_id` int(11) DEFAULT NULL,
+  `supermercado_id` int(11) NOT NULL,
+  `empleados_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `facturas_vs_productos`
+--
+
+CREATE TABLE `facturas_vs_productos` (
+  `id` int(11) NOT NULL,
+  `facturas_id` int(11) NOT NULL,
+  `productos_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `productos`
 --
 
@@ -90,7 +130,6 @@ CREATE TABLE `productos` (
   `precio_venta_producto` decimal(10,0) DEFAULT NULL,
   `unidades_producto` int(11) DEFAULT NULL,
   `fecha_producto` date DEFAULT NULL,
-  `ruta_imagen` varchar(200) NOT NULL,
   `unidades_medida_id` int(11) DEFAULT NULL,
   `proveedores_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -99,10 +138,18 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `nombre_producto`, `descripcion_producto`, `precio_compra_producto`, `precio_venta_producto`, `unidades_producto`, `fecha_producto`, `ruta_imagen`, `unidades_medida_id`, `proveedores_id`) VALUES
-(1, 'POKER', 'CERVEZA NACIONAL', 2500, 3000, 90, '2024-03-12', 'uploads\\1710343587241-poker.jpeg', 1, 1),
-(2, 'TEKATE', 'CERVEZA IMPORTADA', 2000, 3000, 60, '2024-03-12', 'uploads\\1710344763680-tekate.jpeg', 1, 1),
-(3, 'AGUARDIENTE NECTAR', 'AGUARDIENTE NACIONAL', 30000, 60000, 10, '2024-03-12', 'uploads\\1710356248291-aguardiente.jpeg', 2, 1);
+INSERT INTO `productos` (`id`, `nombre_producto`, `descripcion_producto`, `precio_compra_producto`, `precio_venta_producto`, `unidades_producto`, `fecha_producto`, `unidades_medida_id`, `proveedores_id`) VALUES
+(2, 'POKER', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
+(3, 'AGUILA', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
+(4, 'TEKATE', 'CERVEZA', 2500, 3000, 30, '2024-02-27', 1, 1),
+(9, 'CLUB COLOMBIA', 'Cerveza nacional', 2500, 3500, 30, '2024-03-09', 1, 1),
+(10, 'BBC', 'Cerveza nacional', 2500, 3500, 30, '2024-03-09', 1, 1),
+(11, 'CORONA', 'Cerveza internacional', 2500, 3500, 30, '2024-03-09', 1, 1),
+(12, 'Chocolatina', 'Chocolates nacionales', 2500, 3500, 300, '2024-03-09', 3, 2),
+(13, 'Pirulito', 'Dulses nacionales', 2500, 3500, 300, '2024-03-09', 3, 2),
+(14, 'Nucita', 'Dulses nacionales', 500, 3500, 30, '2024-03-09', 4, 2),
+(15, 'quipitos', 'dulses', 500, 3500, 30, '2024-03-09', 3, 2),
+(16, 'cigarillos dulses', 'dulses', 200, 500, 300, '2024-03-09', 3, 2);
 
 -- --------------------------------------------------------
 
@@ -124,8 +171,9 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`id`, `nit_proveedor`, `nombre_proveedor`, `correo_proveedor`, `direccion_proveedor`, `telefono_proveedor`) VALUES
-(1, '860005224', 'Bavaria S.E', 'bavaria@dte.paperless.com.co', 'Carrera 53A # 127-35', '6017431224'),
-(2, '8903018845', 'Colombina S.A', 'nmunoz@colombina.com', 'Carrera 36 # 17 B 54', '6018773000');
+(1, '860005224', 'Bavaria S.A', 'bavaria@dte.paperless.com.co', 'Carrera 53A # 127-35', '6017431224'),
+(2, '8903018845', 'Colombina S.A', 'nmunoz@colombina.com', 'Carrera 36 # 17 B 54', '6018773000'),
+(3, '12345678363', 'ponqui', 'ponki@gmail.com', 'carrera 45', '765812');
 
 -- --------------------------------------------------------
 
@@ -144,32 +192,29 @@ CREATE TABLE `rol_empleados` (
 
 INSERT INTO `rol_empleados` (`id`, `nombre_rol`) VALUES
 (1, 'Administrador'),
-(2, 'Almacenistas');
+(2, 'cajero');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `salidas`
+-- Estructura de tabla para la tabla `supermercado`
 --
 
-CREATE TABLE `salidas` (
+CREATE TABLE `supermercado` (
   `id` int(11) NOT NULL,
-  `fecha_salida` date DEFAULT NULL,
-  `clientes_id` int(11) DEFAULT NULL,
-  `empleados_id` int(11) DEFAULT NULL
+  `nit_supermercado` varchar(45) DEFAULT NULL,
+  `nombre_supermercado` varchar(45) DEFAULT NULL,
+  `direccion_supermercado` text DEFAULT NULL,
+  `telefono_supermercado` varchar(45) DEFAULT NULL,
+  `correo_supermercado` varchar(80) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `salida_vs_productos`
+-- Volcado de datos para la tabla `supermercado`
 --
 
-CREATE TABLE `salida_vs_productos` (
-  `salidas_id` int(11) NOT NULL,
-  `productos_id` int(11) NOT NULL,
-  `Unidades` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+INSERT INTO `supermercado` (`id`, `nit_supermercado`, `nombre_supermercado`, `direccion_supermercado`, `telefono_supermercado`, `correo_supermercado`) VALUES
+(1, '860.051.170-2', 'mini–Bodega S. A', 'carrera72 k bis #42-58', '(601) 5640610', 'tuBodega@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -187,7 +232,7 @@ CREATE TABLE `unidades_medida` (
 --
 
 INSERT INTO `unidades_medida` (`id`, `nombre_unidaded_medida`) VALUES
-(1, '(ml)'),
+(1, 'Mililitros'),
 (2, 'Litros'),
 (3, 'Gramos'),
 (4, 'Kilogramos');
@@ -212,6 +257,23 @@ ALTER TABLE `empleados`
   ADD KEY `fk_empleados_rol_empleados1_idx` (`rol_empleados_id`);
 
 --
+-- Indices de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_facturas_clientes_idx` (`clientes_id`),
+  ADD KEY `fk_facturas_supermercado1_idx` (`supermercado_id`),
+  ADD KEY `fk_facturas_empleados1_idx` (`empleados_id`);
+
+--
+-- Indices de la tabla `facturas_vs_productos`
+--
+ALTER TABLE `facturas_vs_productos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_facturas_has_productos_productos1_idx` (`productos_id`),
+  ADD KEY `fk_facturas_has_productos_facturas1_idx` (`facturas_id`);
+
+--
 -- Indices de la tabla `productos`
 --
 ALTER TABLE `productos`
@@ -232,19 +294,11 @@ ALTER TABLE `rol_empleados`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `salidas`
+-- Indices de la tabla `supermercado`
 --
-ALTER TABLE `salidas`
+ALTER TABLE `supermercado`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_salida_clientes_idx` (`clientes_id`) USING BTREE,
-  ADD KEY `fk_salida_empleados1_idx` (`empleados_id`) USING BTREE;
-
---
--- Indices de la tabla `salida_vs_productos`
---
-ALTER TABLE `salida_vs_productos`
-  ADD KEY `fk_salida_has_productos_productos1_idx` (`productos_id`) USING BTREE,
-  ADD KEY `fk_salida_has_productos_salidas1_idx` (`salidas_id`) USING BTREE;
+  ADD UNIQUE KEY `correo_cliente_UNIQUE` (`correo_supermercado`);
 
 --
 -- Indices de la tabla `unidades_medida`
@@ -260,7 +314,7 @@ ALTER TABLE `unidades_medida`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
@@ -269,16 +323,28 @@ ALTER TABLE `empleados`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
+-- AUTO_INCREMENT de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `facturas_vs_productos`
+--
+ALTER TABLE `facturas_vs_productos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `rol_empleados`
@@ -287,10 +353,10 @@ ALTER TABLE `rol_empleados`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `salidas`
+-- AUTO_INCREMENT de la tabla `supermercado`
 --
-ALTER TABLE `salidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `supermercado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades_medida`
@@ -309,25 +375,26 @@ ALTER TABLE `empleados`
   ADD CONSTRAINT `fk_empleados_rol_empleados1` FOREIGN KEY (`rol_empleados_id`) REFERENCES `rol_empleados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Filtros para la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  ADD CONSTRAINT `fk_facturas_clientes` FOREIGN KEY (`clientes_id`) REFERENCES `clientes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_facturas_empleados1` FOREIGN KEY (`empleados_id`) REFERENCES `empleados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_facturas_supermercado1` FOREIGN KEY (`supermercado_id`) REFERENCES `supermercado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `facturas_vs_productos`
+--
+ALTER TABLE `facturas_vs_productos`
+  ADD CONSTRAINT `fk_facturas_has_productos_facturas1` FOREIGN KEY (`facturas_id`) REFERENCES `facturas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_facturas_has_productos_productos1` FOREIGN KEY (`productos_id`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Filtros para la tabla `productos`
 --
 ALTER TABLE `productos`
   ADD CONSTRAINT `fk_productos_proveedores1` FOREIGN KEY (`proveedores_id`) REFERENCES `proveedores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_productos_unidades_medida1` FOREIGN KEY (`unidades_medida_id`) REFERENCES `unidades_medida` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `salidas`
---
-ALTER TABLE `salidas`
-  ADD CONSTRAINT `fk_salidas_clientes` FOREIGN KEY (`clientes_id`) REFERENCES `clientes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_salidas_empleados1` FOREIGN KEY (`empleados_id`) REFERENCES `empleados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `salida_vs_productos`
---
-ALTER TABLE `salida_vs_productos`
-  ADD CONSTRAINT `fk_salida_has_productos_productos1` FOREIGN KEY (`productos_id`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_salida_has_productos_salidas1` FOREIGN KEY (`salidas_id`) REFERENCES `salidas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

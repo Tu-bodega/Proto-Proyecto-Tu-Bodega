@@ -45,9 +45,10 @@
     border-radius: 10px;
 }
 
-.mensajeCorreo{
+.mensajeCorreo {
     font-size: 12px;
     padding-left: 10px;
     display: none;
-    color: #dc3545
+    color: #3586dc;
 }
+
