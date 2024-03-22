@@ -16,7 +16,7 @@ function HeaderA() {
 
     useEffect(()=>{
         selecAvatar();
-    },[])
+    },)
 
     const selecAvatar = () => {
         if(usuario=='Jaime'){

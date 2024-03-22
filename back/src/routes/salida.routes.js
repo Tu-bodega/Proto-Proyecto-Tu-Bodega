@@ -80,6 +80,43 @@ rutaSalida.post("/agregar/svsp", (req, res) => {
     });
 });
 
+rutaSalida.get("/registro", (req, res) => {
+    req.getConnection((errorConexion, conexion) => {
+        if (errorConexion) {
+            return res.status(500).json({ error: 'No hay conexión con la base de datos' });
+        }
+        const consultaSQL = `
+            SELECT 
+                s.id AS 'salidas_id',
+                s.fecha_salida,
+                c.nombre_cliente,
+                e.nombre_empleado,
+                GROUP_CONCAT(p.nombre_producto SEPARATOR ', ') AS 'productos',
+                GROUP_CONCAT(p.descripcion_producto SEPARATOR '; ') AS 'descripciones',
+                GROUP_CONCAT(svp.Unidades SEPARATOR '; ') AS 'Unidades'
+            FROM 
+                salida_vs_productos svp
+            INNER JOIN 
+                salidas s ON svp.salidas_id = s.id
+            INNER JOIN 
+                clientes c ON s.clientes_id = c.id
+            INNER JOIN 
+                empleados e ON s.empleados_id = e.id
+            INNER JOIN 
+                productos p ON svp.productos_id = p.id
+            GROUP BY 
+                s.id, s.fecha_salida, c.nombre_cliente, e.nombre_empleado
+            ORDER BY 
+                s.id;
+        `;
+        conexion.query(consultaSQL, (errorConsulta, respuesta) => {
+            if (errorConsulta) {
+                return res.status(500).json({ error: 'Error en la consulta a la base de datos', detalle: errorConsulta.message });
+            }
+            res.status(200).json({ mensaje: 'Consulta exitosa', datos: respuesta });
+        });
+    });
+});
 
 
 export default rutaSalida; 

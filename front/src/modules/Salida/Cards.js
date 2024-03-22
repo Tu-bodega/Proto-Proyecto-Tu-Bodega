@@ -1,5 +1,6 @@
 import "../../css/Salida.css"
-import CrearSalida from "./crearSalida";
+import CrearSalida from "./crearSalida.js";
+import InformeSalidas from "./registroSalida.js";
 
 function Salidas() {
     const abrir = (num) => {
@@ -26,7 +27,7 @@ function Salidas() {
                     <CrearSalida />
                 </div>
                 <div id='readSalida' className='salidaRead'>
-
+                    <InformeSalidas />
                 </div>
             </section>
         </div>

@@ -108,10 +108,3 @@ aside {
     background-color: var(--aside);
 }
 
-
-.btn-activo {
-    background-color: var(--container);
-    font-size: 22px;
-    transition: 0.5s;
-    box-shadow: 0 0px 1px 0 var(--borde);
-}

@@ -71,9 +71,6 @@ function CrearSalida() {
         setProductosSeleccionados(nuevosSeleccionados);
     };
 
-
-
-
     const leerProductos = () => {
         setProductosSeleccionados([]);
         axios.get("http://localhost:3001/productos/leer")

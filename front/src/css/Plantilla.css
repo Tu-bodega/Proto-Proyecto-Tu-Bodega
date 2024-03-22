@@ -41,7 +41,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 20px 0 0;
+    padding: 0px 0px 0 0;
     position: relative;
 }
 
@@ -51,14 +51,20 @@ header a {
 }
 
 .bx-exit {
-    margin-top: 5px;
+    margin-top: 10%;
     color: var(--iconos);
     cursor: pointer;
 }
-
+#containerBtnExit{
+    width: auto;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .bx-exit:hover {
-    font-size: 29px;
-    margin-top: 6px;
+    font-size: 1.8rem;
 }
 
 button {
