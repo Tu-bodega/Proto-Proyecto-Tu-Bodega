@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-03-2024 a las 04:48:27
+-- Tiempo de generación: 22-03-2024 a las 16:38:10
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,8 +44,7 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`id`, `nombre_cliente`, `apellido_cliente`, `documento_cliente`, `correo_cliente`, `telefono_cliente`, `direccion_cliente`) VALUES
 (1, 'Nelson', 'Castillo', '1027545796', 'stic1227@hotmail.com', '3158651478', 'carrera 72 k Bis # 42'),
 (2, 'Flor', 'Duque', '69854604', 'exito1224@hotmail.com', '3186634932', 'calle 65G # 20-30'),
-(3, 'David', 'Ortega', '4354545424', 'davido@hotmail.com', '3145795121', 'calle 12'),
-(4, 'Jaime', 'Mendoza', '3243432423', 'jaime46@hotmail.com', '3133784425', 'calle 72');
+(3, 'David', 'Ortega', '4354545424', 'davido@hotmail.com', '3145795121', 'calle 12');
 
 -- --------------------------------------------------------
 
@@ -70,7 +69,7 @@ INSERT INTO `empleados` (`id`, `nombre_empleado`, `apellido_empleado`, `password
 (1, 'Camilo', 'Castillo', '$2a$08$tce9vXo3h8gfHAXCGDNTIeIK1r8NnIXpEgQ9jErTRSmEocpO5Z3sG', 'camil-code@gmail.com', 1),
 (2, 'Andres', 'Muños', '$2a$08$UFxG3V1oxa1FdAdlr90pfOkPzo8tAfQCVJMWokk4mqBf3UljhuGC.', 'andy@gmail.com', 2),
 (3, 'David', 'Garcia', '$2a$08$l5THnzWW4QQ/lMJyngLG/.ZnIjuKAoM3kB6.G69LK2.M0D3O5Mmju', 'david@gmail.com', 2),
-(4, 'Jaime', 'Mendez', '$2a$08$KQ59rkyMz12fdOa86pNjBOT9QJ9F8jmW2Nc3a4tBRIzY1/JQFZqYS', 'jaime@gmail.com', 2),
+(4, 'Jaime', 'Mendez', '$2a$08$fbhDg3VJ7yT/9H5QArKKS.oEGhnwdmM21m9rEZf35nh9j3V3FfeN6', 'jaime@gmail.com', 2),
 (6, 'raton', 'perro', '$2a$08$Us7l6lPnf3swwo6ltKQFt.fF5JQxuTWt67dIf0SlFz/ENSviQV.A2', 'perro@gmail.com', 2),
 (7, 'marco', 'zuleta', '$2a$08$LyZzmpo4.4hOj/4NZoChF.KlW/bZj.1cDMvFdCwIdHOB9RbfLRnhm', 'mark@gmail.com', 2),
 (8, 'raul', 'cespedes', '$2a$08$W7QA0p69uPoPYrZsjUWMk.SvZHdzQ00g92Z86zawRVgFfZY3AwlN6', 'reces@gmail.com', 2),
@@ -110,9 +109,9 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre_producto`, `descripcion_producto`, `precio_compra_producto`, `precio_venta_producto`, `unidades_producto`, `fecha_producto`, `ruta_imagen`, `unidades_medida_id`, `proveedores_id`) VALUES
-(1, 'POKER', 'CERVEZA NACIONAL', 2500, 3000, 49, '2024-03-12', 'uploads\\1710343587241-poker.jpeg', 1, 1),
-(2, 'TEKATE', 'CERVEZA IMPORTADA', 2000, 3000, 79, '2024-03-12', 'uploads\\1710344763680-tekate.jpeg', 1, 1),
-(3, 'AGUARDIENTE NECTAR', 'AGUARDIENTE NACIONAL', 30000, 60000, 89, '2024-03-12', 'uploads\\1710356248291-aguardiente.jpeg', 2, 1);
+(1, 'POKER', 'CERVEZA NACIONAL', 2500, 3000, 80, '2024-03-12', 'uploads\\1710343587241-poker.jpeg', 1, 1),
+(2, 'TEKATE', 'CERVEZA IMPORTADA', 2000, 3000, 84, '2024-03-12', 'uploads\\1710344763680-tekate.jpeg', 1, 1),
+(3, 'AGUARDIENTE NECTAR', 'AGUARDIENTE NACIONAL', 30000, 60000, 79, '2024-03-12', 'uploads\\1710356248291-aguardiente.jpeg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -174,17 +173,10 @@ CREATE TABLE `salidas` (
 --
 
 INSERT INTO `salidas` (`id`, `fecha_salida`, `clientes_id`, `empleados_id`) VALUES
-(1, '2024-03-21', 1, 1),
-(2, '2024-03-21', 2, 1),
-(3, '2024-03-21', 1, 1),
-(4, '2024-03-21', 2, 1),
-(5, '2024-03-21', 3, 1),
-(6, '2024-03-21', 3, 1),
-(7, '2024-03-21', 3, 1),
-(8, '2024-03-21', 3, 2),
-(9, '2024-03-21', 4, 1),
-(10, '2024-03-22', 3, 1),
-(11, '2024-03-21', 4, 1);
+(1, '2024-03-22', 1, 1),
+(2, '2024-03-22', 1, 1),
+(3, '2024-03-22', 3, 1),
+(4, '2024-03-22', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -203,26 +195,14 @@ CREATE TABLE `salida_vs_productos` (
 --
 
 INSERT INTO `salida_vs_productos` (`salidas_id`, `productos_id`, `Unidades`) VALUES
-(1, 1, 2),
+(1, 1, 10),
+(1, 2, 10),
+(1, 3, 10),
 (2, 1, 1),
-(2, 2, 1),
-(3, 1, 2),
-(4, 1, 2),
-(4, 2, 1),
-(4, 3, 1),
-(5, 1, 1),
-(5, 2, 1),
-(5, 3, 1),
-(6, 1, 5),
-(7, 2, 8),
-(7, 3, 8),
-(8, 1, 1),
-(9, 1, 1),
-(9, 2, 1),
-(10, 1, 45),
-(11, 2, 10),
-(11, 3, 1),
-(11, 1, 1);
+(3, 1, 5),
+(3, 2, 6),
+(3, 3, 11),
+(4, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -343,7 +323,7 @@ ALTER TABLE `rol_empleados`
 -- AUTO_INCREMENT de la tabla `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades_medida`
@@ -379,8 +359,8 @@ ALTER TABLE `salidas`
 -- Filtros para la tabla `salida_vs_productos`
 --
 ALTER TABLE `salida_vs_productos`
-  ADD CONSTRAINT `fk_salida_has_productos_productos1` FOREIGN KEY (`productos_id`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_salida_has_productos_salidas1` FOREIGN KEY (`salidas_id`) REFERENCES `salidas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_salida_has_productos_productos1` FOREIGN KEY (`productos_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_salida_has_productos_salidas1` FOREIGN KEY (`salidas_id`) REFERENCES `salidas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

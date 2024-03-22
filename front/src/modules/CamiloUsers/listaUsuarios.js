@@ -133,7 +133,6 @@ function ListarUsuarios() {
                 <table className="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th className="columnaUno">#</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>correo</th>
@@ -149,7 +148,6 @@ function ListarUsuarios() {
                                 listaUsuarios.map((dato, key) => {
                                     return (
                                         <tr key={key}>
-                                            <td className="columnaUno">{dato.id}</td>
                                             <td>{dato.nombre_empleado}</td>
                                             <td>{dato.apellido_empleado}</td>
                                             <td>{dato.correo_empleado}</td>

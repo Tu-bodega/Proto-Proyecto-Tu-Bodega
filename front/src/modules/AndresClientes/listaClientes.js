@@ -115,7 +115,6 @@ function ListaClientes() {
                 <table className="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th className="columnaUnoP">#</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Documento</th>
@@ -133,7 +132,6 @@ function ListaClientes() {
                                 listaClientes.map((dato, key) => {
                                     return (
                                         <tr key={key}>
-                                            <td className="columnaUnoP">{dato.id}</td>
                                             <td>{dato.nombre_cliente}</td>
                                             <td>{dato.apellido_cliente}</td>
                                             <td>{dato.documento_cliente}</td>

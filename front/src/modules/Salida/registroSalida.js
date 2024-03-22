@@ -42,61 +42,63 @@ const InformeSalidas = () => {
     };
 
     return (
-        <div className="scrollTabla" id='padreRegistro' style={{ overflowY: 'auto', height: '100%', width: '100%', padding: '1.5%' }}>
-            {salidas.map((salida, key) => (
-                <div className='contenedorRegistro mb-2' key={key}>
-                    <div className='cabezaregis mb-2'>
-                        <ListGroup>
-                            <ListGroupItem>Fecha: {new Date(salida.fecha_salida).toLocaleDateString()}</ListGroupItem>
-                        </ListGroup>
-                        <ListGroup>
-                            <ListGroupItem>N°: {salida.salidas_id}</ListGroupItem>
-                        </ListGroup>
-                    </div>
-                    <div className='cabezaregis'>
-                        <ListGroup>
-                            <ListGroupItem>Cliente: {salida.nombre_cliente}</ListGroupItem>
-                        </ListGroup>
-                        <ListGroup>
-                            <ListGroupItem>Empleado: {salida.nombre_empleado}</ListGroupItem>
-                        </ListGroup>
-                    </div>
-                    <div className='mt-4'>
-                        <Accordion defaultActiveKey="1">
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>Productos:</Accordion.Header>
-                                <Accordion.Body>
-                                    <div className='contenedorProductosregistro' >
-                                        <Table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre</th>
-                                                    <th>Descripcion</th>
-                                                    <th>Unidades</th>
-                                                </tr>
-                                            </thead >
-                                        </Table>
-                                        <div className="scrollTabla" style={{ overflowY: 'auto',height:'120px'}}>
-                                            <Table striped bordered hover>
-                                                <tbody>
-                                                    {Array.isArray(salida.productos) && salida.productos.map((producto, indice) => (
-                                                        <tr key={indice}>
-                                                            <td>{producto.nombre}</td>
-                                                            <td>{producto.descripcion}</td>
-                                                            <td>{producto.unidades}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
+        <div style={{width:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',padding: '1.5%'}}>
+            <div className="scrollTabla" id='padreRegistro' style={{ overflowY: 'auto', height: '95%', width: '100%' }}>
+                {salidas.map((salida, key) => (
+                    <div className='contenedorRegistro mb-2' key={key}>
+                        <div className='cabezaregis mb-2'>
+                            <ListGroup>
+                                <ListGroupItem>Fecha: {new Date(salida.fecha_salida).toLocaleDateString()}</ListGroupItem>
+                            </ListGroup>
+                            <ListGroup>
+                                <ListGroupItem>N°: {salida.salidas_id}</ListGroupItem>
+                            </ListGroup>
+                        </div>
+                        <div className='cabezaregis'>
+                            <ListGroup>
+                                <ListGroupItem>Cliente: {salida.nombre_cliente}</ListGroupItem>
+                            </ListGroup>
+                            <ListGroup>
+                                <ListGroupItem>Empleado: {salida.nombre_empleado}</ListGroupItem>
+                            </ListGroup>
+                        </div>
+                        <div className='mt-4'>
+                            <Accordion defaultActiveKey="1">
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>Productos:</Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className='contenedorProductosregistro' >
+                                            <Table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Descripcion</th>
+                                                        <th>Unidades</th>
+                                                    </tr>
+                                                </thead >
                                             </Table>
+                                            <div className="scrollTabla" style={{ overflowY: 'auto', height: '120px' }}>
+                                                <Table striped bordered hover>
+                                                    <tbody>
+                                                        {Array.isArray(salida.productos) && salida.productos.map((producto, indice) => (
+                                                            <tr key={indice}>
+                                                                <td>{producto.nombre}</td>
+                                                                <td>{producto.descripcion}</td>
+                                                                <td>{producto.unidades}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </Table>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </Accordion>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </Accordion>
+                        </div>
                     </div>
-                </div>
-            ))}
-                <Button variant='success' onClick={obtenerSalidas}>Actualizar Registros 🔃</Button>
+                ))}
+            </div>
+                <Button variant='success' className='mb-2' onClick={obtenerSalidas}>Actualizar Registros 🔃</Button>
         </div>
     );
 };

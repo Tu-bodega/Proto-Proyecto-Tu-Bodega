@@ -111,7 +111,6 @@ function ListaProveedores() {
                 <table className="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th className="columnaUnoP">#</th>
                             <th>Nit</th>
                             <th>Nombre</th>
                             <th>Correo</th>
@@ -128,7 +127,6 @@ function ListaProveedores() {
                                 listaProveedores.map((dato, key) => {
                                     return (
                                         <tr key={key}>
-                                            <td className="columnaUnoP">{dato.id}</td>
                                             <td>{dato.nit_proveedor}</td>
                                             <td>{dato.nombre_proveedor}</td>
                                             <td>{dato.correo_proveedor}</td>
