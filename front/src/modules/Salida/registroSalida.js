@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../../css/Registro.css'
+import { Accordion, AccordionHeader, AccordionItem, Button, ListGroup, ListGroupItem, Row, Table } from 'react-bootstrap';
 
 const InformeSalidas = () => {
     const [salidas, setSalidas] = useState([]);
@@ -34,36 +36,70 @@ const InformeSalidas = () => {
             });
 
             setSalidas(datosFormateados);
-            console.log(salidas);
         } catch (error) {
             console.error('Hubo un error al obtener las salidas:', error);
         }
     };
 
     return (
-        <div className="scrollTabla" style={{ overflowY: 'auto', height: '80%' }}>
-            <h1>Informe de Salidas</h1>
+        <div className="scrollTabla" id='padreRegistro' style={{ overflowY: 'auto', height: '100%', width: '100%', padding: '1.5%' }}>
             {salidas.map((salida, key) => (
-                <div key={key}>
-                    <h2>Salida ID: {salida.salidas_id}</h2>
-                    <p>Fecha: {new Date(salida.fecha_salida).toLocaleDateString()}</p>
-                    <p>Cliente: {salida.nombre_cliente}</p>
-                    <p>Empleado: {salida.nombre_empleado}</p>
-                    {Array.isArray(salida.productos) && (
-                        <ul>
-                            {salida.productos.map((producto, indexProducto) => (
-                                <li key={indexProducto}>
-                                    <p>Producto: {producto.nombre}</p>
-                                    <p>Descripción: {producto.descripcion}</p>
-                                    <p>Unidades: {producto.unidades}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                <div className='contenedorRegistro mb-2' key={key}>
+                    <div className='cabezaregis mb-2'>
+                        <ListGroup>
+                            <ListGroupItem>Fecha: {new Date(salida.fecha_salida).toLocaleDateString()}</ListGroupItem>
+                        </ListGroup>
+                        <ListGroup>
+                            <ListGroupItem>N°: {salida.salidas_id}</ListGroupItem>
+                        </ListGroup>
+                    </div>
+                    <div className='cabezaregis'>
+                        <ListGroup>
+                            <ListGroupItem>Cliente: {salida.nombre_cliente}</ListGroupItem>
+                        </ListGroup>
+                        <ListGroup>
+                            <ListGroupItem>Empleado: {salida.nombre_empleado}</ListGroupItem>
+                        </ListGroup>
+                    </div>
+                    <div className='mt-4'>
+                        <Accordion defaultActiveKey="1">
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>Productos:</Accordion.Header>
+                                <Accordion.Body>
+                                    <div className='contenedorProductosregistro' >
+                                        <Table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Unidades</th>
+                                                </tr>
+                                            </thead >
+                                        </Table>
+                                        <div className="scrollTabla" style={{ overflowY: 'auto',height:'120px'}}>
+                                            <Table striped bordered hover>
+                                                <tbody>
+                                                    {Array.isArray(salida.productos) && salida.productos.map((producto, indice) => (
+                                                        <tr key={indice}>
+                                                            <td>{producto.nombre}</td>
+                                                            <td>{producto.descripcion}</td>
+                                                            <td>{producto.unidades}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </Table>
+                                        </div>
+                                    </div>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                    </div>
                 </div>
             ))}
+                <Button variant='success' onClick={obtenerSalidas}>Actualizar Registros 🔃</Button>
         </div>
     );
 };
 
 export default InformeSalidas;
+
