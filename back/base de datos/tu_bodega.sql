@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-03-2024 a las 16:38:10
+-- Tiempo de generación: 06-04-2024 a las 21:43:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -111,7 +111,9 @@ CREATE TABLE `productos` (
 INSERT INTO `productos` (`id`, `nombre_producto`, `descripcion_producto`, `precio_compra_producto`, `precio_venta_producto`, `unidades_producto`, `fecha_producto`, `ruta_imagen`, `unidades_medida_id`, `proveedores_id`) VALUES
 (1, 'POKER', 'CERVEZA NACIONAL', 2500, 3000, 80, '2024-03-12', 'uploads\\1710343587241-poker.jpeg', 1, 1),
 (2, 'TEKATE', 'CERVEZA IMPORTADA', 2000, 3000, 84, '2024-03-12', 'uploads\\1710344763680-tekate.jpeg', 1, 1),
-(3, 'AGUARDIENTE NECTAR', 'AGUARDIENTE NACIONAL', 30000, 60000, 79, '2024-03-12', 'uploads\\1710356248291-aguardiente.jpeg', 2, 1);
+(3, 'AGUARDIENTE NECTAR', 'AGUARDIENTE NACIONAL', 30000, 60000, 79, '2024-03-12', 'uploads\\1710356248291-aguardiente.jpeg', 2, 1),
+(4, 'arroz', 'arroz', 3500, 4000, 46, '2024-04-06', 'uploads\\1712432216879-roa.webp', 3, 3),
+(5, 'pasta dental', 'pasta colgate', 5000, 6000, 500, '2024-04-06', 'uploads\\1712432542333-OIP.jpeg', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -134,7 +136,8 @@ CREATE TABLE `proveedores` (
 
 INSERT INTO `proveedores` (`id`, `nit_proveedor`, `nombre_proveedor`, `correo_proveedor`, `direccion_proveedor`, `telefono_proveedor`) VALUES
 (1, '860005224', 'Bavaria S.E', 'bavaria@dte.paperless.com.co', 'Carrera 53A # 127-35', '6017431224'),
-(2, '8903018845', 'Colombina S.A', 'nmunoz@colombina.com', 'Carrera 36 # 17 B 54', '6018773000');
+(2, '8903018845', 'Colombina S.A', 'nmunoz@colombina.com', 'Carrera 36 # 17 B 54', '6018773000'),
+(3, '423432424', 'roa', 'roa@gmail.com', 'calle23424', '714121212');
 
 -- --------------------------------------------------------
 
@@ -176,7 +179,8 @@ INSERT INTO `salidas` (`id`, `fecha_salida`, `clientes_id`, `empleados_id`) VALU
 (1, '2024-03-22', 1, 1),
 (2, '2024-03-22', 1, 1),
 (3, '2024-03-22', 3, 1),
-(4, '2024-03-22', 2, 1);
+(4, '2024-03-22', 2, 1),
+(5, '2024-04-06', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -202,7 +206,8 @@ INSERT INTO `salida_vs_productos` (`salidas_id`, `productos_id`, `Unidades`) VAL
 (3, 1, 5),
 (3, 2, 6),
 (3, 3, 11),
-(4, 1, 4);
+(4, 1, 4),
+(5, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -305,13 +310,13 @@ ALTER TABLE `empleados`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `rol_empleados`
@@ -323,7 +328,7 @@ ALTER TABLE `rol_empleados`
 -- AUTO_INCREMENT de la tabla `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades_medida`
