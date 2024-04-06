@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../css/Productos.css"
@@ -16,6 +16,20 @@ function CrearProductos() {
     const [imagen, setImagen] = useState("");
     const [medida, setMedida] = useState(0);
     const [proveedor, setProveedor] = useState(0);
+    const [listaProveedores, setListaProveedores] = useState([]);
+
+    useEffect(()=>{
+        const leerProveedores = () => {
+            Axios.get("http://localhost:3001/proveedores/leer")
+                .then((response) => {
+                    setListaProveedores(response.data);
+                })
+                .catch((error) => {
+                    Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
+                });
+        };
+        leerProveedores();
+    },[])
 
     //limpiar campos
     const limpiarCampos = () => {
@@ -68,6 +82,7 @@ function CrearProductos() {
                 });
             });
     };
+
 
     return (
         <div className=" containerProductos">
@@ -133,9 +148,12 @@ function CrearProductos() {
                             <div className="input-group mb-3">
                                 <span className="input-group-text selectP">Proveedor:</span>
                                 <select value={proveedor} name="rol" className="form-select" onChange={(event) => { setProveedor(event.target.value) }} required>
-                                    <option value="" hidden>Seleccione proveedor</option>
-                                    <option value="1">Bavaria S.A</option>
-                                    <option value="2">Colombina S.A</option>
+                                    <option value="0" hidden>Seleccione proveedor</option>
+                                    {listaProveedores.map((dato,index)=>{
+                                        return(
+                                            <option value={index} key={index}>{dato.nombre_proveedor}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                         </div>

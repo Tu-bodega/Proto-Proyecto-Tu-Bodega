@@ -7,6 +7,7 @@ import GenerarSalida from './generarSalida.js';
 function CrearSalida() {
     const [listaProductos, setListaProductos] = useState([]);
     const [productosSeleccionados, setProductosSeleccionados] = useState([]);
+
     const [lgShow, setLgShow] = useState(false);//estado del modal
 
     //manejador abrir cerrar Modal
@@ -14,7 +15,7 @@ function CrearSalida() {
     const closeShow = () => { setLgShow(false); leerProductos() }// cerrarModal
 
     useEffect(() => {
-        leerProductos()
+        leerProductos();
     }, []);
 
 
@@ -85,12 +86,13 @@ function CrearSalida() {
                 Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
             });
     }
+
     return (
         <div className='container'>
             <div className="scrollTabla" style={{ overflowY: 'auto', height: '80%' }}>
                 {listaProductos.map((producto, index) => (
                     <Card key={index} style={{ width: '18rem', marginBottom: '50px' }}>
-                        <Card.Img className='mt-2' variant="top" src={`http://localhost:3001/${producto.ruta_imagen}`} style={{ width: '100px', margin: '0 auto' }} />
+                        <Card.Img className='mt-2' variant="top" src={`http://localhost:3001/${producto.ruta_imagen}`} style={{ width: '100px',height:'100px', margin: '0 auto' }} />
                         <Card.Body>
                             <Card.Title>{producto.nombre_producto}</Card.Title>
                             <Card.Text>{producto.descripcion_producto}</Card.Text>
