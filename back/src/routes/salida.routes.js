@@ -1,10 +1,10 @@
 import express from "express";
 
 /**
- * @swagger
+@swagger
  * components:
  *   schemas:
- *     productos:
+ *     salida:
  *       type: object
  *       properties:
  *         id:
@@ -19,9 +19,9 @@ import express from "express";
  *         unidades_producto:
  *           type: integer
  *           description: Número de unidades del producto
- *          proveedores_id:
- *            type: integer
- *            description: llave foranea tabla proveedores
+ *         proveedores_id:
+ *           type: integer
+ *           description: Llave foranea tabla proveedores
  *         precio_compra_producto:
  *           type: integer
  *           description: Precio de compra del producto
