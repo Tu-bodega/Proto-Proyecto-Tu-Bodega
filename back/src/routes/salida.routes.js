@@ -1,5 +1,100 @@
 import express from "express";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     productos:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Id autogenerado en la base de datos
+ *         nombre_producto:
+ *           type: string
+ *           description: Nombre del producto
+ *         descripcion_producto:
+ *           type: string
+ *           description: Descripción del producto
+ *         unidades_producto:
+ *           type: integer
+ *           description: Número de unidades del producto
+ *          proveedores_id:
+ *            type: integer
+ *            description: llave foranea tabla proveedores
+ *         precio_compra_producto:
+ *           type: integer
+ *           description: Precio de compra del producto
+ *         precio_venta_producto:
+ *           type: integer
+ *           description: Precio de venta del producto
+ 
+ *       required:
+ *         - nombre_producto
+ *         - descripcion_producto
+ *         - unidades_producto
+ *         - proveedores_id
+ *         - precio_compra_producto
+ *         - precio_venta_producto
+ *       example:
+ *         nombre_producto: cerveza Corona
+ *         descripcion_producto: cerveza de importación
+ *         proveedores_id: 1
+ *         unidades_producto: 60
+ *         precio_compra_producto: 2500
+ *         precio_venta_producto: 3000
+ */
+
+
+/**
+ * @swagger
+ * /salida/agregar:
+ *   post:
+ *     summary: Agrega una nueva salida
+ *     tags: [Salida]
+ *     description: Agrega una nueva salida al sistema con la información proporcionada.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/salida'
+ *     responses:
+ *       200:
+ *         description: Inserción exitosa, devuelve el ID de la salida creada.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   description: Mensaje indicando que la inserción fue exitosa.
+ *                 idSalida:
+ *                   type: integer
+ *                   description: El ID de la salida recién creada.
+ *       400:
+ *         description: Error en la consulta o en la recuperación del ID de la salida.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 err:
+ *                   type: string
+ *                   description: Descripción del error.
+ *       500:
+ *         description: Error de conexión con la base de datos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: string
+ *                   description: Descripción del error de conexión.
+ */
+
 const rutaSalida = express.Router();
 
 
@@ -21,6 +116,79 @@ rutaSalida.post("/agregar", (req, res) => {
             });
     });
 });
+
+/**
+ * @swagger
+ * /salida/agregar/svsp:
+ *   post:
+ *     summary: Agrega una salida con productos seleccionados
+ *     tags: [Salida]
+ *     description: Agrega una nueva salida en la base de datos junto con los productos seleccionados, actualizando las unidades disponibles de los productos.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idsalida:
+ *                 type: integer
+ *                 description: ID de la salida.
+ *               productos:
+ *                 type: array
+ *                 description: Lista de productos seleccionados para la salida.
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       description: ID del producto.
+ *                     contadorActual:
+ *                       type: integer
+ *                       description: Cantidad de unidades del producto seleccionadas.
+ *             required:
+ *               - idsalida
+ *               - productos
+ *             example:
+ *               idsalida: 1
+ *               productos:
+ *                 - id: 1
+ *                   contadorActual: 5
+ *                 - id: 2
+ *                   contadorActual: 3
+ *     responses:
+ *       200:
+ *         description: Salida y actualización de productos realizadas exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   example: La salida y la actualización de productos se realizaron exitosamente.
+ *       400:
+ *         description: Error en la solicitud o datos de entrada inválidos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: El ID de salida es inválido.
+ *       500:
+ *         description: Error en la conexión con el servidor o error durante la transacción.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error durante la operación de inserción o actualización.
+ */
+
 
 rutaSalida.post("/agregar/svsp", (req, res) => {
     const idSalida = req.body.idsalida;
@@ -79,6 +247,66 @@ rutaSalida.post("/agregar/svsp", (req, res) => {
         });
     });
 });
+
+/**
+ * @swagger
+ * /rutaSalida/registro:
+ *   get:
+ *     summary: Obtener registros de salidas
+ *     tags: [Salida]
+ *     description: Obtiene información detallada sobre las salidas registradas en la base de datos, incluyendo los productos asociados a cada salida.
+ *     responses:
+ *       200:
+ *         description: Respuesta exitosa. Devuelve información detallada sobre las salidas registradas.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   example: Consulta exitosa
+ *                 datos:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       salidas_id:
+ *                         type: integer
+ *                         description: ID de la salida.
+ *                       fecha_salida:
+ *                         type: string
+ *                         format: date-time
+ *                         description: Fecha de la salida.
+ *                       nombre_cliente:
+ *                         type: string
+ *                         description: Nombre del cliente asociado a la salida.
+ *                       nombre_empleado:
+ *                         type: string
+ *                         description: Nombre del empleado asociado a la salida.
+ *                       productos:
+ *                         type: string
+ *                         description: Lista de nombres de productos separados por coma.
+ *                       descripciones:
+ *                         type: string
+ *                         description: Descripciones de los productos separadas por punto y coma.
+ *                       Unidades:
+ *                         type: string
+ *                         description: Cantidad de unidades de cada producto asociado a la salida.
+ *       500:
+ *         description: Error en la consulta a la base de datos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error en la consulta a la base de datos
+ *                 detalle:
+ *                   type: string
+ *                   example: Detalle específico del error en la consulta.
+ */
 
 rutaSalida.get("/registro", (req, res) => {
     req.getConnection((errorConexion, conexion) => {
