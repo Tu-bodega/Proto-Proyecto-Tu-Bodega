@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 
 function CrearCliente() {
 
+    // Declaración de estados utilizando el hook useState
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
     const [documento, setDocumento] = useState();
@@ -14,6 +15,7 @@ function CrearCliente() {
     const [telefono, setTelefono] = useState();
     const [direccion, setDireccion] = useState("");
 
+    // Función para limpiar los campos del formulario
     const lipiarCampos = () => {
         setNombre("");
         setApellido("");
@@ -25,13 +27,16 @@ function CrearCliente() {
 
     }
 
+    // Función para validar el formulario
     const validarFormulario = () => {
         const regexCorreo = /^(?=.{1,64}@)[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*@[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*(?:\.[A-Za-z]{2,})+$/;
         if (!nombre.trim() || !apellido.trim() || !documento.trim() || !correo.trim() || !telefono.trim()  || !direccion.trim()) {
+            // Si algún campo está vacío, muestra un mensaje de error
             Swal.fire("Error", "Todos los campos son obligatorios y no deben contener sólo espacios.", "error");
             return false;
         }
         if (!regexCorreo.test(correo)) {
+            // Si el correo no tiene un formato válido, muestra un mensaje de error
             Swal.fire("Error", "Correo inválido no debe contener espacios ni emojis.", "error");
             document.querySelector('.mensajeCorreo').style.display = 'flex';
             return false;
@@ -39,23 +44,25 @@ function CrearCliente() {
         return true;
     }
 
+    // Función para agregar un cliente
     const agregarCliente = (event) => {
-        event.preventDefault();
-        if (!validarFormulario()) return;
-        Axios.post('http://localhost:3001/clientes/crear', {
+        event.preventDefault(); // Evita que se envíe el formulario por defecto
+        if (!validarFormulario()) return; // Si el formulario no es válido, detiene la ejecución de la función
+        Axios.post('http://localhost:3001/clientes/crear', { // Realiza una solicitud POST al servidor para agregar el cliente
             nombre: nombre,
             apellido: apellido,
             documento: documento,
             correo: correo,
             telefono: telefono,
             direccion: direccion,
-        }).then(() => {
+        }).then(() => {  // Si la solicitud es exitosa, muestra un mensaje de éxito y limpia los campos del formulario
             lipiarCampos();
             Swal.fire("Éxito", "Cliente agregado con éxito", "success");
-        }).catch((error) => {
+        }).catch((error) => { // Si hay un error en la solicitud, muestra un mensaje de error
             Swal.fire("Error", error.response ? error.response.data.mensaje : "No se recibió respuesta del servidor", "error");
         });
     };
+    // Renderiza el formulario y los campos de entrada
     return (
         <div className="containerProductos">
 
