@@ -1,41 +1,35 @@
-import express from "express";
+import expres from "express";
 import bodyParser from "body-parser";
 import mysql from "mysql";
-import myCon from "express-myconnection";
+import myConexion from "express-myconnection";
 import cors from "cors";
-import swaggerJSDOCs from "../swagger.js";
-import configPuerto from "./configuraciones/configPuerto.js";
-import configDb from "./configuraciones/configDataBase.js";
-import rutaProductos from "./routes/productos.routes.js";
-import rutaEmpleado from "./routes/empleados.routes.js";
-import rutaProveedores from "./routes/proveedores.routes.js";
-import rutaClientes from "./routes/clientes.routes.js";
-import unidadMeida from "./routes/unidadMedida.routes.js";
-import rutaSalida from "./routes/salida.routes.js"; 
+import configPuerto from "../config/configPuerto.js";
+import configDataBase from "../config/configDataBase.js";
+import login from "../routes/login.routes.js";
+import empleadosRoutes from "../routes/empleados.routes.js";
+import proveedoresRoutes from "../routes/proveedores.routes.js";
+import clientesRoutes from "../routes/clientes.routes.js";
+import productosRoutes from "../routes/productos.routes.js";
 
 
-const app = express();
+const app = expres();
 
-app.use('/uploads', express.static('uploads'));
+app.use(`/uploads`, expres.static(`uploads`));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(myCon(mysql, configDb.mysql,'single'));
+app.use(myConexion(mysql, configDataBase.db, 'single'));
 
-app.listen(configPuerto.puerto, ()=>{
-    console.info(`server escuchando en el puerto${configPuerto.puerto}/`);
-    swaggerJSDOCs(app, configPuerto.puerto);
+
+app.listen(configPuerto.puerto, () => {
+    console.info(`Servidor escuchando puerto: http://localhost:${configPuerto.puerto}/`)
 });
 
-app.get("/",(req,res)=>{
-    res.send(`Estoy en el puerto ${configPuerto.puerto}`)
+app.get('/', (req, res) => {
+    res.send(`Estoy en el puerto ${configPuerto.puerto}`);
 });
 
-
-app.use("/login", rutaEmpleado);
-app.use("/empleados", rutaEmpleado);
-app.use("/clientes", rutaClientes);
-app.use("/productos", rutaProductos);
-app.use("/productos", unidadMeida);
-app.use("/proveedores", rutaProveedores);
-app.use("/salidas", rutaSalida); 
-
+app.use("/login", login);
+app.use("/empleados",empleadosRoutes);
+app.use("/proveedores",proveedoresRoutes);
+app.use("/clientes",clientesRoutes);
+app.use("/productos",productosRoutes);
