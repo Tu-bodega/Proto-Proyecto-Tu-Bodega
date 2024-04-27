@@ -94,7 +94,7 @@ function CrearProveedores() {
                     </input>
                 </div>
                 <div className='contenedorBtnP'>
-                    <button className='btn btn-success' type='submit'>Registrar Producto</button>
+                    <button className='btn btn-success' type='submit'>Registrar Proveedor</button>
                 </div>
             </form>
 

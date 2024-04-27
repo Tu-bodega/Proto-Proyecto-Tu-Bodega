@@ -138,7 +138,7 @@ function CrearUsuario() {
                         <option value="2">Almacenista</option>
                     </select>
                 </div>
-                <button className="btn btn-success" type="submit">Agregar</button>
+                <button className="btn btn-success" type="submit">Registrar Usuario</button>
             </form>
         </div>
     );

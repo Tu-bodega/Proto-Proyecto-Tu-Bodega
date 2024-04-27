@@ -51,18 +51,18 @@ function Almacenista() {
                         <h2 id="user" onClick={() => openForm(0)} >Almacenista <i className='bx bx-package'></i></h2>
                     </section>
                     <section>
-                        <button onClick={() => openForm(1)} className="btn-izq btn-clientes">
-                            Clientes
-                        </button>
-                    </section>
                     <section>
                         <button onClick={() => openForm(2)} className="btn-izq btn-proveedores">
                             Proveedores
                         </button>
-                    </section>
                     <section>
                         <button onClick={() => openForm(3)} className="btn-izq btn-productos">
                             Productos
+                        </button>
+                    </section>
+                    </section>
+                        <button onClick={() => openForm(1)} className="btn-izq btn-clientes">
+                            Clientes
                         </button>
                     </section>
                     <section>

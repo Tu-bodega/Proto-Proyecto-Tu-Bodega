@@ -34,7 +34,7 @@ function ListarUsuarios() {
         leerUsuarios();
     };
     const handleShowDos = () => setShowDos(true);
-    
+
 
     //lista
     const [listaUsuarios, setListaUsuarios] = useState([]);
@@ -43,7 +43,7 @@ function ListarUsuarios() {
     }, []);
 
     //eliminar usuario
-    const eliminarUsuario = (dato) =>{
+    const eliminarUsuario = (dato) => {
         handleShowDos();
         setId(dato.id)
     }
@@ -141,7 +141,7 @@ function ListarUsuarios() {
                         </tr>
                     </thead>
                 </table>
-                <div className="scrollTabla" style={{ overflowY: 'auto'}}>
+                <div className="scrollTabla" style={{ overflowY: 'auto' }}>
                     <table className="table table-striped table-hover contenido" >
                         <tbody>
                             {
@@ -160,11 +160,18 @@ function ListarUsuarios() {
                                                         onClick={() => { editarUser(dato); }}>
                                                         <i className='bx bx-edit-alt'></i>
                                                     </button>
-                                                    <button
-                                                        onClick={() =>{ eliminarUsuario(dato);}}
-                                                        className="botones btnDele">
-                                                        <i className='bx bx-trash'></i>
-                                                    </button>
+                                                    {dato.id == 1 ?
+                                                        <button hidden
+                                                            onClick={() => { eliminarUsuario(dato); }}
+                                                            className="botones btnDele">
+                                                            <i className='bx bx-trash'></i>
+                                                        </button> :
+                                                        <button
+                                                            onClick={() => { eliminarUsuario(dato); }}
+                                                            className="botones btnDele">
+                                                            <i className='bx bx-trash'></i>
+                                                        </button>
+                                                    }
                                                 </div>
                                             </td>
                                         </tr>
@@ -218,11 +225,16 @@ function ListarUsuarios() {
 
                             <div className="input-group mb-3">
                                 <span className="input-group-text">Rol:</span>
-                                <select value={rol} name="rol" className="form-select" onChange={(event) => { setRol(event.target.value) }} required>
-                                    <option value="" hidden>Seleccione su rol</option>
-                                    <option value="1">Administrador</option>
-                                    <option value="2">Almacenista</option>
-                                </select>
+
+                                {
+                                    id === 1 ?
+                                        <input type="text" className="form-control" placeholder="Administrador" disabled></input> :
+                                        <select value={rol} name="rol" className="form-select" onChange={(event) => { setRol(event.target.value) }} required>
+                                            <option value="" hidden>Seleccione su rol</option>
+                                            <option value="1">Administrador</option>
+                                            <option value="2">Almacenista</option>
+                                        </select>
+                                }
                             </div>
                         </form>
                     </Modal.Body>

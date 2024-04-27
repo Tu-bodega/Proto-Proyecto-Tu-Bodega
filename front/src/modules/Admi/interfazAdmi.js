@@ -58,11 +58,6 @@ function Admi() {
                         </button>
                     </section>
                     <section>
-                        <button onClick={() => openForm(2)} className="btn-izq btn-clientes">
-                            Clientes
-                        </button>
-                    </section>
-                    <section>
                         <button onClick={() => openForm(3)} className="btn-izq btn-proveedores">
                             Proveedores
                         </button>
@@ -70,6 +65,11 @@ function Admi() {
                     <section>
                         <button onClick={() => openForm(4)} className="btn-izq btn-productos">
                             Productos
+                        </button>
+                    </section>
+                    <section>
+                        <button onClick={() => openForm(2)} className="btn-izq btn-clientes">
+                            Clientes
                         </button>
                     </section>
                     <section>
