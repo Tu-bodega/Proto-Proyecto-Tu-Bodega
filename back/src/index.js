@@ -10,6 +10,7 @@ import empleadosRoutes from "../routes/empleados.routes.js";
 import proveedoresRoutes from "../routes/proveedores.routes.js";
 import clientesRoutes from "../routes/clientes.routes.js";
 import productosRoutes from "../routes/productos.routes.js";
+import salidasRoutes from "../routes/salidas.routes.js";
 
 
 const app = expres();
@@ -33,3 +34,4 @@ app.use("/empleados",empleadosRoutes);
 app.use("/proveedores",proveedoresRoutes);
 app.use("/clientes",clientesRoutes);
 app.use("/productos",productosRoutes);
+app.use("/salidas", salidasRoutes);

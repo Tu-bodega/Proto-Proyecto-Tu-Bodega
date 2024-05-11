@@ -5,7 +5,7 @@ const storage = multer.diskStorage({
         cb(null, `uploads/`); //config destino de archivos
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);//configura el nomnbre de cada archivo con una fecha unica
+        cb(null,file.originalname);//configura el nomnbre de cada archivo con una fecha unica
     }
 });
 

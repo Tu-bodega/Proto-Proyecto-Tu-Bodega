@@ -1,5 +1,3 @@
-import { response } from "express";
-
 function consulta(conexion, callback) {
     const consulta = `SELECT p.id,p.nombre_producto, p.descripcion_producto,
     p.precio_venta_producto,p.precio_compra_producto,
@@ -30,7 +28,7 @@ function validarPro(conexion, datos, valid, callback) {
     valid === true ?
         consulta = `(nombre_producto = ?) AND id != ?` :
         consulta = `nombre_producto = ?`;
-        console.log(datos);
+    console.log(datos);
     conexion.query(`SELECT * FROM productos WHERE ${consulta}`, datos, (err, respuesta) => {
         if (err) return callback(err, null);
         return callback(null, respuesta);
@@ -38,15 +36,24 @@ function validarPro(conexion, datos, valid, callback) {
 };
 
 function actualizarPro(conexion, datos, callback) {
-    const consulta = `(nombre_producto = ?, descripcion_producto = ?, precio_compra_producto = ?, 
-        precio_venta_producto = ?, unidades_producto = ?, fecha_producto = ?, unidades_medida_id = ?,
-        proveedores_id = ?, ruta_imagen = ?) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const consulta = `nombre_producto = ?, descripcion_producto = ?, precio_compra_producto = ?, 
+    precio_venta_producto = ?, unidades_producto = ?, fecha_producto = ?, unidades_medida_id = ?,
+    proveedores_id = ?, ruta_imagen = ?`;
 
     conexion.query(`UPDATE productos SET ${consulta}`, datos, (err, respuesta) => {
-        if(err) return callback(err,null);
+        if (err) return callback(err, null);
         return callback(null, respuesta);
     });
 };
 
+function eliminarPro(conexion, id, callback) {
+    const consulta = `DELETE FROM productos WHERE id = ?`;
 
-export { consulta, crearPro, validarPro, actualizarPro };
+    conexion.query(consulta, id, (err, respuesta) => {
+        if (err) return callback(err, null);
+        return callback(null, respuesta)
+    });
+}
+
+
+export { consulta, crearPro, validarPro, actualizarPro, eliminarPro };
