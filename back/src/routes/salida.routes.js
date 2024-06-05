@@ -28,7 +28,6 @@ import express from "express";
  *         precio_venta_producto:
  *           type: integer
  *           description: Precio de venta del producto
- 
  *       required:
  *         - nombre_producto
  *         - descripcion_producto

@@ -1,153 +1,208 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Text, TextInput, Image, ImageBackground } from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, View, Text, TextInput, Dimensions, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
+import { Button as PaperButton, Dialog, Portal, Paragraph, Provider as PaperProvider } from 'react-native-paper';
+import RoundedButton from '../template/RoundedButton';
 import { Picker } from '@react-native-picker/picker';
+import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
+import BackgroundContainer from '../template/BackgroundContainer';
 
-// Importa las imágenes locales
-const backgroundImage = require("../../assets/fondo.webp");
-const logoImage = require("../../assets/Logo.png");
+const { height } = Dimensions.get('window');
 
 const LoginScreen = () => {
     const { login } = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [userType, setUserType] = useState("Administrador");
+    const [userType, setUserType] = useState("1");
+    const [visible, setVisible] = useState(false);
+    const [dialogMessage, setDialogMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
+    const showDialog = (message) => {
+        setDialogMessage(message);
+        setVisible(true);
+    };
+
+    const hideDialog = () => {
+        setVisible(false);
+    };
+
+    const validateFields = () => {
+        if (!email) {
+            showDialog('El campo de correo no puede estar vacío.');
+            return false;
+        }
+        if (!password) {
+            showDialog('El campo de contraseña no puede estar vacío.');
+            return false;
+        }
+        return true;
+    };
 
     const handleLogin = async () => {
+        if (!validateFields()) {
+            return; // Si la validación falla, no procede con la solicitud
+        }
+
+        console.log(`rol => ${userType}`);
+        console.log(`correo => ${email}`);
+        console.log(`contraseña => ${password}`);
         try {
             const response = await axios.post('http://192.168.2.6:3001/login/validar', {
-                rol: 1,
+                rol: parseInt(userType),
                 correo: email,
                 contra: password
             });
 
-            if (response.data.success) {
-                login();
+            console.log(response.data); // Log para ver la respuesta del servidor
+
+            if (response.data.mensaje === 'Bienvenido') {
+                login(response.data); // Llama a la función login del contexto de autenticación con los datos del usuario
             } else {
-                Alert.alert('Error', 'Credenciales inválidas');
+                showDialog('Credenciales inválidas');
             }
         } catch (error) {
-            console.error(error);
-            Alert.alert('Error', 'Algo salió mal. Inténtalo de nuevo.');
+            if (error.response) {
+                console.error('Error de respuesta:', error.response.data);
+                showDialog(`Error de servidor: ${error.response.data.message}`);
+            } else if (error.request) {
+                console.error('Error de solicitud:', error.request);
+                showDialog('No se recibió respuesta del servidor. Verifique su conexión de red.');
+            } else {
+                console.error('Error en configuración de solicitud:', error.message);
+                showDialog(`Error en la solicitud: ${error.message}`);
+            }
         }
     };
 
     return (
-        <ImageBackground source={backgroundImage} style={styles.background}>
-            <View style={styles.overlay}>
-                <View style={styles.logoContainer}>
-                    <Image source={logoImage} style={styles.logo} resizeMode="contain" />
-                </View>
+        <PaperProvider>
+            <BackgroundContainer>
+                <KeyboardAvoidingView
+                    style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' }}
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+                >
+                    <View style={styles.formulario}>
+                        <Text style={styles.titulo}>Login</Text>
 
-                <View style={styles.container}>
-                    <Text style={styles.title}>Inicio de Sesión</Text>
+                        <View style={styles.inputContainer}>
+                            <Picker
+                                selectedValue={userType}
+                                onValueChange={(value) => setUserType(value)}
+                                style={styles.input}
+                                enabled={true}
+                            >
+                                <Picker.Item label="Administrador" value="1" style={{ fontSize: 18 }} />
+                            </Picker>
+                        </View>
 
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Tipo de Usuario</Text>
-                        <Picker
-                            selectedValue={userType}
-                            onValueChange={(itemValue) => setUserType(itemValue)}
-                            style={styles.input}
-                            enabled={false}
-                        >
-                            <Picker.Item label="Administrador" value="Administrador" />
-                            <Picker.Item label="Almacenista" value="Almacenista" />
-                        </Picker>
+                        <View style={styles.inputContainer}>
+                            <TextInput
+                                style={styles.input}
+                                keyboardType="email-address"
+                                placeholder="correo"
+                                placeholderTextColor="#ccc"
+                                value={email}
+                                onChangeText={setEmail}
+                            />
+                            <MaterialIcons
+                                name="person"
+                                size={24}
+                                color="white"
+                                style={styles.icon}
+                            />
+                        </View>
+
+                        <View style={styles.inputContainer}>
+                            <TextInput
+                                style={styles.input}
+                                secureTextEntry={!showPassword}
+                                placeholder="contraseña"
+                                placeholderTextColor="#ccc"
+                                value={password}
+                                onChangeText={setPassword}
+                            />
+                            <TouchableOpacity
+                                style={styles.showPasswordIcon}
+                                onPress={() => setShowPassword(!showPassword)}
+                            >
+                                <MaterialIcons
+                                    name={showPassword ? 'visibility-off' : 'visibility'}
+                                    size={24}
+                                    color="white"
+                                />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={{ marginTop: 30, width: '100%' }}>
+                            <RoundedButton title="Login" onPress={handleLogin} />
+                        </View>
                     </View>
+                </KeyboardAvoidingView>
 
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Correo</Text>
-                        <TextInput
-                            style={styles.input}
-                            keyboardType="email-address"
-                            placeholder="Ingresa tu correo"
-                            value={email}
-                            onChangeText={setEmail}
-                        />
-                    </View>
-
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Contraseña</Text>
-                        <TextInput
-                            style={styles.input}
-                            secureTextEntry
-                            placeholder="Ingresa tu contraseña"
-                            value={password}
-                            onChangeText={setPassword}
-                        />
-                    </View>
-
-                    <Button
-                        title="Login"
-                        buttonStyle={styles.loginButton}
-                        onPress={handleLogin}
-                    />
-                </View>
-            </View>
-        </ImageBackground>
+                <Portal>
+                    <Dialog visible={visible} onDismiss={hideDialog}>
+                        <Dialog.Title>Atención</Dialog.Title>
+                        <Dialog.Content>
+                            <Paragraph>{dialogMessage}</Paragraph>
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <PaperButton onPress={hideDialog}>OK</PaperButton>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
+            </BackgroundContainer>
+        </PaperProvider>
     );
 };
 
 const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    logoContainer: {
-        position: 'absolute',
-        top: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        zIndex: 10,
-    },
-    logo: {
-        height: 90,
-        width: 400,
-    },
-    overlay: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    container: {
+    formulario: {
+        borderColor: '#ffffff',
+        borderWidth: 2,
         width: '80%',
-        backgroundColor: 'rgba(128, 128, 128, 0.5)',
-        borderRadius: 10,
+        backgroundColor: 'rgba(128, 128, 128, 0.8)',
+        borderRadius: 20,
         padding: 20,
-        paddingTop: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    title: {
-        fontSize: 24,
+    titulo: {
+        fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
+        color: '#fff',
     },
     inputContainer: {
         marginBottom: 15,
-    },
-    label: {
-        fontSize: 16,
-        color: '#333',
+        width: '100%',
+        position: 'relative', // Añadir posición relativa para el contenedor del icono
     },
     input: {
+        fontSize: 18,
         height: 40,
         borderColor: '#ccc',
         borderWidth: 1,
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        backgroundColor: '#f9f9f9',
+        borderRadius: 25, 
+        paddingHorizontal: 15,
+        backgroundColor: 'rgba(128, 128, 128)', 
+        color: '#fff', 
+        marginVertical: 10,
+        width: '100%',
     },
-    loginButton: {
-        backgroundColor: 'grey',
-        borderRadius: 5,
-        marginTop: 20,
+    icon: {
+        position: 'absolute',
+        right: 15,
+        top: 18,
+    },
+    showPasswordIcon: {
+        position: 'absolute',
+        right: 15,
+        top: 18,
     },
 });
 
 export default LoginScreen;
-

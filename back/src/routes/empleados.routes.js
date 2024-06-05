@@ -1,5 +1,6 @@
 import express from "express"
 import bcrypt from "bcryptjs";
+import { parse } from "dotenv";
 
 
 const rutaEmpleado = express.Router();
@@ -91,6 +92,28 @@ rutaEmpleado.get("/leer", (req, res) => {
     });
 });
 
+rutaEmpleado.get("/leer/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    req.getConnection((error, conexion) => {
+        if (error) {
+            res.status(500).json({ error: 'Error en conexion con la base de datos' });
+        } else {
+            conexion.query("SELECT nombre_empleado FROM empleados WHERE id = ?", id, (err, resultado) => {
+                if (err) {
+                    res.status(400).json({ err: 'tabla no encontrada' });
+                } else {
+                    if (resultado.length > 0) {
+                        res.json({ nombre_empleado: resultado[0].nombre_empleado }); // Devolver un objeto
+                    } else {
+                        res.status(404).json({ error: 'Empleado no encontrado' });
+                    }
+                }
+            });
+        }
+    });
+});
+
+
 /**
 * @swagger
 * /empleados/validar:
@@ -168,17 +191,20 @@ rutaEmpleado.post("/validar", (req, res) => {
     const contra = String(req.body.contra); // La contraseña que se comparará.
     const consulta = 'SELECT * FROM empleados WHERE rol_empleados_id = ? AND correo_empleado = ?';
 
+    console.log(`Rol: ${rol}, Correo: ${correo}, Contraseña: ${contra}`);
+
     req.getConnection((error, validacion) => {
         if (error) {
+            console.error('Fallo la conexión con la base de datos:', error);
             return res.status(500).json({ error: 'Fallo la conexión con la base de datos' });
         }
         validacion.query(consulta, [rol, correo], (err, resultados) => {
             if (err) {
+                console.error('Problema al consultar la base de datos:', err);
                 return res.status(400).json({ error: 'Problema al consultar la base de datos' });
             }
 
             if (resultados.length > 0) {
-                // comparación de contraseñas 
                 const compareContra = bcrypt.compareSync(contra, resultados[0].password_empleado);
                 if (compareContra) {
                     res.status(200).json({
@@ -189,10 +215,12 @@ rutaEmpleado.post("/validar", (req, res) => {
                     });
                 } else {
                     // Si la contraseña no coincide
-                    res.status(401).json({ error: 'usuario, correo o contraseña incorrectos.' });
+                    console.error('Contraseña incorrecta');
+                    res.status(200).json({ error: 'Usuario, correo o contraseña incorrectos.' });
                 }
             } else {
                 // Si no hay resultados de la base de datos
+                console.error('No se encontraron resultados para el usuario');
                 res.status(401).json({ error: 'Usuario, correo o contraseña incorrectos.' });
             }
         });
@@ -385,6 +413,7 @@ rutaEmpleado.post("/crear", async (req, res) => {
 
 rutaEmpleado.put("/actualizar", async (req, res) => {
     const id = parseInt(req.body.id);
+    const idUser = parseInt(req.body.idUser);
     const { nombre, apellido, correo, contra, correoU, contraAdmi } = req.body;
     const rol = parseInt(req.body.rol);
     var consulActu;
@@ -408,12 +437,13 @@ rutaEmpleado.put("/actualizar", async (req, res) => {
         if (error) {
             return res.status(500).json({ mensaje: 'Error en conexión con base de datos' });
         }
-        conexion.query("SELECT * FROM empleados WHERE correo_empleado=?", correoU, (err, resultado) => {
+        conexion.query("SELECT * FROM empleados WHERE id=?", idUser, (err, resultado) => {
             if (err) {
                 return res.status(400).json({ mensaje: 'se totio' })
             }
             if (resultado.length === 0) {
                 return res.status(401).json({ mensaje: 'No se encontro el usuario administrador' })
+                console.log(correoU)
             } else {
                 const compareContra = bcrypt.compareSync(contraAdmi, resultado[0].password_empleado);
                 if (!compareContra) {
