@@ -20,7 +20,7 @@ function FormLogin() {
             interfazUser = '/Almacenista'
         }
         evento.preventDefault();
-        Axios.post("http://localhost:3001/login/validar", {
+        Axios.post("http://192.168.2.6:3001/login/validar", {
             rol: rol,
             correo: correo,
             contra: contra

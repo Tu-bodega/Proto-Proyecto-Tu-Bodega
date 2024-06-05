@@ -12,34 +12,39 @@ const InformeSalidas = () => {
 
     const obtenerSalidas = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/salidas/registro');
-            const datosFormateados = response.data.datos.map(salida => {
+            const response = await axios.get('http://192.168.2.6:3001/salidas/registro');
+    
+            // Ordena los datos por salidas_id en orden descendente
+            const datosOrdenados = response.data.datos.sort((a, b) => b.salidas_id - a.salidas_id);
+            
+            const datosFormateados = datosOrdenados.map(salida => {
                 // Verifica que los campos productos, descripciones y Unidades existan y sean strings.
                 if (typeof salida.productos === 'string' && typeof salida.descripciones === 'string' && typeof salida.Unidades === 'string') {
                     const productosArray = salida.productos.split(', ');
                     const descripcionesArray = salida.descripciones.split('; ');
                     const unidadesArray = salida.Unidades.split('; ');
-
+    
                     // Crea un array de objetos para los productos con su descripción y unidades correspondientes.
                     const productosDetalle = productosArray.map((producto, index) => ({
                         nombre: producto,
                         descripcion: descripcionesArray[index] || '',
                         unidades: unidadesArray[index] || ''
                     }));
-
+    
                     // Agrega este array al objeto de salida.
                     return { ...salida, productos: productosDetalle };
                 }
-
+    
                 // Si no son strings o alguno no existe, devuelve el objeto de salida sin modificar.
                 return salida;
             });
-
+    
             setSalidas(datosFormateados);
         } catch (error) {
             console.error('Hubo un error al obtener las salidas:', error);
         }
     };
+            
 
     return (
         <div style={{width:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',padding: '1.5%'}}>
